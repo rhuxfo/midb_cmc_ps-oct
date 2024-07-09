@@ -43,17 +43,17 @@ P.disper = 1;
 P.wind = 1;
 P.BGremoval = 1;
 P.CDP = 0;
-P.CH12 = 0;
+P.CH12 = 1;
 P.Flect = 1;
-P.Retar = 0;
-P.Cr = 0;
-P.Orio = 0;
-P.AbOrio = 0;
+P.Retar = 1;
+P.Cr = 1;
+P.Orio = 1;
+P.AbOrio = 1;
 P.En = 1;
 P.StitchOnly = 0;
 P.TCsv = 0;
 P.Ensv = 1;
-P.Stsv = 0;
+P.Stsv = 1;
 Status = PMSDOCT_2024_FCN(P);
 """)
        filename.close()
