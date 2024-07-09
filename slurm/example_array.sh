@@ -8,7 +8,7 @@
 #SBATCH --job-name=ps-oct_slices
 
 # Partition
-# SBATCH --partition=agsmall
+#SBATCH --partition=agsmall
 
 # Mem per node request
 # In testing, used max of 40G
@@ -19,7 +19,7 @@
 #SBATCH --cpus-per-task=6
 
 # Scratch Space request=500GB (max size for 100 tiles)
-#SBATCH --tmp=500000
+#SBATCH --tmp=500G
 
 # Must set mail-type to ARRAY_TASKS to get notified per array job and not entire set
 #SBATCH --mail-type=ARRAY_TASKS
