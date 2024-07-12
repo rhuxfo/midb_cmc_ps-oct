@@ -20,7 +20,7 @@ with open('Kumquat_Right_Hemisphere_Slices_Sheet2.csv') as csvfile:
                 max_tile = int(tile_x)*int(tile_y)
 
 # Write the wrapper function
-with open(f'./slice_{slice_num}_wrapper.m', 'w') as filename:
+with open(f'/scratch.local/slice_{slice_num}_wrapper.m', 'w') as filename:
        filename.write(f"""
 P.dir = '/scratch.local/';
 P.Sdir ='/scratch.local/';
