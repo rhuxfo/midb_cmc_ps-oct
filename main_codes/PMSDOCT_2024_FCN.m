@@ -8,19 +8,19 @@ data_filename = strcat(data_directory,P.baseN);
 save_n = 'slice_';
 
 %save folders
-CompFolder = 'TComp\'; % Full 3D data (Tiles)
-EnFolder = 'Enface\'; %Enface folder (Tiles)
-StFolder = 'Stitched\'; % Composite Slices folder (stitched tiles)
+CompFolder = 'TComp/'; % Full 3D data (Tiles)
+EnFolder = 'Enface/'; %Enface folder (Tiles)
+StFolder = 'Stitched/'; % Composite Slices folder (stitched tiles)
 
 %contrast folders
-c1 = 'CDP\';
-c2 = 'A1A2\';
-c3 = 'Orientation\';
-c4 = 'Retardance\';
-c5 = 'AbsoOri\';
-c6 = 'Cross\';
-c7 = 'Reflectivity\';
-folderNames = [c1,c2,c3,c4,c5,c6,c7];
+c1 = 'CDP/';
+c2 = 'A1A2/';
+c3 = 'Orientation/';
+c4 = 'Retardance/';
+c5 = 'AbsoOri/';
+c6 = 'Cross/';
+c7 = 'Reflectivity/';
+folderNames = {c1,c2,c3,c4,c5,c6,c7};
 
 %automatically create save folders if they do not exist
 if P.autofolder ==1 
@@ -31,19 +31,19 @@ if P.autofolder ==1
     if ~exist(folder3d,'dir')
         mkdir(folder3d);
         for i=1:length(folderNames)
-            mkdir(strcat(folder3d,folderNames(i)));
+            mkdir(strcat(folder3d,folderNames{i}));
         end
     end
     if ~exist(folderEnface,'dir')
         mkdir(folderEnface);
         for i=1:length(folderNames)
-            mkdir(strcat(folderEnface,folderNames(i)));
+            mkdir(strcat(folderEnface,folderNames{i}));
         end
     end
     if ~exist(folderStitch,'dir')
         mkdir(folderStitch);
         for i=1:length(folderNames)
-            mkdir(strcat(folderStitch,folderNames(i)));
+            mkdir(strcat(folderStitch,folderNames{i}));
         end
     end
 end
