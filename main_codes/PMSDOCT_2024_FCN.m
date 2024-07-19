@@ -117,9 +117,6 @@ STileComp = P.TCsv;
 SEnface = P.Ensv;
 SStitch = P.Stsv;
 
-%% Add timing tracking
-tic
-
 %% Dispersion
 if Parameters.dispersionComp==1 %need to make 1024
     %Software dispersion compensation creates phase correction vectors
