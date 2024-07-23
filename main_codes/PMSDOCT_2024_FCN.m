@@ -396,27 +396,27 @@ for SliceInd=1:length(slice)
         if calcCrossPolar ==1
             CallF = strcat(Call_base,c6);
             SaveF = strcat(Save_base,c6);
-            [TEnCr]= MStitchFCN_mod(slice(SliceInd),6,SaveF,CallF,TileMtrx,alineLength,blineLength,P.overlap);
+            [TEnCr]= MStitchFCN_mod(slice(SliceInd),6,SaveF,CallF,TileMtrx,1000,blineLength,P.overlap);
         end
         if calcReflectivity == 1
             CallF = strcat(Call_base,c7);
             SaveF = strcat(Save_base,c7);
-            [TEnRef]= MStitchFCN_mod(slice(SliceInd),7,SaveF,CallF,TileMtrx,alineLength,blineLength,P.overlap);
+            [TEnRef]= MStitchFCN_mod(slice(SliceInd),7,SaveF,CallF,TileMtrx,1000,blineLength,P.overlap);
         end
         if calcRetardance == 1
             CallF = strcat(Call_base,c4);
             SaveF = strcat(Save_base,c4);
-            [TEnR]= MStitchFCN_mod(slice(SliceInd),4,SaveF,CallF,TileMtrx,alineLength,blineLength,P.overlap);
+            [TEnR]= MStitchFCN_mod(slice(SliceInd),4,SaveF,CallF,TileMtrx,1000,blineLength,P.overlap);
         end
         if calcOrientation == 1
             CallF = strcat(Call_base,c3);
             SaveF = strcat(Save_base,c3);
-            [TEnO]= MStitchFCN_mod(slice(SliceInd),3,SaveF,CallF,TileMtrx,alineLength,blineLength,P.overlap);
+            [TEnO]= MStitchFCN_mod(slice(SliceInd),3,SaveF,CallF,TileMtrx,1000,blineLength,P.overlap);
         end
         if calcAbsOrientation == 1
             CallF = strcat(Call_base,c5);
             SaveF = strcat(Save_base,c5);
-            [TEnAO]= MStitchFCN_mod(slice(SliceInd),5,SaveF,CallF,TileMtrx,alineLength,blineLength,P.overlap);
+            [TEnAO]= MStitchFCN_mod(slice(SliceInd),5,SaveF,CallF,TileMtrx,1000,blineLength,P.overlap);
         end
     end
 end %slice for loop
