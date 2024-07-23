@@ -11,7 +11,7 @@
 #SBATCH --partition=agsmall
 
 # Timing
-#SBATCH --time=5:30:00
+#SBATCH --time=6:00:00
 
 # Mem per node request
 # In testing, used max of 40G
@@ -28,17 +28,17 @@
 # Must set mail-type to ARRAY_TASKS to get notified per array job and not entire set
 #SBATCH --mail-type=ARRAY_TASKS
 #SBATCH --mail-type=END,FAIL
-#SBATCH --mail-user=huxfo013@umn.edu
+#SBATCH --mail-user=yeatt002@umn.edu
 
 # Set to the slice numbers you want to analyze
 # Can give as 1-3 for range e.g. 1,2,3
 # OR give as 1,5,7 e.g. for particular slices
-#SBATCH --array=156,157
+#SBATCH --array=1
 
 # Scratch Space request
 # Tune for slice range listed above
 # The max space required=500GB (max size for 100 tiles)
-#SBATCH --tmp=300G
+#SBATCH --tmp=100G
 
 
 ###
@@ -55,10 +55,8 @@ s5cmd sync 's3://midb-cmc-nonhuman/PS-OCT/KQRH/Raw/'${dir_date}'/Slice_'${SLURM_
 
 # Write out wrapper functions for a given slice
 python3 pre-analysis_script.py ${SLURM_ARRAY_TASK_ID} 
-s3cmd get --skip-existing s3://midb-cmc-nonhuman/PS-OCT/Code/Current\ Processing\ code/ComTom_W_Ch1_shifted.dat /scratch.local/
-s3cmd get --skip-existing s3://midb-cmc-nonhuman/PS-OCT/Code/Current\ Processing\ code/ComTom_W_Ch2_shifted.dat /scratch.local/
-s3cmd get --skip-existing s3://midb-cmc-nonhuman/PS-OCT/Code/Current\ Processing\ code/Needed\ Subfunctions/* /scratch.local/
-s3cmd get --skip-existing s3://midb-cmc-nonhuman/PS-OCT/Code/Current\ Processing\ code/PMSDOCT*.m /scratch.local/
+git clone https://github.com/rhuxfo/midb_cmc_ps-oct.git /scratch.local/midb_cmc_ps-oct
+cp /scratch.local/midb_cmc_ps-oct/main_codes/* /scratch.local/
 
 # Launch the matlab code per slice
 export MATLABPATH=/scratch.local/
