@@ -2,7 +2,6 @@
 import sys
 import csv
 import datetime
-import os
 
 # Copy the appropriate raw data
 with open('Kumquat_Right_Hemisphere_Slices_Sheet2.csv') as csvfile:
@@ -20,10 +19,10 @@ with open('Kumquat_Right_Hemisphere_Slices_Sheet2.csv') as csvfile:
                 max_tile = int(tile_x)*int(tile_y)
 
 # Write the wrapper function
-with open(f'/scratch.local/slice_{slice_num}_wrapper.m', 'w') as filename:
+with open(f'/tmp/slice_{slice_num}_wrapper.m', 'w') as filename:
        filename.write(f"""
-P.dir = '/scratch.local/';
-P.Sdir ='/scratch.local/';
+P.dir = '/tmp/cmc-s3-bucket/';
+P.Sdir ='/tmp/';
 P.autofolder=1;
 P.DCf1 = '/scratch.local/ComTom_W_Ch1_shifted.dat';
 P.DCf2 = '/scratch.local/ComTom_W_Ch2_shifted.dat';
@@ -45,10 +44,10 @@ P.BGremoval = 1;
 P.CDP = 0;
 P.CH12 = 1;
 P.Flect = 1;
-P.Retar = 1;
-P.Cr = 1;
-P.Orio = 1;
-P.AbOrio = 1;
+P.Retar = 0;
+P.Cr = 0;
+P.Orio = 0;
+P.AbOrio = 0;
 P.En = 1;
 P.StitchOnly = 0;
 P.TCsv = 0;
