@@ -8,6 +8,8 @@
 %7 : Reflectivity
 
 function [EnStitch] = MStitchFCN_mod(slice,contrast,SaveFolder,Directory,TileMtrx,alines,blines,overlap)
+FLIP = 0;
+XP = 0;
 Dir = Directory;
 SaveDir = SaveFolder;
 
@@ -25,10 +27,10 @@ ov = round(((overlap/100)*blines));
 A1 = (Y-ov);
 A2 = (X-ov);
 %c = A1/b1;
-B1 = A1+ov;
-B2 = A2+ov;
-D1 = (X*b2);
-D2 = (Y*b1);
+%B1 = A1+ov;
+%B2 = A2+ov;
+D1 = (X+A2*b2);
+D2 = (Y+A1*b1);
 d1 = (A2*b2)+ov;
 d2 = (A1*b1)+ov;
 Wms = BlendingMatrix(TileMtrx,ov,Y,X);
@@ -53,8 +55,10 @@ for s = 1:length(slicenum)
     %%
     for i = 1:b1
         for j = 1:b2
-            filename = strcat(Dir,'slice_',num2str(slicenum(s)),'_tile_',num2str(TileMtrx(i,j)),'_',ch);
-            Sname = strcat(SaveDir,'Slice_',num2str(slicenum(s)),'_',ch);
+            Name = strcat('slice_',num2str(slicenum(s)),'_Tile_',num2str(TileMtrx(i,j)),'_',ch);
+            filename = fullfile(Dir,Name);
+            sn = strcat('Slice_',num2str(slicenum(s)),'_',ch);
+            Sname = strcat(SaveDir,sn);
             T = load(filename);
 
             if n == 3
@@ -62,20 +66,27 @@ for s = 1:length(slicenum)
             elseif n == 4
                 Tile = T.EnR;
             elseif n == 5
-                Tile = T.EnAO;
+                Tile = squeeze(T.EnAO);
             elseif n == 6
                 Tile = T.EnCr;
             elseif n == 7
                 Tile = T.EnRef;
             end
-
-            if i < 2
-                ims{i,j} = Tile;
+            if FLIP == 1
+                Tile = flip(Tile,2);
             else
-                En = Tile;
-                Epr = ims{i-1,j};
-                En(1:xp+1,:) = Epr(end-ov:end-ov+xp,:);
-                ims{i,j}= En;
+            end
+            if XP ==1
+                if i < 2
+                    ims{i,j} = Tile;
+                else
+                    En = Tile;
+                    Epr = ims{i-1,j};
+                    En(1:xp+1,:) = Epr(end-ov:end-ov+xp,:);
+                    ims{i,j}= En;
+                end
+            else
+                ims{i,j} = Tile;
             end
         end
     end
@@ -84,7 +95,7 @@ for s = 1:length(slicenum)
     ImR = zeros(D2,D1);
     for i1 = 1:b1
         for i2 = 1:b2
-            ImR((A1*(i1-1)+(1:B1)),(A2*(i2-1)+(1:B2))) = ImR((A1*(i1-1)+(1:B1)),(A2*(i2-1)+(1:B2))) + (Wms{i1,i2}).*(ims{i1,i2});
+            ImR((A1*(i1-1)+(1:Y)),(A2*(i2-1)+(1:X))) = ImR((A1*(i1-1)+(1:Y)),(A2*(i2-1)+(1:X))) + (Wms{i1,i2}).*(ims{i1,i2});
         end
     end
     Stitched = ImR(1:d2,1:d1);
