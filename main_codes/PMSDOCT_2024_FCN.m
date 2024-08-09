@@ -347,28 +347,25 @@ for SliceInd=1:length(slice)
                 disp('Saving Enface')
                 Save_base = strcat(save_directory,EnFolder);
                 if calcReflectivity == 1
-                    SaveF = fullfile(Save_base,c7);
-                    output_filename = strcat(SaveF,save_n,num2str(slice(SliceInd)),'_tile_',num2str(tilenum(TileInd)),'_EnRef');
-                    save(output_filename,'EnRef');
+                     ON = strcat(save_n,num2str(slice(SliceInd)),'_tile_',num2str(tilenum(TileInd)),'_EnRef');
+                    SaveFN = fullfile(Save_base,c7,ON);
+                    save(SaveFN,'EnRef');
                     
                 end
                 if calcCrossPolar == 1
-                    SaveF = fullfile(Save_base,c6);
-                    output_filename = strcat(SaveF,save_n,num2str(slice(SliceInd)),'_tile_',num2str(tilenum(TileInd)),'_EnCr');
-                    save(output_filename,'EnCr');
-                    
+                     ON = strcat(save_n,num2str(slice(SliceInd)),'_tile_',num2str(tilenum(TileInd)),'_EnCr');
+                    SaveFN = fullfile(Save_base,c6,ON);
+                    save(SaveFN,'EnCr');
                 end
                 if calcRetardance == 1
-                    SaveF = fullfile(Save_base,c4);
-                    output_filename = strcat(SaveF,save_n,num2str(slice(SliceInd)),'_tile_',num2str(tilenum(TileInd)),'_EnR');
-                    save(output_filename,'EnR');
-                    
+                     ON = strcat(save_n,num2str(slice(SliceInd)),'_tile_',num2str(tilenum(TileInd)),'_EnR');
+                    SaveFN = fullfile(Save_base,c4,ON);
+                    save(SaveFN,'EnR');
                 end
                 if calcOrientation == 1
-                    SaveF = fullfile(Save_base,c3);
-                    output_filename = strcat(SaveF,save_n,num2str(slice(SliceInd)),'_tile_',num2str(tilenum(TileInd)),'_EnO');
-                    save(output_filename,'EnO');
-                    
+                     ON = strcat(save_n,num2str(slice(SliceInd)),'_tile_',num2str(tilenum(TileInd)),'_EnO');
+                    SaveFN = fullfile(Save_base,c3,ON);
+                    save(SaveFN,'EnO');
                 end
                 if calcAbsOrientation == 1
                     ON = strcat(save_n,num2str(slice(SliceInd)),'_tile_',num2str(tilenum(TileInd)),'_EnAO');
