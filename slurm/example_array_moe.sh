@@ -43,7 +43,7 @@
 ###
 
 # Fetch the write date from the csv sheet
-mydate=$(awk -F, -e '$2=='${SLURM_ARRAY_TASK_ID}' { print $1 }' <Kumquat_Right_Hemisphere_Slices_Sheet2.csv )
+mydate=$(awk -F, -e '$2=='${SLURM_ARRAY_TASK_ID}' { print $1 }' <Moe.csv )
 DIR_DATE=$(date -d "$mydate" +%m%d%Y)
 echo $DIR_DATE
 
@@ -51,7 +51,7 @@ echo $DIR_DATE
 module load rclone
 MOUNT_PATH=/tmp/cmc-s3-bucket
 mkdir $MOUNT_PATH
-rclone mount "ceph:midb-cmc-nonhuman/PS-OCT/KQRH/Raw/${DIR_DATE}/" $MOUNT_PATH &
+rclone mount "ceph:midb-cmc-nonhuman/PS-OCT/Moe/Raw/${DIR_DATE}/" $MOUNT_PATH &
 sleep 5 # Takes rclone a second to actually mount
 
 # Write out wrapper functions for a given slice
