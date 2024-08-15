@@ -11,7 +11,7 @@
 #SBATCH --partition=agsmall
 
 # Timing
-#SBATCH --time=5:30:00
+#SBATCH --time=7:30:00
 
 # Mem per node request
 # In testing, used max of 40G
@@ -26,9 +26,8 @@
 #SBATCH --error=logs/%A_%a.err
 
 # Must set mail-type to ARRAY_TASKS to get notified per array job and not entire set
-#SBATCH --mail-type=ARRAY_TASKS
 #SBATCH --mail-type=END,FAIL
-#SBATCH --mail-user=huxfo013@umn.edu
+#SBATCH --mail-user=yeatt002@umn.edu
 
 # Set to the slice numbers you want to analyze
 # Can give as 1-3 for range e.g. 1,2,3
@@ -36,9 +35,7 @@
 #SBATCH --array=1
 
 # Scratch Space request
-# Tune for slice range listed above
-# The max space required=500GB (max size for 100 tiles)
-#SBATCH --tmp=300G
+#SBATCH --tmp=10G
 
 
 ###
@@ -71,10 +68,10 @@ matlab -nodisplay -nodesktop -nosplash -r "run('/tmp/slice_${SLURM_ARRAY_TASK_ID
 # Bucket structure is different than how the data is saved to scratch.
 # Do not want Orientation dir, or CDP, or A1A2 dirs.
 module load s5cmd
-s5cmd sync /tmp/Stitched/AbsoOri/ 's3://midb-cmc-nonhuman/PS-OCT/KQRH/Enface/Orientation/'
-s5cmd sync /tmp/Stitched/Cross/ 's3://midb-cmc-nonhuman/PS-OCT/KQRH/Enface/Cross/'
-s5cmd sync /tmp/Stitched/Reflectivity/ 's3://midb-cmc-nonhuman/PS-OCT/KQRH/Enface/Reflectivity/'
-s5cmd sync /tmp/Stitched/Retardance/ 's3://midb-cmc-nonhuman/PS-OCT/KQRH/Enface/Retardance/'
+s5cmd sync /tmp/Stitched/AbsoOri/ 's3://midb-cmc-nonhuman/PS-OCT/Moe/Enface/Orientation/'
+s5cmd sync /tmp/Stitched/Cross/ 's3://midb-cmc-nonhuman/PS-OCT/Moe/Enface/Cross/'
+s5cmd sync /tmp/Stitched/Reflectivity/ 's3://midb-cmc-nonhuman/PS-OCT/Moe/Enface/Reflectivity/'
+s5cmd sync /tmp/Stitched/Retardance/ 's3://midb-cmc-nonhuman/PS-OCT/Moe/Enface/Retardance/'
 
 kill %1
 fusermount3 -u /tmp/cmc-s3-bucket
