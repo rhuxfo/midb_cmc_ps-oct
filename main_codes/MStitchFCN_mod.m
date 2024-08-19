@@ -8,7 +8,7 @@
 %7 : Reflectivity
 
 function [EnStitch] = MStitchFCN_mod(slice,contrast,SaveFolder,Directory,TileMtrx,alines,blines,overlap)
-FLIP = 0;
+FLIP = 1;
 XP = 0;
 Dir = Directory;
 SaveDir = SaveFolder;
