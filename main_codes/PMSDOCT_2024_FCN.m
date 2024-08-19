@@ -380,8 +380,8 @@ for SliceInd=1:length(slice)
     end
     if SStitch ==1
         disp('Stitching Tiles')
-        Call_base = fullfile(save_directory,EnFolder);
-        Save_base = fullfile(save_directory,StFolder);
+        Call_base = strcat(save_directory,EnFolder);
+        Save_base = strcat(save_directory,StFolder);
         if calcCrossPolar ==1
             CallF = fullfile(Call_base,c6);
             SaveF = fullfile(Save_base,c6);
