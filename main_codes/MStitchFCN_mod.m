@@ -55,7 +55,7 @@ for s = 1:length(slicenum)
     %%
     for i = 1:b1
         for j = 1:b2
-            Name = strcat('slice_',num2str(slicenum(s)),'_Tile_',num2str(TileMtrx(i,j)),'_',ch);
+            Name = strcat('slice_',num2str(slicenum(s)),'_tile_',num2str(TileMtrx(i,j)),'_',ch);
             filename = fullfile(Dir,Name);
             sn = strcat('Slice_',num2str(slicenum(s)),'_',ch);
             Sname = strcat(SaveDir,sn);
