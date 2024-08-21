@@ -58,7 +58,7 @@ for s = 1:length(slicenum)
             Name = strcat('slice_',num2str(slicenum(s)),'_tile_',num2str(TileMtrx(i,j)),'_',ch);
             filename = fullfile(Dir,Name);
             sn = strcat('Slice_',num2str(slicenum(s)),'_',ch);
-            Sname = strcat(SaveDir,sn);
+            Sname = fullfile(SaveDir,sn);
             T = load(filename);
 
             if n == 3
