@@ -69,6 +69,7 @@ st = P.depthstart;
 endc = P.depthcut;
 ov = P.overlap;
 Nthr = 6.5;
+Fllip = P.Flip;
 % Load variables
 filePointer = fopen([data_filename, num2str(slice(1)),P.tileN,num2str(tilenum(1)),'_840_1.dat'], 'r', 'l');
 headerStr = fgetl(filePointer); %Getting things from the labview
@@ -385,27 +386,27 @@ for SliceInd=1:length(slice)
         if calcCrossPolar ==1
             CallF = fullfile(Call_base,c6);
             SaveF = fullfile(Save_base,c6);
-            [TEnCr]= MStitchFCN_mod(slice(SliceInd),6,SaveF,CallF,TileMtrx,blineLength,Parameters.alines,ov);
+            [TEnCr]= MStitchFCN_mod(slice(SliceInd),6,SaveF,CallF,TileMtrx,blineLength,Parameters.alines,ov,Flip);
         end
         if calcReflectivity == 1
             CallF = fullfile(Call_base,c7);
             SaveF = fullfile(Save_base,c7);
-            [TEnRef]= MStitchFCN_mod(slice(SliceInd),7,SaveF,CallF,TileMtrx,blineLength,Parameters.alines,ov);
+            [TEnRef]= MStitchFCN_mod(slice(SliceInd),7,SaveF,CallF,TileMtrx,blineLength,Parameters.alines,ov,Flip);
         end
         if calcRetardance == 1
             CallF = fullfile(Call_base,c4);
             SaveF = fullfile(Save_base,c4);
-            [TEnR]= MStitchFCN_mod(slice(SliceInd),4,SaveF,CallF,TileMtrx,blineLength,Parameters.alines,ov);
+            [TEnR]= MStitchFCN_mod(slice(SliceInd),4,SaveF,CallF,TileMtrx,blineLength,Parameters.alines,ov,Flip);
         end
         if calcOrientation == 1
             CallF = fullfile(Call_base,c3);
             SaveF = fullfile(Save_base,c3);
-            [TEnO]= MStitchFCN_mod(slice(SliceInd),3,SaveF,CallF,TileMtrx,blineLength,Parameters.alines,ov);
+            [TEnO]= MStitchFCN_mod(slice(SliceInd),3,SaveF,CallF,TileMtrx,blineLength,Parameters.alines,ov,Flip);
         end
         if calcAbsOrientation == 1
             CallF = fullfile(Call_base,c5);
             SaveF = fullfile(Save_base,c5);
-            [TEnAO]= MStitchFCN_mod(slice(SliceInd),5,SaveF,CallF,TileMtrx,blineLength,Parameters.alines,ov);
+            [TEnAO]= MStitchFCN_mod(slice(SliceInd),5,SaveF,CallF,TileMtrx,blineLength,Parameters.alines,ov,Flip);
         end
         status = 2;
     end
