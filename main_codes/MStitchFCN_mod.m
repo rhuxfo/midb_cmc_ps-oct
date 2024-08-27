@@ -7,8 +7,8 @@
 %6 : Cross Polarization
 %7 : Reflectivity
 
-function [EnStitch] = MStitchFCN_mod(slice,contrast,SaveFolder,Directory,TileMtrx,alines,blines,overlap)
-FLIP = 1;
+function [EnStitch] = MStitchFCN_mod(slice,contrast,SaveFolder,Directory,TileMtrx,alines,blines,overlap,f)
+FLIP = f;
 XP = 0;
 Dir = Directory;
 SaveDir = SaveFolder;
