@@ -69,7 +69,7 @@ st = P.depthstart;
 endc = P.depthcut;
 ov = P.overlap;
 Nthr = 6.5;
-Fllip = P.Flip;
+Flip = P.Flip;
 % Load variables
 filePointer = fopen([data_filename, num2str(slice(1)),P.tileN,num2str(tilenum(1)),'_840_1.dat'], 'r', 'l');
 headerStr = fgetl(filePointer); %Getting things from the labview
