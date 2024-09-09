@@ -179,10 +179,8 @@ for SliceInd=1:length(slice)
                     ch1bg =  10*log10(ch1bg);
                     ch2bg = abs(cdp2).^2;
                     ch2bg =  10*log10(ch2bg);
-                    CH1BG = mean(ch1bg,2);
-                    CH2BG = mean(ch2bg,2);
-                    lim1 = floor(CH1BG(150));
-                    lim2 = floor(CH2BG(150));
+                    lim1 = 55;
+                    lim2 = 55;
                 else
                 end
                 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
