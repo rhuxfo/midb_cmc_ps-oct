@@ -2,12 +2,19 @@
 import sys
 import csv
 import datetime
+import argparse
+
+# Inputs
+parser = argparse.ArgumentParser()
+parser.add_argument('--csvfile', help='Provide name of the relevant csv file containing tile sizes here. e.g. Moe.csv')
+parser.add_argument('--slicenum', help='Please provide the slice number to be analyzed here e.g. 1')
+args = parser.parse_args()
 
 # Copy the appropriate raw data
-with open('Kumquat_Right_Hemisphere_Slices_Sheet2.csv') as csvfile:
+with open(args.csvfile) as csvfile:
         slice_reader = csv.reader(csvfile)
         for row in slice_reader:
-            if row[1] != sys.argv[1]:
+            if row[1] != args.slicenum:
                     continue
             else:
                 print(row)

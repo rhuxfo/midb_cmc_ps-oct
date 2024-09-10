@@ -45,8 +45,15 @@
 # Processing
 ###
 
+# Input options
+# Options must be provided in this order from the command line
+# e.g. sbatch example_array.sh Moe.csv NAME_OF_RCLONE Moe
+CSV_FILE=$1
+RCLONE_NAME=$2
+SUBJECT_NAME=$3
+
 # Fetch the write date from the csv sheet
-mydate=$(awk -F, -e '$2=='${SLURM_ARRAY_TASK_ID}' { print $1 }' <Kumquat_Right_Hemisphere_Slices_Sheet2.csv )
+mydate=$(awk -F, -e '$2=='${SLURM_ARRAY_TASK_ID}' { print $1 }' <${CSV_FILE} )
 DIR_DATE=$(date -d "$mydate" +%m%d%Y)
 echo $DIR_DATE
 
@@ -54,11 +61,11 @@ echo $DIR_DATE
 module load rclone
 MOUNT_PATH=/tmp/cmc-s3-bucket
 mkdir $MOUNT_PATH
-rclone mount "ceph:midb-cmc-nonhuman/PS-OCT/KQRH/Raw/${DIR_DATE}/" $MOUNT_PATH &
+rclone mount "${RCLONE_NAME}:midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/Raw/${DIR_DATE}/" $MOUNT_PATH &
 sleep 5 # Takes rclone a second to actually mount
 
 # Write out wrapper functions for a given slice
-python3 pre-analysis_script.py ${SLURM_ARRAY_TASK_ID} 
+python3 pre-analysis_script.py --csvfile ${CSV_FILE} --slicenum ${SLURM_ARRAY_TASK_ID} 
 git clone https://github.com/rhuxfo/midb_cmc_ps-oct.git /tmp/midb_cmc_ps-oct
 cp /tmp/midb_cmc_ps-oct/main_codes/* /tmp/
 
@@ -71,10 +78,10 @@ matlab -nodisplay -nodesktop -nosplash -r "run('/tmp/slice_${SLURM_ARRAY_TASK_ID
 # Bucket structure is different than how the data is saved to scratch.
 # Do not want Orientation dir, or CDP, or A1A2 dirs.
 module load s5cmd
-s5cmd sync /tmp/Stitched/AbsoOri/ 's3://midb-cmc-nonhuman/PS-OCT/KQRH/Enface/Orientation/'
-s5cmd sync /tmp/Stitched/Cross/ 's3://midb-cmc-nonhuman/PS-OCT/KQRH/Enface/Cross/'
-s5cmd sync /tmp/Stitched/Reflectivity/ 's3://midb-cmc-nonhuman/PS-OCT/KQRH/Enface/Reflectivity/'
-s5cmd sync /tmp/Stitched/Retardance/ 's3://midb-cmc-nonhuman/PS-OCT/KQRH/Enface/Retardance/'
+s5cmd sync /tmp/Stitched/AbsoOri/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/Enface/Orientation/"
+s5cmd sync /tmp/Stitched/Cross/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/Enface/Cross/"
+s5cmd sync /tmp/Stitched/Reflectivity/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/Enface/Reflectivity/"
+s5cmd sync /tmp/Stitched/Retardance/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/Enface/Retardance/"
 
 kill %1
 fusermount3 -u /tmp/cmc-s3-bucket
