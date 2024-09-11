@@ -409,5 +409,5 @@ for SliceInd=1:length(slice)
         status = 2;
     end
 end %slice for loop
-fprintf('Processing completed ...\n');
+fprintf('Processing completed');
 end
