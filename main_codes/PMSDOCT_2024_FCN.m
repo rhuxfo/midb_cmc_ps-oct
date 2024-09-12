@@ -268,7 +268,7 @@ for SliceInd=1:length(slice)
             if Enface ==1
                 ch1Limit = lim1;
                 ch2Limit = lim2;
-                cut = 200;
+                cut = 190;
                 if calcReflectivity ==1
                     disp('Calculating Reflectivity Enface')
                     EnRef = CombomaskCross(Tile_R,ch1Limit+1,cut);
