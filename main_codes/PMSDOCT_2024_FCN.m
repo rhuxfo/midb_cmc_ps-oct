@@ -196,7 +196,10 @@ for SliceInd=1:length(slice)
                     reflectivity = 10*log10(reflectivity);
                 end
                 
-                Retardance = (180/pi)*atan(abs(CDP2)./abs(CDP1));
+                Tile_Reff= abs(CDP1)+ abs(CDP2);
+                Weighted_Retardance = Tile_Reff.* exp(1i*atan(abs(CDP1)./abs(CDP2)));
+                Retardance= squeeze(180/pi*angle(sum(Weighted_Retardance)));
+                %Retardance = (180/pi)*atan(abs(CDP2)./abs(CDP1));
                 
                 if calcOrientation == 1
                     ePi = exp(1i*pi);
@@ -204,7 +207,7 @@ for SliceInd=1:length(slice)
                     Theta2 = Theta./(abs(Theta));
                 end
                 if calcAbsOrientation == 1
-                    a = 200;
+                    a = 180;
                     tempAmp2 = abs(cdp2).^2;
                     [~,P2] = max(tempAmp2(a:a+100));
                     mmm = cdp1.*conj(cdp2);
@@ -287,9 +290,10 @@ for SliceInd=1:length(slice)
                 end
                 if calcAbsOrientation == 1
                     disp('Calculating Abs Ori Enface')
-                    EnO2 = Combomask4(Tile_ch1,Tile_ch2,Tile_Om,ch1Limit+Nthr,ch2Limit+Nthr,cut);
+                    %EnO2 = Combomask4(Tile_ch1,Tile_ch2,Tile_Om,ch1Limit+Nthr,ch2Limit+Nthr,cut);
                     Off2 = RLO2T;
-                    EnAO = EnO2./ Off2;
+                    EnAO= squeeze(180/pi*angle((Off2)*sum(Tile_Om/2);
+                    %EnAO = EnO2./ Off2;
                 end
 
             end
