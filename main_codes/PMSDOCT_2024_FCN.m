@@ -179,8 +179,8 @@ for SliceInd=1:length(slice)
                     ch1bg =  10*log10(ch1bg);
                     ch2bg = abs(cdp2).^2;
                     ch2bg =  10*log10(ch2bg);
-                    lim1 = 55;
-                    lim2 = 55;
+                    lim1 = 57;
+                    lim2 = 57;
                 else
                 end
                 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
