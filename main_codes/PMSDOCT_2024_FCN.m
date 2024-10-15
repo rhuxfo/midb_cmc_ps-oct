@@ -197,8 +197,7 @@ for SliceInd=1:length(slice)
                 end
                 
                 Tile_Reff= abs(CDP1)+ abs(CDP2);
-                Weighted_Retardance = Tile_Reff.* exp(1i*atan(abs(CDP1)./abs(CDP2)));
-                Retardance= squeeze(180/pi*angle(sum(Weighted_Retardance)));
+                Retardance = Tile_Reff.* exp(1i*atan(abs(CDP1)./abs(CDP2)));
                 %Retardance = (180/pi)*atan(abs(CDP2)./abs(CDP1));
                 
                 if calcOrientation == 1
@@ -282,7 +281,8 @@ for SliceInd=1:length(slice)
                 end
                 if calcRetardance == 1
                     disp('Calculating Retardance Enface')
-                    EnR = CombomaskR4(Tile_ch1,Tile_ch2,Tile_R2,ch1Limit,ch2Limit,cut);
+                    EnR = squeeze((180/pi)*angle(sum(Tile_R2)));
+                    %EnR = CombomaskR4(Tile_ch1,Tile_ch2,Tile_R2,ch1Limit,ch2Limit,cut);
                 end
                 if calcOrientation == 1
                     disp('Calculating Ori Enface')
@@ -292,7 +292,7 @@ for SliceInd=1:length(slice)
                     disp('Calculating Abs Ori Enface')
                     %EnO2 = Combomask4(Tile_ch1,Tile_ch2,Tile_Om,ch1Limit+Nthr,ch2Limit+Nthr,cut);
                     Off2 = RLO2T;
-                    EnAO= squeeze(180/pi*angle((Off2)*sum(Tile_Om/2)));
+                    EnAO= squeeze((180/pi)*angle(sum(Tile_Om/2)./Off2));
                     %EnAO = EnO2./ Off2;
                 end
 
