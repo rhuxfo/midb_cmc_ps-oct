@@ -197,7 +197,7 @@ for SliceInd=1:length(slice)
                 end
                 
                 Tile_Reff= abs(CDP1)+ abs(CDP2);
-                Retardance = Tile_Reff.* exp(1i*atan(abs(CDP1)./abs(CDP2)));
+                Retardance = Tile_Reff.* exp(1i*atan(abs(CDP2)./abs(CDP1)));
                 %Retardance = (180/pi)*atan(abs(CDP2)./abs(CDP1));
                 
                 if calcOrientation == 1
