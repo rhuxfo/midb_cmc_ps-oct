@@ -52,6 +52,12 @@ CSV_FILE=$1
 RCLONE_NAME=$2
 SUBJECT_NAME=$3
 
+# Fetch relevant code from github
+git clone https://github.com/rhuxfo/midb_cmc_ps-oct.git /tmp/midb_cmc_ps-oct
+cp /tmp/midb_cmc_ps-oct/main_codes/* /tmp/
+cp /tmp/midb_cmc_ps-oct/slurm/${CSV_FILE} ./
+cp /tmp/midb_cmc_ps-oct/slurm/pre-analysis_script.py ./
+
 # Fetch the write date from the csv sheet
 mydate=$(awk -F, -e '$2=='${SLURM_ARRAY_TASK_ID}' { print $1 }' <${CSV_FILE} )
 DIR_DATE=$(date -d "$mydate" +%m%d%Y)
@@ -66,8 +72,6 @@ sleep 5 # Takes rclone a second to actually mount
 
 # Write out wrapper functions for a given slice
 python3 pre-analysis_script.py --csvfile ${CSV_FILE} --slicenum ${SLURM_ARRAY_TASK_ID} 
-git clone https://github.com/rhuxfo/midb_cmc_ps-oct.git /tmp/midb_cmc_ps-oct
-cp /tmp/midb_cmc_ps-oct/main_codes/* /tmp/
 
 # Launch the matlab code per slice
 export MATLABPATH=/tmp/
