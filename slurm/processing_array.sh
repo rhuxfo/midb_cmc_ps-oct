@@ -26,9 +26,9 @@
 #SBATCH --error=logs/%A_%a.err
 
 # Must set mail-type to ARRAY_TASKS to get notified per array job and not entire set
-#SBATCH --mail-type=ARRAY_TASKS
-#SBATCH --mail-type=END,FAIL
-#SBATCH --mail-user=huxfo013@umn.edu
+## SBATCH --mail-type=ARRAY_TASKS
+## SBATCH --mail-type=END,FAIL
+## SBATCH --mail-user=huxfo013@umn.edu
 
 # Set to the slice numbers you want to analyze
 # Can give as 1-3 for range e.g. 1,2,3
