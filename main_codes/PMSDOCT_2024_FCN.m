@@ -291,8 +291,8 @@ for SliceInd=1:length(slice)
                 if calcAbsOrientation == 1
                     disp('Calculating Abs Ori Enface')
                     %EnO2 = Combomask4(Tile_ch1,Tile_ch2,Tile_Om,ch1Limit+Nthr,ch2Limit+Nthr,cut);
-                    Off2 = RLO2T;
-                    EnAO= squeeze((180/pi)*angle(sum(Tile_Om))/2;
+                    Tile_Off = Tile_Om.*conj(RLO2T);
+                    EnAO= squeeze((180/pi)*(angle(sum(Tile_Off))/2));
                     %EnAO = EnO2./ Off2;
                 end
 
