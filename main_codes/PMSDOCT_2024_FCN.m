@@ -211,7 +211,7 @@ for SliceInd=1:length(slice)
                     [~,P2] = max(tempAmp2(a:a+100));
                     mmm = cdp1.*conj(cdp2);
                     px2 = P2+a-1;
-                    RLO2 = mmm(px2);
+                    RLO2 = mmm(px2)/abs(mmm(px2));
                 end
 
                 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
