@@ -270,7 +270,7 @@ for SliceInd=1:length(slice)
             if Enface ==1
                 ch1Limit = lim1;
                 ch2Limit = lim2;
-                cut = 190;
+                cut = 160;
                 if calcReflectivity ==1
                     disp('Calculating Reflectivity Enface')
                     EnRef = CombomaskCross(Tile_R,ch1Limit+1,cut);
@@ -292,7 +292,7 @@ for SliceInd=1:length(slice)
                     disp('Calculating Abs Ori Enface')
                     %EnO2 = Combomask4(Tile_ch1,Tile_ch2,Tile_Om,ch1Limit+Nthr,ch2Limit+Nthr,cut);
                     Tile_Off = Tile_Om.*conj(RLO2T);
-                    EnAO= squeeze((180/pi)*(angle(sum(Tile_Off))/2));
+                    EnAO= squeeze((180/pi)*(angle(sum(Tile_Off(1:cut,:,:)))/2));
                     %EnAO = EnO2./ Off2;
                 end
 
