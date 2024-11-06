@@ -281,7 +281,7 @@ for SliceInd=1:length(slice)
                 end
                 if calcRetardance == 1
                     disp('Calculating Retardance Enface')
-                    EnR = squeeze((180/pi)*angle(sum(Tile_R2)));
+                    EnR = squeeze((180/pi)*angle(sum(Tile_R2(1:cut,:,:)));
                     %EnR = CombomaskR4(Tile_ch1,Tile_ch2,Tile_R2,ch1Limit,ch2Limit,cut);
                 end
                 if calcOrientation == 1
