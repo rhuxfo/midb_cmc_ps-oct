@@ -109,7 +109,8 @@ for s = 1:length(slicenum)
         save(Sname,"TEnR");
     elseif n == 5
         TEnAO = rot90(Stitched);
-        EnStitch = 180/pi*(angle(TEnAO)/2);
+        TEnAO = 180/pi*(angle(TEnAO)/2);
+        EnStitch = TEnAO;
         save(Sname,"TEnAO");
     elseif n == 6
         TEnCr = rot90(Stitched);
