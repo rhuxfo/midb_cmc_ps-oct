@@ -44,13 +44,11 @@
 ###
 # Processing
 ###
-RCLONE_NAME=ceph
-CSV_FILE=Moe.csv
+RCLONE_NAME=cmcs3
 SUBJECT_NAME=Moe
 
 # Fetch relevant code from github
 git clone https://github.com/rhuxfo/midb_cmc_ps-oct.git /tmp/midb_cmc_ps-oct
-cp /tmp/midb_cmc_ps-oct/slurm/${CSV_FILE} ./
 
 # Actually copy data to local scratch
 module load rclone
@@ -60,7 +58,7 @@ rclone mount "${RCLONE_NAME}:midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/Enface/Ret
 sleep 5 # Takes rclone a second to actually mount
 
 # Write out wrapper functions for a given slice
-python3 check_files_s3.py  --csvfile ${CSV_FILE} 
+python3 check_files_s3_enface.py
 
 kill %1
 fusermount3 -u /tmp/cmc-s3-bucket
