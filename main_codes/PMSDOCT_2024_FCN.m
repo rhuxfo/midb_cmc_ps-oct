@@ -72,6 +72,7 @@ Nthr = 6.5;
 Flip = P.Flip;
 % Load variables
 filePointer = fopen([data_filename, num2str(slice(1)),P.tileN,num2str(tilenum(1)),'_840_1.dat'], 'r', 'l');
+fprintf('Calling',filePointer);
 headerStr = fgetl(filePointer); %Getting things from the labview
 evalc(headerStr); %Evaluate header from labview to import variables
 % Variables loaded: alineLength; alinePeriod; blineLength; buffersPerFile;
