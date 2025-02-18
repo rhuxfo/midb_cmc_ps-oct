@@ -12,7 +12,7 @@ slice_num=args.slicenum
 with open(f'/tmp/slice_{slice_num}_in.m', 'w') as filename:
        filename.write(f"""
 D = '/tmp/cmc-s3-bucket/';
-Sv ='/tmp/';
+Sv ='/tmp/Reflectivity/';
 Slices = 1:{slice_num};
 
 Img = gifStack(D,Sv,Slices);
