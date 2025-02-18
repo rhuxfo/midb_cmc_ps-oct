@@ -7,6 +7,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--slicenum', help='Please provide the slice number to be analyzed here e.g. 1')
 args = parser.parse_args()
 
+slice_num=args.slicenum
 # Write the wrapper function
 with open(f'/tmp/slice_{slice_num}_in.m', 'w') as filename:
        filename.write(f"""
