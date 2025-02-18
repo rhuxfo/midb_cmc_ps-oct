@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 import sys
-import csv
-import datetime
 import argparse
 
 # Inputs
@@ -14,7 +12,7 @@ with open(f'/tmp/slice_{slice_num}_in.m', 'w') as filename:
        filename.write(f"""
 D = '/tmp/cmc-s3-bucket/';
 Sv ='/tmp/';
-Slices = {slice_num}:{slice_num};
+Slices = 1:{slice_num};
 
 Img = gifStack(D,Sv,Slices);
 """)
