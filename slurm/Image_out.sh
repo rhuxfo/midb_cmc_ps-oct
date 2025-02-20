@@ -66,7 +66,7 @@ mkdir /tmp/Reflectivity/
 # Launch the matlab code per slice
 export MATLABPATH=/tmp/
 module load matlab/R2019a
-matlab -nodisplay -nodesktop -nosplash -r "Dir= ${MOUNT_PATH}; Sdir = '/tmp/Reflectivity'; SL =${SLST}:${SLEND}; gifStack(Dir,Sdir,SL);  exit;"
+matlab -nodisplay -nodesktop -nosplash -r "Dir= '${MOUNT_PATH}'; Sdir = '/tmp/Reflectivity'; SL =${SLST}:${SLEND}; gifStack(Dir,Sdir,SL);  exit;"
 
 # 4) Write it back to the S3 bucket following bucket structure
 # Bucket structure is different than how the data is saved to scratch.
