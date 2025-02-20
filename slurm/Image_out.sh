@@ -44,6 +44,9 @@
 ###
 # Processing
 ###
+
+SLST=$1
+SLEND=$2
 RCLONE_NAME=cmcs3
 SUBJECT_NAME=Zebel
 
@@ -59,22 +62,20 @@ rclone mount "${RCLONE_NAME}:midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/Enface/Ref
 sleep 5 # Takes rclone a second to actually mount
 
 mkdir /tmp/Reflectivity/
-# Write out wrapper functions for a given slice
-python3 Image_out.py --slicenum ${SLURM_ARRAY_TASK_ID} 
 
 # Launch the matlab code per slice
 export MATLABPATH=/tmp/
 module load matlab/R2019a
-matlab -nodisplay -nodesktop -nosplash -r "run('/tmp/slice_${SLURM_ARRAY_TASK_ID}_in.m'); exit;"
+matlab -nodisplay -nodesktop -nosplash -r "Dir= ${MOUNT_PATH}; Sdir = '/tmp/Reflectivity'; SL =${SLST}:${SLEND}; gifStack(Dir,Sdir,SL);  exit;"
 
 # 4) Write it back to the S3 bucket following bucket structure
 # Bucket structure is different than how the data is saved to scratch.
 # Do not want Orientation dir, or CDP, or A1A2 dirs.
 module load s5cmd
-s5cmd sync /tmp/Stitched/AbsoOri/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/jpegs/Orientation/"
-s5cmd sync /tmp/Stitched/Cross/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/jpegs/Cross/"
+#s5cmd sync /tmp/Stitched/AbsoOri/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/jpegs/Orientation/"
+#s5cmd sync /tmp/Stitched/Cross/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/jpegs/Cross/"
 s5cmd sync /tmp/Reflectivity/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/jpegs/Reflectivity/"
-s5cmd sync /tmp/Stitched/Retardance/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/jpegs/Retardance/"
+#s5cmd sync /tmp/Stitched/Retardance/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/jpegs/Retardance/"
 
 kill %1
 fusermount3 -u /tmp/cmc-s3-bucket
