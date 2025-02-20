@@ -58,6 +58,7 @@ mkdir $MOUNT_PATH
 rclone mount "${RCLONE_NAME}:midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/Enface/Reflectivity/" $MOUNT_PATH &
 sleep 5 # Takes rclone a second to actually mount
 
+mkdir /tmp/Reflectivity/
 # Write out wrapper functions for a given slice
 python3 Image_out.py --slicenum ${SLURM_ARRAY_TASK_ID} 
 
