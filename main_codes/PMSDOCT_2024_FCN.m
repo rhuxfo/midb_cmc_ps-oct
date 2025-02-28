@@ -295,7 +295,8 @@ for SliceInd=1:length(slice)
                     disp('Calculating Abs Ori Enface')
                     %EnO2 = Combomask4(Tile_ch1,Tile_ch2,Tile_Om,ch1Limit+Nthr,ch2Limit+Nthr,cut);
                     Tile_Off = Tile_Om.*conj(RLO2T);
-                    EnAO= squeeze((sum(Tile_Off(1:cut,:,:))));
+                    EnAO = Combomask4(Tile_ch1,Tile_ch2,Tile_Off,ch1Limit,ch2Limit,cut);
+                    %EnAO= squeeze((sum(Tile_Off(1:cut,:,:))));
                     %EnAO = EnO2./ Off2;
                 end
 
