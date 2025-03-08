@@ -43,6 +43,7 @@ P.YTiles = {tile_y};
 P.overlap = 10;
 P.depthstart = 1;
 P.depthcut = 225;
+P.NoiseCut = 55;
 P.disper = 1;
 P.wind = 1;
 P.BGremoval = 1;
@@ -57,6 +58,7 @@ P.Flip = 1;
 P.TCsv = 0;
 P.Ensv = 1;
 P.Stsv = 1;
+P.img = 1;
 Status = PMSDOCT_2024_FCN(P);
 """)
        filename.close()
