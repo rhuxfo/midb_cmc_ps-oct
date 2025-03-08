@@ -11,6 +11,7 @@ save_n = 'slice_';
 CompFolder = 'TComp'; % Full 3D data (Tiles)
 EnFolder = 'Enface'; %Enface folder (Tiles)
 StFolder = 'Stitched'; % Composite Slices folder (stitched tiles)
+ImgFolder = 'jpegs'; % stitched image files (jpeg)
 
 %contrast folders
 c1 = 'CDP';
@@ -46,6 +47,12 @@ if P.autofolder ==1
             mkdir(fullfile(folderStitch,folderNames{i}));
         end
     end
+    if ~exist(folderImg,'dir')
+        mkdir(folderImg);
+        for i=1:length(folderNames)
+            mkdir(fullfile(folderImg,folderNames{i}));
+        end
+    end
 end
 
 % Data size parameters
@@ -68,8 +75,9 @@ scan = P.buffers; %Number scan in the slice
 st = P.depthstart;
 endc = P.depthcut;
 ov = P.overlap;
-Nthr = 6.5;
 Flip = P.Flip;
+dBlimit = P.NoiseCut;
+
 % Load variables
 Pname = strcat(data_filename, num2str(slice(1)),P.tileN,num2str(tilenum(1)),'_840_1.dat');
 filePointer = fopen([data_filename, num2str(slice(1)),P.tileN,num2str(tilenum(1)),'_840_1.dat'], 'r', 'l');
@@ -111,6 +119,7 @@ dB = 1;
 STileComp = P.TCsv;
 SEnface = P.Ensv;
 SStitch = P.Stsv;
+SImg = P.img;
 
 %% Dispersion
 if Parameters.dispersionComp==1 %need to make 1024
@@ -153,7 +162,7 @@ for SliceInd=1:length(slice)
             
             [Raw_1,~,Blines] = Read2024(filename,scan,Parameters);
             for Line = 1:length(linenum)
-                               fprintf('Processing line %d ...\n',linenum(Line));
+                fprintf('Processing line %d ...\n',linenum(Line));
                 b1 = Raw_1(:,:,linenum(Line));
                 bscan1 = b1(1:Parameters.alineLength,:);
                 bscan2 = b1(Parameters.alineLength+1:end,:);
@@ -177,15 +186,7 @@ for SliceInd=1:length(slice)
                 end
                 [cdp2, cdp1] = InterpandCDP(blin1, blin2, Parameters);
                 %end
-                if Line ==1
-                    ch1bg = abs(cdp1).^2;
-                    ch1bg =  10*log10(ch1bg);
-                    ch2bg = abs(cdp2).^2;
-                    ch2bg =  10*log10(ch2bg);
-                    lim1 = 57;
-                    lim2 = 57;
-                else
-                end
+                
                 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                 CDiv = CDP1./CDP2;
                 MMM = CDP1.*conj(CDP2);
@@ -271,21 +272,20 @@ for SliceInd=1:length(slice)
             clear Raw_1
             %% Calulate Contrast Enfaces
             if Enface ==1
-                ch1Limit = lim1;
-                ch2Limit = lim2;
+                ch1Limit = dBlimit;
+                ch2Limit = dBlimit;
                 cut = 160;
                 if calcReflectivity ==1
                     disp('Calculating Reflectivity Enface')
-                    EnRef = CombomaskCross(Tile_R,ch1Limit+1,cut);
+                    EnRef = CombomaskCrossD(Tile_R,ch1Limit+1,cut);
                 end
                 if calcCrossPolar == 1
                     disp('Calculating Cross Enface')
-                    EnCr = CombomaskCross(Tile_cross,ch2Limit,cut);
+                    EnCr = CombomaskCrossD(Tile_cross,ch2Limit,cut);
                 end
                 if calcRetardance == 1
                     disp('Calculating Retardance Enface')
                     EnR = squeeze((180/pi)*angle(sum(Tile_R2(1:cut,:,:))));
-                    %EnR = CombomaskR4(Tile_ch1,Tile_ch2,Tile_R2,ch1Limit,ch2Limit,cut);
                 end
                 if calcOrientation == 1
                     disp('Calculating Ori Enface')
@@ -293,11 +293,12 @@ for SliceInd=1:length(slice)
                 end
                 if calcAbsOrientation == 1
                     disp('Calculating Abs Ori Enface')
-                    %EnO2 = Combomask4(Tile_ch1,Tile_ch2,Tile_Om,ch1Limit+Nthr,ch2Limit+Nthr,cut);
+                    
                     Tile_Off = Tile_Om.*conj(RLO2T);
-                    EnAO = Combomask4(Tile_ch1,Tile_ch2,Tile_Off,ch1Limit,ch2Limit,cut);
-                    %EnAO= squeeze((sum(Tile_Off(1:cut,:,:))));
-                    %EnAO = EnO2./ Off2;
+                    EnAO= squeeze((sum(Tile_Off(1:cut,:,:))));
+                    if tilenum(TileInd) ==1
+                        TEnAOBG = MStitchFCN_mod_sub_out(EnAO,TileMtrx,Flip);
+                    end
                 end
 
             end
@@ -416,6 +417,24 @@ for SliceInd=1:length(slice)
         end
         status = 2;
     end
+     if SImg == 1
+        Save_base = strcat(save_directory,ImgFolder);
+        if calcReflectivity == 1
+            ON = strcat(save_n,num2str(slice(SliceInd)),'_Ref.jpeg');
+            SaveF = fullfile(Save_base,c7,ON);
+            Out = tiff23(TEnRef,SaveF,1);
+        end
+        if calcCrossPolar == 1
+            ON = strcat(save_n,num2str(slice(SliceInd)),'_Cr.jpeg');
+            SaveF = fullfile(Save_base,c6,ON);
+            Out = tiff23(TEnCr,SaveF,1);
+        end
+        if calcRetardance == 1
+            ON = strcat(save_n,num2str(slice(SliceInd)),'_R.jpeg');
+            SaveF = fullfile(Save_base,c4,ON);
+            Out = tiff23(TEnR,SaveF,1);
+        end
+    end
 end %slice for loop
-fprintf('Processing completed');
+fprintf('Processing completed \n');
 end
