@@ -28,6 +28,7 @@ if P.autofolder ==1
     folder3d = fullfile(P.Sdir,CompFolder);
     folderEnface = fullfile(P.Sdir,EnFolder);
     folderStitch = fullfile(P.Sdir,StFolder);
+    folderImg = fullfile(P.Sdir,ImgFolder);
     
     if ~exist(folder3d,'dir')
         mkdir(folder3d);
