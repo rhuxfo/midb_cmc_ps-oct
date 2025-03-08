@@ -413,7 +413,7 @@ for SliceInd=1:length(slice)
         if calcAbsOrientation == 1
             CallF = fullfile(Call_base,c5);
             SaveF = fullfile(Save_base,c5);
-            [TEnAO]= MStitchFCN_mod(slice(SliceInd),5,SaveF,CallF,TileMtrx,blineLength,Parameters.alines,ov,Flip);
+            [TEnAO]= MStitchFCN_mod2(slice(SliceInd),5,SaveF,CallF,TileMtrx,blineLength,Parameters.alines,ov,Flip,TEnAOBG);
         end
         status = 2;
     end
