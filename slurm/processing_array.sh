@@ -87,5 +87,9 @@ s5cmd sync /tmp/Stitched/Cross/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/E
 s5cmd sync /tmp/Stitched/Reflectivity/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/Enface/Reflectivity/"
 s5cmd sync /tmp/Stitched/Retardance/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/Enface/Retardance/"
 
+s5cmd sync /tmp/jpegs/Cross/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/jpegs/Cross/"
+s5cmd sync /tmp/jpegs/Reflectivity/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/jpegs/Reflectivity/"
+s5cmd sync /tmp/jpegs/Retardance/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/jpegs/Retardance/"
+
 kill %1
 fusermount3 -u /tmp/cmc-s3-bucket
