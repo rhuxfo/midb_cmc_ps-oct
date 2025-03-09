@@ -423,17 +423,17 @@ for SliceInd=1:length(slice)
         if calcReflectivity == 1
             ON = strcat(save_n,num2str(slice(SliceInd)),'_Ref.jpeg');
             SaveF = fullfile(Save_base,c7,ON);
-            Out = tiff23(TEnRef,SaveF,1);
+            Out = tiff23(TEnRef,SaveF,1,Flip);
         end
         if calcCrossPolar == 1
             ON = strcat(save_n,num2str(slice(SliceInd)),'_Cr.jpeg');
             SaveF = fullfile(Save_base,c6,ON);
-            Out = tiff23(TEnCr,SaveF,1);
+            Out = tiff23(TEnCr,SaveF,1,Flip);
         end
         if calcRetardance == 1
             ON = strcat(save_n,num2str(slice(SliceInd)),'_R.jpeg');
             SaveF = fullfile(Save_base,c4,ON);
-            Out = tiff23(TEnR,SaveF,1);
+            Out = tiff23(TEnR,SaveF,1,Flip);
         end
     end
 end %slice for loop
