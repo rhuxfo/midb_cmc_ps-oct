@@ -1,7 +1,12 @@
 
-function A = tiff23(Image,Savename, newsize)
+function A = tiff23(Image,Savename, newsize,Flip)
 medflt=[2 2];
 %%
+f = Flip;
+if f == 1
+Image = flip(Image);
+end
+
 Image1=rescale(Image);
 img1=medfilt2(Image1(:,:),medflt);
    if newsize == 1
