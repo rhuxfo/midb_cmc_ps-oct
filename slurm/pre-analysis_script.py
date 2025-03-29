@@ -55,10 +55,10 @@ P.AbOrio = 1;
 P.En = 1;
 P.StitchOnly = 0;
 P.Flip = 1;
-P.TCsv = 0;
-P.Ensv = 1;
-P.Stsv = 1;
-P.img = 1;
+P.TCsv = 1;
+P.Ensv = 0;
+P.Stsv = 0;
+P.img = 0;
 Status = PMSDOCT_2024_FCN(P);
 """)
        filename.close()
