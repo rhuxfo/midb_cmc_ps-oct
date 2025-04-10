@@ -7,7 +7,7 @@
 %6 : Cross Polarization
 %7 : Reflectivity
 
-function [EnStitch] = MStitchFCN_mod2(slice,contrast,SaveFolder,Directory,TileMtrx,alines,blines,overlap,f,TEnAOBG)
+function [Stitched] = MStitchFCN_mod2(slice,contrast,SaveFolder,Directory,TileMtrx,alines,blines,overlap,f,TEnAOBG)
 FLIP = f;
 XP = 0;
 Dir = Directory;
@@ -99,26 +99,22 @@ for s = 1:length(slicenum)
         end
     end
     Stitched = ImR(1:d2,1:d1);
+    Stitched = rot90(Stitched);
     if n == 3
-        TEnO = rot90(Stitched);
-        EnStitch = TEnO;
+        TEnO = EnfaceOffset(Stitched,slicenum(s));
         save(Sname,"TEnO");
     elseif n == 4
-        TEnR = rot90(Stitched);
-        EnStitch = TEnR;
+        TEnR = EnfaceOffset(Stitched,slicenum(s));
         save(Sname,"TEnR");
     elseif n == 5
-        TEnAO = rot90(Stitched);
-        %TEnAO = 180/pi*(angle(TEnAO)/2);
-        EnStitch = TEnAO-TEnAOBG;
+        TEnAO = Stitched-TEnAOBG;
+        TEnAO = EnfaceOffset(TEnAO,slicenum(s));
         save(Sname,"TEnAO");
     elseif n == 6
-        TEnCr = rot90(Stitched);
-        EnStitch = TEnCr;
+        TEnCr = EnfaceOffset(Stitched,slicenum(s));
         save(Sname,"TEnCr");
     elseif n == 7
-        TEnRef = rot90(Stitched);
-        EnStitch = TEnRef;
+        TEnRef = EnfaceOffset(Stitched,slicenum(s));
         save(Sname,"TEnRef");
     end
 end
