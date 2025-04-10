@@ -94,6 +94,7 @@ s5cmd sync /tmp/jpegs/Retardance/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}
 s5cmd sync /tmp/TComp/Cross/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/3DTiles/Cross/"
 s5cmd sync /tmp/TComp/Reflectivity/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/3DTiles/Reflectivity/"
 s5cmd sync /tmp/TComp/Retardance/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/3DTiles/Retardance/"
+s5cmd sync /tmp/TComp/AbsoOri/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/3DTiles/Orientation/"
 
 kill %1
 fusermount3 -u /tmp/cmc-s3-bucket
