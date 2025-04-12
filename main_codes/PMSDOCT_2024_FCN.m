@@ -308,46 +308,47 @@ for SliceInd=1:length(slice)
                 disp('Saving 3D Tile')
                 Save_base = strcat(save_directory,CompFolder);
                 if calcCDP == 1
-                    SaveF = fullfile(Save_base,c1);
-                    output_filename = strcat(SaveF,save_n,num2str(slice(SliceInd),'%03.f'),'_tile_',num2str(tilenum(TileInd),'%03.f'),'_CDP1');
-                    save(output_filename,'Tile_CDP1','-v7.3','-nocompression');
-                    output_filename2 = strcat(SaveF,save_n,num2str(slice(SliceInd),'%03.f'),'_tile_',num2str(tilenum(TileInd),'%03.f'),'_CDP2');
-                    save(output_filename2,'Tile_CDP2','-v7.3','-nocompression');
+                    ON = strcat(save_n,num2str(slice(SliceInd),'%03.f'),'_tile_',num2str(tilenum(TileInd),'%03.f'),'_CDP1');
+                    SaveFN = fullfile(Save_base,c1,ON);
+                    save(SaveFN,'Tile_CDP1','-v7.3','-nocompression');
+                    ON2 = strcat(save_n,num2str(slice(SliceInd),'%03.f'),'_tile_',num2str(tilenum(TileInd),'%03.f'),'_CDP2');
+                    SaveFN2 = fullfile(Save_base,c1,ON2);
+                    save(SaveFN2,'Tile_CDP2','-v7.3','-nocompression');
                 end
                 if calcCh1Ch2 == 1
-                    SaveF = fullfile(Save_base,c2);
-                    output_filename = strcat(SaveF,save_n,num2str(slice(SliceInd),'%03.f'),'_tile_',num2str(tilenum(TileInd),'%03.f'),'_CH1');
-                    save(output_filename,'Tile_ch1','-v7.3','-nocompression');
-                    
+                    ON = strcat(save_n,num2str(slice(SliceInd),'%03.f'),'_tile_',num2str(tilenum(TileInd),'%03.f'),'_CH1');
+                    SaveFN = fullfile(Save_base,c2,ON);
+                    save(SaveFN,'Tile_ch1','-v7.3','-nocompression');
                 end
                 if calcReflectivity == 1
-                    SaveF = fullfile(Save_base,c7);
-                    output_filename = strcat(SaveF,save_n,num2str(slice(SliceInd),'%03.f'),'_tile_',num2str(tilenum(TileInd),'%03.f'),'_Reflect');
-                    save(output_filename,'Tile_R','-v7.3','-nocompression');
+                    ON = strcat(save_n,num2str(slice(SliceInd),'%03.f'),'_tile_',num2str(tilenum(TileInd),'%03.f'),'_Reflect');
+                    SaveFN = fullfile(Save_base,c7,ON);
+                    save(SaveFN,'Tile_R','-v7.3','-nocompression');
                     
                 end
                 if calcCrossPolar == 1
-                    SaveF = fullfile(Save_base,c6);
-                    output_filename = strcat(SaveF,save_n,num2str(slice(SliceInd),'%03.f'),'_tile_',num2str(tilenum(TileInd),'%03.f'),'_Cross');
-                    save(output_filename,'Tile_cross','-v7.3','-nocompression');
+                    
+                    ON = strcat(save_n,num2str(slice(SliceInd),'%03.f'),'_tile_',num2str(tilenum(TileInd),'%03.f'),'_Cross');
+                    SaveFN = fullfile(Save_base,c6,ON);
+                    save(SaveFN,'Tile_cross','-v7.3','-nocompression');
                     
                 end
                 if calcRetardance == 1
-                    SaveF = fullfile(Save_base,c4);
-                    output_filename = strcat(SaveF,save_n,num2str(slice(SliceInd),'%03.f'),'_tile_',num2str(tilenum(TileInd),'%03.f'),'_R');
-                    save(output_filename,'Tile_R2','-v7.3','-nocompression');
+                    ON = strcat(SaveF,save_n,num2str(slice(SliceInd),'%03.f'),'_tile_',num2str(tilenum(TileInd),'%03.f'),'_R');
+                    SaveFN = fullfile(Save_base,c4,ON);
+                    save(SaveFN,'Tile_R2','-v7.3','-nocompression');
                     
                 end
                 if calcOrientation == 1
-                    SaveF = fullfile(Save_base,c3);
-                    output_filename = strcat(SaveF,save_n,num2str(slice(SliceInd),'%03.f'),'_tile_',num2str(tilenum(TileInd),'%03.f'),'_Orien');
-                    save(output_filename,'Tile_O','-v7.3','-nocompression');
+                    ON = strcat(save_n,num2str(slice(SliceInd),'%03.f'),'_tile_',num2str(tilenum(TileInd),'%03.f'),'_Orien');
+                    SaveFN = fullfile(Save_base,c3,ON);
+                    save(SaveFN,'Tile_O','-v7.3','-nocompression');
                     
                 end
                 if calcAbsOrientation == 1
-                    SaveF = fullfile(Save_base,c5);
-                    output_filename = strcat(SaveF,save_n,num2str(slice(SliceInd),'%03.f'),'_tile_',num2str(tilenum(TileInd),'%03.f'),'_AbsOrien');
-                    save(output_filename,'Tile_Om','-v7.3','-nocompression');
+                    ON = strcat(save_n,num2str(slice(SliceInd),'%03.f'),'_tile_',num2str(tilenum(TileInd),'%03.f'),'_AbsOrien');
+                    SaveFN = fullfile(Save_base,c5,ON);
+                    save(SaveFN,'Tile_Om','-v7.3','-nocompression');
                     
                 end
             end
