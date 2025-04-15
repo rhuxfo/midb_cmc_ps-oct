@@ -1,5 +1,6 @@
-function Temp2 = EnfaceOffset(En,slicenum)
+function Temp2 = EnfaceOffset(En,slice)
 Temp2 = zeros(8500,11000);
+slicenum = slice;
 
 if slicenum < 20
     Offsetx = 2718;
