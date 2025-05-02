@@ -334,7 +334,7 @@ for SliceInd=1:length(slice)
                     
                 end
                 if calcRetardance == 1
-                    ON = strcat(SaveF,save_n,num2str(slice(SliceInd),'%03.f'),'_tile_',num2str(tilenum(TileInd),'%03.f'),'_R');
+                    ON = strcat(save_n,num2str(slice(SliceInd),'%03.f'),'_tile_',num2str(tilenum(TileInd),'%03.f'),'_R');
                     SaveFN = fullfile(Save_base,c4,ON);
                     save(SaveFN,'Tile_R2','-v7.3','-nocompression');
                     
