@@ -81,20 +81,21 @@ matlab -nodisplay -nodesktop -nosplash -r "run('/tmp/slice_${SLURM_ARRAY_TASK_ID
 # 4) Write it back to the S3 bucket following bucket structure
 # Bucket structure is different than how the data is saved to scratch.
 # Do not want Orientation dir, or CDP, or A1A2 dirs.
+SAVE_PATH=/scratch.global/PSOCT
 module load s5cmd
-s5cmd sync /tmp/Stitched/AbsoOri/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/Enface/Orientation/"
-s5cmd sync /tmp/Stitched/Cross/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/Enface/Cross/"
-s5cmd sync /tmp/Stitched/Reflectivity/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/Enface/Reflectivity/"
-s5cmd sync /tmp/Stitched/Retardance/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/Enface/Retardance/"
+s5cmd sync $SAVE_PATH/Stitched/AbsoOri/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/Enface/Orientation/"
+s5cmd sync $SAVE_PATH/Stitched/Cross/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/Enface/Cross/"
+s5cmd sync $SAVE_PATH/Stitched/Reflectivity/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/Enface/Reflectivity/"
+s5cmd sync $SAVE_PATH/Stitched/Retardance/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/Enface/Retardance/"
 
-s5cmd sync /tmp/jpegs/Cross/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/jpegs/Cross/"
-s5cmd sync /tmp/jpegs/Reflectivity/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/jpegs/Reflectivity/"
-s5cmd sync /tmp/jpegs/Retardance/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/jpegs/Retardance/"
+s5cmd sync $SAVE_PATH/jpegs/Cross/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/jpegs/Cross/"
+s5cmd sync $SAVE_PATH/jpegs/Reflectivity/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/jpegs/Reflectivity/"
+s5cmd sync $SAVE_PATH/jpegs/Retardance/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/jpegs/Retardance/"
 
-s5cmd sync /tmp/TComp/Cross/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/3DTiles/Cross/"
-s5cmd sync /tmp/TComp/Reflectivity/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/3DTiles/Reflectivity/"
-s5cmd sync /tmp/TComp/Retardance/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/3DTiles/Retardance/"
-s5cmd sync /tmp/TComp/AbsoOri/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/3DTiles/Orientation/"
+s5cmd sync $SAVE_PATH/TComp/Cross/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/3DTiles/Cross/"
+s5cmd sync $SAVE_PATH/TComp/Reflectivity/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/3DTiles/Reflectivity/"
+s5cmd sync $SAVE_PATH/TComp/Retardance/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/3DTiles/Retardance/"
+s5cmd sync $SAVE_PATH/TComp/AbsoOri/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/3DTiles/Orientation/"
 
 kill %1
 fusermount3 -u /tmp/cmc-s3-bucket
