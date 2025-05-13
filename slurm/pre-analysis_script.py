@@ -29,7 +29,7 @@ with open(args.csvfile) as csvfile:
 with open(f'/tmp/slice_{slice_num}_wrapper.m', 'w') as filename:
        filename.write(f"""
 P.dir = '/tmp/cmc-s3-bucket/';
-P.Sdir ='/tmp/';
+P.Sdir ='/scratch.global/PSOCT/';
 P.autofolder=1;
 P.DCf1 = '/scratch.local/ComTom_W_Ch1_shifted.dat';
 P.DCf2 = '/scratch.local/ComTom_W_Ch2_shifted.dat';
