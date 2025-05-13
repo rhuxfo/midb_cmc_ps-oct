@@ -11,7 +11,7 @@
 #SBATCH --partition=agsmall
 
 # Timing
-#SBATCH --time=5:30:00
+#SBATCH --time=15:30:00
 
 # Mem per node request
 # In testing, used max of 40G
@@ -38,7 +38,7 @@
 # Scratch Space request
 # Tune for slice range listed above
 # The max space required=500GB (max size for 100 tiles)
-#SBATCH --tmp=300G
+#SBATCH --tmp=500G
 
 
 ###
