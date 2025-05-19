@@ -81,7 +81,7 @@ matlab -nodisplay -nodesktop -nosplash -r "run('/tmp/slice_${SLURM_ARRAY_TASK_ID
 # 4) Write it back to the S3 bucket following bucket structure
 # Bucket structure is different than how the data is saved to scratch.
 # Do not want Orientation dir, or CDP, or A1A2 dirs.
-SAVE_PATH=/scratch.global/PSOCT
+SAVE_PATH=/scratch.local/PSOCT
 module load s5cmd
 s5cmd sync $SAVE_PATH/Stitched/AbsoOri/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/Enface/Orientation/"
 s5cmd sync $SAVE_PATH/Stitched/Cross/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/Enface/Cross/"
