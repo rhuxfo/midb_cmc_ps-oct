@@ -101,20 +101,20 @@ for s = 1:length(slicenum)
     Stitched = ImR(1:d2,1:d1);
     Stitched = rot90(Stitched);
     if n == 3
-        TEnO = EnfaceOffset(Stitched,slicenum(s));
+        TEnO = rot90(Stitched);
         save(Sname,"TEnO");
     elseif n == 4
-        TEnR = EnfaceOffset(Stitched,slicenum(s));
+        TEnR = rot90(Stitched);
         save(Sname,"TEnR");
     elseif n == 5
         TEnAO = Stitched-TEnAOBG;
-        TEnAO = EnfaceOffset(TEnAO,slicenum(s));
+        TEnAO = rot90(TEnAO);
         save(Sname,"TEnAO");
     elseif n == 6
-        TEnCr = EnfaceOffset(Stitched,slicenum(s));
+        TEnCr = rot90(Stitched);
         save(Sname,"TEnCr");
     elseif n == 7
-        TEnRef = EnfaceOffset(Stitched,slicenum(s));
+        TEnRef = rot90(Stitched);
         save(Sname,"TEnRef");
     end
 end
