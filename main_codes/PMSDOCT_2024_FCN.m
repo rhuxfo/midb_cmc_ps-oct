@@ -395,27 +395,27 @@ for SliceInd=1:length(slice)
         if calcCrossPolar ==1
             CallF = fullfile(Call_base,c6);
             SaveF = fullfile(Save_base,c6);
-            [TEnCr]= MStitchFCN_mod(slice(SliceInd),6,SaveF,CallF,TileMtrx,blineLength,Parameters.alines,ov,Flip,TEnAOBG);
+            [TEnCr]= MStitchFCN_mod2(slice(SliceInd),6,SaveF,CallF,TileMtrx,blineLength,Parameters.alines,ov,Flip,TEnAOBG);
         end
         if calcReflectivity == 1
             CallF = fullfile(Call_base,c7);
             SaveF = fullfile(Save_base,c7);
-            [TEnRef]= MStitchFCN_mod(slice(SliceInd),7,SaveF,CallF,TileMtrx,blineLength,Parameters.alines,ov,Flip,TEnAOBG);
+            [TEnRef]= MStitchFCN_mod2(slice(SliceInd),7,SaveF,CallF,TileMtrx,blineLength,Parameters.alines,ov,Flip,TEnAOBG);
         end
         if calcRetardance == 1
             CallF = fullfile(Call_base,c4);
             SaveF = fullfile(Save_base,c4);
-            [TEnR]= MStitchFCN_mod(slice(SliceInd),4,SaveF,CallF,TileMtrx,blineLength,Parameters.alines,ov,Flip,TEnAOBG);
+            [TEnR]= MStitchFCN_mod2(slice(SliceInd),4,SaveF,CallF,TileMtrx,blineLength,Parameters.alines,ov,Flip,TEnAOBG);
         end
         if calcOrientation == 1
             CallF = fullfile(Call_base,c3);
             SaveF = fullfile(Save_base,c3);
-            [TEnO]= MStitchFCN_mod(slice(SliceInd),3,SaveF,CallF,TileMtrx,blineLength,Parameters.alines,ov,Flip,TEnAOBG);
+            [TEnO]= MStitchFCN_mod2(slice(SliceInd),3,SaveF,CallF,TileMtrx,blineLength,Parameters.alines,ov,Flip,TEnAOBG);
         end
         if calcAbsOrientation == 1
             CallF = fullfile(Call_base,c5);
             SaveF = fullfile(Save_base,c5);
-            [TEnAO]= MStitchFCN_mod(slice(SliceInd),5,SaveF,CallF,TileMtrx,blineLength,Parameters.alines,ov,Flip,TEnAOBG);
+            [TEnAO]= MStitchFCN_mod2(slice(SliceInd),5,SaveF,CallF,TileMtrx,blineLength,Parameters.alines,ov,Flip,TEnAOBG);
         end
         status = 2;
     end
