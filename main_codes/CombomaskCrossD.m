@@ -10,10 +10,12 @@ for x =1:A
     for y = 1:B
         el = nnz(MdB(:,x,y));
         EnOReCal(x,y) = squeeze(sum(MdB(:,x,y)))/el;
-        if EnOReCal(x,y) == 0
+        t = isnan(EnOReCal(x,y);
+        if t == 1
         EnOReCal(x,y) = dblimit;
         end
     end
 end
 En = EnOReCal;
 end
+
