@@ -47,10 +47,19 @@
 
 # Input options
 # Options must be provided in this order from the command line
-# e.g. sbatch example_array.sh Moe.csv NAME_OF_RCLONE Moe
-CSV_FILE=$1
-RCLONE_NAME=$2
-SUBJECT_NAME=$3
+# e.g. sbatch example_array.sh NAME_OF_RCLONE Moe 3dtile 30
+
+# Name of your rclone configuration for the bucket
+RCLONE_NAME=$1
+# Name of the monkey
+SUBJECT_NAME=$2
+# Can only be 'enface' or '3dtile'
+# Whether you want to generate enface or 3d tiles
+ENFACE_VS_3DTILE=$3
+# The tile number you want to generate IFF generating 3D tiles 
+3D_TILE_NUM=$4
+
+CSV_FILE='${SUBJECT_NAME}.csv'
 
 # Fetch relevant code from github
 git clone https://github.com/rhuxfo/midb_cmc_ps-oct.git /tmp/midb_cmc_ps-oct
@@ -71,7 +80,7 @@ rclone mount "${RCLONE_NAME}:midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/Raw/${DIR_
 sleep 5 # Takes rclone a second to actually mount
 
 # Write out wrapper functions for a given slice
-python3 pre-analysis_script.py --csvfile ${CSV_FILE} --slicenum ${SLURM_ARRAY_TASK_ID} 
+python3 pre-analysis_script.py --csvfile ${CSV_FILE} --slicenum ${SLURM_ARRAY_TASK_ID} --enface_vs_3dtile ${ENFACE_VS_3DTILE} 
 
 # Launch the matlab code per slice
 export MATLABPATH=/tmp/
