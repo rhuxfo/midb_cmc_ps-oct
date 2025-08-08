@@ -102,7 +102,7 @@ with open(f'/tmp/slice_{slice_num}_wrapper.m', 'w') as filename:
     P.AbOrio = 1;
     P.En = 0;
     P.StitchOnly = 0;
-    P.Flip = 0;
+    P.Flip = 1;
     P.TCsv = 1;
     P.Ensv = 0;
     P.Stsv = 0;
