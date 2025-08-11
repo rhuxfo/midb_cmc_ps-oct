@@ -15,7 +15,7 @@ args = parser.parse_args()
 
 # Sanity checks on inputs
 if not args.enface_vs_3dtile:
-    if 3dtile_num:
+    if args.3dtile_num:
         raise ValueError("Cannot provide 3d tile number if not analyzing 3d tiles. Please provide --enface_vs_3dtile as '3dtile' if you wish to analyze 3d tiles.")
 
 if args.enface_vs_3dtile not in ['3dtile','enface']:

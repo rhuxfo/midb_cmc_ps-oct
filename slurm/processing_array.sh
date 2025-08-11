@@ -59,7 +59,7 @@ ENFACE_VS_3DTILE=$3
 # The tile number you want to generate IFF generating 3D tiles 
 3D_TILE_NUM=$4
 
-CSV_FILE='${SUBJECT_NAME}.csv'
+CSV_FILE=${SUBJECT_NAME}.csv
 
 # Fetch relevant code from github
 git clone https://github.com/rhuxfo/midb_cmc_ps-oct.git /tmp/midb_cmc_ps-oct
