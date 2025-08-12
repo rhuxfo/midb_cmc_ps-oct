@@ -8,7 +8,7 @@ Y = THeight;
 ov = TileOverlap;
 
 xcry = 1:ov;
-ycry = 1/ov*xcry;
+ycry = 1/ov*xcry-(1/(2*ov));
 yc = flip(ycry);
 xc = transpose(yc);
 xcf = flip(xc);
@@ -91,4 +91,5 @@ for i = 1:b1
  end
     end
 end
+
 end
