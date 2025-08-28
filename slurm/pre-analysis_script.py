@@ -19,7 +19,8 @@ if not args.enface_vs_3dtile:
 if args.enface_vs_3dtile not in ['3dtile','enface']:
     raise ValueError("--enface_vs_3dtile option can only be 'enface' or '3dtile'.")
 
-num_3dtile = int(args.num_3dtile)
+if args.enface_vs_3dtile == '3dtile':
+    num_3dtile = int(args.num_3dtile)
 
 # Copy the appropriate raw data
 with open(args.csvfile) as csvfile:
