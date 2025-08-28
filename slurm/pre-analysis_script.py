@@ -10,7 +10,7 @@ parser.add_argument('--csvfile', help='Provide name of the relevant csv file con
 parser.add_argument('--slicenum', help='Please provide the slice number to be analyzed here e.g. 1')
 parser.add_argument('--enface_vs_3dtile', help='Please provide "enface" or "3dtile" representing which you would like to analyze.')
 parser.add_argument('--enface_vs_3dtile', help='Please provide "enface" or "3dtile" representing which you would like to analyze.')
-parser.add_argument('--3dtile_num', help='Please provide the number of the 3d tile you wish to analyze. Only provide if 3dtile is chosen for --enface_vs_3dtile.')
+parser.add_argument('--num_3dtile', help='Please provide the number of the 3d tile you wish to analyze. Only provide if 3dtile is chosen for --enface_vs_3dtile.')
 args = parser.parse_args()
 
 # Sanity checks on inputs
@@ -20,7 +20,7 @@ if not args.enface_vs_3dtile:
 if args.enface_vs_3dtile not in ['3dtile','enface']:
     raise ValueError("--enface_vs_3dtile option can only be 'enface' or '3dtile'.")
 
-3dtile_num = int(args.3dtile_num)
+num_3dtile = int(args.num_3dtile)
 
 # Copy the appropriate raw data
 with open(args.csvfile) as csvfile:
@@ -83,7 +83,7 @@ with open(f'/tmp/slice_{slice_num}_wrapper.m', 'w') as filename:
     P.DCf1 = '/scratch.local/ComTom_W_Ch1_shifted.dat';
     P.DCf2 = '/scratch.local/ComTom_W_Ch2_shifted.dat';
     P.Slices = {slice_num}:{slice_num};
-    P.tiles = {3dtile_num};
+    P.tiles = {num_3dtile};
     P.buffers = 1:100;
     P.baseN = 'Slice_';
     P.tileN = '_Tile_';
