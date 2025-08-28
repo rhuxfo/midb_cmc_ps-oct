@@ -20,6 +20,8 @@ if not args.enface_vs_3dtile:
 if args.enface_vs_3dtile not in ['3dtile','enface']:
     raise ValueError("--enface_vs_3dtile option can only be 'enface' or '3dtile'.")
 
+3dtile_num = int(args.3dtile_num)
+
 # Copy the appropriate raw data
 with open(args.csvfile) as csvfile:
         slice_reader = csv.reader(csvfile)
@@ -81,7 +83,7 @@ with open(f'/tmp/slice_{slice_num}_wrapper.m', 'w') as filename:
     P.DCf1 = '/scratch.local/ComTom_W_Ch1_shifted.dat';
     P.DCf2 = '/scratch.local/ComTom_W_Ch2_shifted.dat';
     P.Slices = {slice_num}:{slice_num};
-    P.tiles = {args.3dtile_num};
+    P.tiles = {3dtile_num};
     P.buffers = 1:100;
     P.baseN = 'Slice_';
     P.tileN = '_Tile_';
