@@ -9,7 +9,6 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--csvfile', help='Provide name of the relevant csv file containing tile sizes here. e.g. Moe.csv')
 parser.add_argument('--slicenum', help='Please provide the slice number to be analyzed here e.g. 1')
 parser.add_argument('--enface_vs_3dtile', help='Please provide "enface" or "3dtile" representing which you would like to analyze.')
-parser.add_argument('--enface_vs_3dtile', help='Please provide "enface" or "3dtile" representing which you would like to analyze.')
 parser.add_argument('--num_3dtile', help='Please provide the number of the 3d tile you wish to analyze. Only provide if 3dtile is chosen for --enface_vs_3dtile.')
 args = parser.parse_args()
 
