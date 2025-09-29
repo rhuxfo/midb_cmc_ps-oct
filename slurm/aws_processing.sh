@@ -92,19 +92,19 @@ matlab -nodisplay -nodesktop -nosplash -r "run('/tmp/slice_${SLURM_ARRAY_TASK_ID
 # Do not want Orientation dir, or CDP, or A1A2 dirs.
 SAVE_PATH=/scratch.local/PSOCT
 module load s5cmd
-s5cmd sync $SAVE_PATH/Stitched/AbsoOri/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/Enface/Orientation/"
-s5cmd sync $SAVE_PATH/Stitched/Cross/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/Enface/Cross/"
-s5cmd sync $SAVE_PATH/Stitched/Reflectivity/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/Enface/Reflectivity/"
-s5cmd sync $SAVE_PATH/Stitched/Retardance/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/Enface/Retardance/"
+rclone sync $SAVE_PATH/Stitched/AbsoOri/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/Orientation/"
+rclone sync $SAVE_PATH/Stitched/Cross/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/Cross/"
+rclone sync $SAVE_PATH/Stitched/Reflectivity/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/Reflectivity/"
+rclone sync $SAVE_PATH/Stitched/Retardance/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/Retardance/"
 
-s5cmd sync $SAVE_PATH/jpegs/Cross/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/jpegs/Cross/"
-s5cmd sync $SAVE_PATH/jpegs/Reflectivity/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/jpegs/Reflectivity/"
-s5cmd sync $SAVE_PATH/jpegs/Retardance/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/jpegs/Retardance/"
+rclone sync $SAVE_PATH/jpegs/Cross/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/jpegs/Cross/"
+rclone sync $SAVE_PATH/jpegs/Reflectivity/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/jpegs/Reflectivity/"
+rclone sync $SAVE_PATH/jpegs/Retardance/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/jpegs/Retardance/"
 
-s5cmd sync $SAVE_PATH/TComp/Cross/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/3DTiles/Cross/"
-s5cmd sync $SAVE_PATH/TComp/Reflectivity/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/3DTiles/Reflectivity/"
-s5cmd sync $SAVE_PATH/TComp/Retardance/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/3DTiles/Retardance/"
-s5cmd sync $SAVE_PATH/TComp/AbsoOri/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/3DTiles/Orientation/"
+rclone sync $SAVE_PATH/TComp/Cross/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/3DTiles/Cross/"
+rclone sync $SAVE_PATH/TComp/Reflectivity/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/3DTiles/Reflectivity/"
+rclone sync $SAVE_PATH/TComp/Retardance/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/3DTiles/Retardance/"
+rclone sync $SAVE_PATH/TComp/AbsoOri/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/3DTiles/Orientation/"
 
 kill %1
 fusermount3 -u /tmp/cmc-s3-bucket
