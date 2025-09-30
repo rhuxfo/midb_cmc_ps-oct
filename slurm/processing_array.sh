@@ -80,7 +80,7 @@ rclone mount "${RCLONE_NAME}:midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/Raw/${DIR_
 sleep 5 # Takes rclone a second to actually mount
 
 # Write out wrapper functions for a given slice
-python3 pre-analysis_script.py --csvfile ${CSV_FILE} --slicenum ${SLURM_ARRAY_TASK_ID} --enface_vs_3dtile ${ENFACE_VS_3DTILE} 
+python3 pre-analysis_script.py --csvfile ${CSV_FILE} --slicenum ${SLURM_ARRAY_TASK_ID} --enface_vs_3dtile ${ENFACE_VS_3DTILE} --num_3dtile ${3D_TILE_NUM}
 
 # Launch the matlab code per slice
 export MATLABPATH=/tmp/
