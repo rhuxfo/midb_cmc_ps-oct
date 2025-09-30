@@ -57,7 +57,7 @@ SUBJECT_NAME=$2
 # Whether you want to generate enface or 3d tiles
 ENFACE_VS_3DTILE=$3
 # The tile number you want to generate IFF generating 3D tiles 
-3D_TILE_NUM=$4
+NUM_3D_TILE=$4
 
 CSV_FILE=${SUBJECT_NAME}.csv
 
@@ -80,7 +80,7 @@ rclone mount "${RCLONE_NAME}:midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/Raw/${DIR_
 sleep 5 # Takes rclone a second to actually mount
 
 # Write out wrapper functions for a given slice
-python3 pre-analysis_script.py --csvfile ${CSV_FILE} --slicenum ${SLURM_ARRAY_TASK_ID} --enface_vs_3dtile ${ENFACE_VS_3DTILE} --num_3dtile ${3D_TILE_NUM}
+python3 pre-analysis_script.py --csvfile ${CSV_FILE} --slicenum ${SLURM_ARRAY_TASK_ID} --enface_vs_3dtile ${ENFACE_VS_3DTILE} --num_3dtile ${NUM_3D_TILE}
 
 # Launch the matlab code per slice
 export MATLABPATH=/tmp/
