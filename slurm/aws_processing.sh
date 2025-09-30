@@ -76,7 +76,8 @@ echo $DIR_DATE
 module load rclone
 MOUNT_PATH=/tmp/cmc-s3-bucket
 mkdir $MOUNT_PATH
-rclone mount "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Raw/${SUBJECT_NAME}/PS-OCT/${DIR_DATE}/" $MOUNT_PATH &
+#rclone mount "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Raw/${SUBJECT_NAME}/PS-OCT/${DIR_DATE}/" $MOUNT_PATH &
+rclone mount "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/PS-OCT/${SUBJECT_NAME}/Raw/${DIR_DATE}/" $MOUNT_PATH &
 sleep 5 # Takes rclone a second to actually mount
 
 # Write out wrapper functions for a given slice
