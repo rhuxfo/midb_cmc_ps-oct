@@ -92,7 +92,6 @@ matlab -nodisplay -nodesktop -nosplash -r "run('/tmp/slice_${SLURM_ARRAY_TASK_ID
 # Bucket structure is different than how the data is saved to scratch.
 # Do not want Orientation dir, or CDP, or A1A2 dirs.
 SAVE_PATH=/scratch.local/PSOCT
-module load rclone
 #rclone sync $SAVE_PATH/Stitched/AbsoOri/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/Orientation/"
 #rclone sync $SAVE_PATH/Stitched/Cross/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/Cross/"
 #rclone sync $SAVE_PATH/Stitched/Reflectivity/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/Reflectivity/"
