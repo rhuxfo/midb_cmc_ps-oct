@@ -33,7 +33,7 @@
 # Set to the slice numbers you want to analyze
 # Can give as 1-3 for range e.g. 1,2,3
 # OR give as 1,5,7 e.g. for particular slices
-#SBATCH --array=1
+#SBATCH --array=170
 
 # Scratch Space request
 # Tune for slice range listed above
@@ -88,23 +88,25 @@ export MATLABPATH=/tmp/
 module load matlab/R2019a
 matlab -nodisplay -nodesktop -nosplash -r "run('/tmp/slice_${SLURM_ARRAY_TASK_ID}_wrapper.m'); exit;"
 
+kill %1
+fusermount3 -u /tmp/cmc-s3-bucket
 # 4) Write it back to the S3 bucket following bucket structure
 # Bucket structure is different than how the data is saved to scratch.
 # Do not want Orientation dir, or CDP, or A1A2 dirs.
 SAVE_PATH=/scratch.local/PSOCT
-#rclone sync $SAVE_PATH/Stitched/AbsoOri/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/Orientation/"
-#rclone sync $SAVE_PATH/Stitched/Cross/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/Cross/"
-#rclone sync $SAVE_PATH/Stitched/Reflectivity/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/Reflectivity/"
-#rclone sync $SAVE_PATH/Stitched/Retardance/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/Retardance/"
+module purge
+module load rclone/1.71.0-r1
 
-#rclone sync $SAVE_PATH/jpegs/Cross/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/jpegs/Cross/"
-#rclone sync $SAVE_PATH/jpegs/Reflectivity/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/jpegs/Reflectivity/"
-#rclone sync $SAVE_PATH/jpegs/Retardance/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/jpegs/Retardance/"
+rclone copy $SAVE_PATH/Stitched/AbsoOri/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/Orientation/" --s3-no-check-bucket
+rclone copy $SAVE_PATH/Stitched/Cross/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/Cross/" --s3-no-check-bucket
+rclone copy $SAVE_PATH/Stitched/Reflectivity/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/Reflectivity/" --s3-no-check-bucket
+rclone copy $SAVE_PATH/Stitched/Retardance/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/Retardance/" --s3-no-check-bucket
+
+rclone copy $SAVE_PATH/jpegs/Cross/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/jpegs/Cross/" --s3-no-check-bucket
+rclone copy $SAVE_PATH/jpegs/Reflectivity/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/jpegs/Reflectivity/" --s3-no-check-bucket
+rclone copy $SAVE_PATH/jpegs/Retardance/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/jpegs/Retardance/" --s3-no-check-bucket
 
 rclone copy $SAVE_PATH/TComp/Cross/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/3DTiles/Cross/" --s3-no-check-bucket
 rclone copy $SAVE_PATH/TComp/Reflectivity/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/3DTiles/Reflectivity/" --s3-no-check-bucket
 rclone copy $SAVE_PATH/TComp/Retardance/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/3DTiles/Retardance/" --s3-no-check-bucket
 rclone copy $SAVE_PATH/TComp/AbsoOri/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/3DTiles/Orientation/" --s3-no-check-bucket
-
-kill %1
-fusermount3 -u /tmp/cmc-s3-bucket
