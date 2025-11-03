@@ -101,21 +101,21 @@ for s = 1:length(slicenum)
     Stitched = ImR(1:d2,1:d1);
     Stitched = rot90(Stitched);
     if n == 3
-        TEnO = rot90(Stitched);
+        TEnO = Stitched;
         save(Sname,"TEnO");
     elseif n == 4
-        TEnR = rot90(Stitched);
+        TEnR = Stitched;
         save(Sname,"TEnR");
     elseif n == 5
         TEnAO = Stitched-TEnAOBG;
-        TEnAO = rot90(TEnAO);
         save(Sname,"TEnAO");
     elseif n == 6
-        TEnCr = rot90(Stitched);
+        TEnCr = Stitched;
         save(Sname,"TEnCr");
     elseif n == 7
-        TEnRef = rot90(Stitched);
+        TEnRef = Stitched;
         save(Sname,"TEnRef");
     end
 end
 end
+
