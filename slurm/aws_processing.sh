@@ -97,6 +97,8 @@ SAVE_PATH=/scratch.local/PSOCT
 module purge
 module load rclone/1.71.0-r1
 
+rclone copy $SAVE_PATH/Enface/Reflectivity/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/Reflectivity/Tiles/" --s3-no-check-bucket
+
 rclone copy $SAVE_PATH/Stitched/AbsoOri/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/Orientation/" --s3-no-check-bucket
 rclone copy $SAVE_PATH/Stitched/Cross/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/Cross/" --s3-no-check-bucket
 rclone copy $SAVE_PATH/Stitched/Reflectivity/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/Reflectivity/" --s3-no-check-bucket
