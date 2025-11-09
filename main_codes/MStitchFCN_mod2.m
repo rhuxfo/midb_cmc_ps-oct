@@ -7,21 +7,6 @@
 %6 : Cross Polarization
 %7 : Reflectivity
 
-function [Stitched] = MStitchFCN_mod2(slice,contrast,SaveFolder,Directory,TileMtrx,alines,blines,overlap,f,TEnAOBG)
-FLIP = f;
-XP = 0;
-Dir = Directory;
-SaveDir = SaveFolder;
-
-slicenum = slice;% contrast = 1,2,3,4,5,6, or 7
-%1 : Chl
-%2 : Ch2
-%3 : Orientation
-%4 : Retardance
-%5 : Absolute Orientation
-%6 : Cross Polarization
-%7 : Reflectivity
-
 function [EnStitch] = MStitchFCN_mod2(slice,contrast,SaveFolder,Directory,TileMtrx,alines,blines,overlap,f,TEnAOBG)
 FLIP = f;
 XP = 0;
@@ -42,9 +27,6 @@ ov = round(((overlap/100)*blines));
 
 A1 = (Y-ov);
 A2 = (X-ov);
-%c = A1/b1;
-%B1 = A1+ov;
-%B2 = A2+ov;
 D1 = (X+A2*b2);
 D2 = (Y+A1*b1);
 d1 = (A2*b2)+ov;
@@ -137,4 +119,5 @@ for s = 1:length(slicenum)
         EnStitch = TEnRef;
         save(Sname,"TEnRef");
     end
+end
 end
