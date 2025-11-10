@@ -63,7 +63,6 @@ with open(f'/tmp/slice_{slice_num}_wrapper.m', 'w') as filename:
     P.Flect = 1;
     P.Retar = 1;
     P.Cr = 1;
-    P.Orio = 0;
     P.AbOrio = 1;
     P.En = 1;
     P.StitchOnly = 0;
@@ -99,7 +98,6 @@ with open(f'/tmp/slice_{slice_num}_wrapper.m', 'w') as filename:
     P.Flect = 1;
     P.Retar = 1;
     P.Cr = 1;
-    P.Orio = 0;
     P.AbOrio = 1;
     P.En = 0;
     P.StitchOnly = 0;
