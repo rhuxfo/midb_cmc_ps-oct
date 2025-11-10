@@ -12,12 +12,13 @@ for x =1:A
         EnOReCal(x,y) = squeeze(sum(MdB(:,x,y)))/el;
         t = isnan(EnOReCal(x,y));
         if t == 1
-        EnOReCal(x,y) = dBlimit;
+        EnOReCal(x,y) = dBlimit/2;
         end
     end
 end
 En = EnOReCal;
 end
+
 
 
 
