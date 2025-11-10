@@ -111,7 +111,6 @@ calcCh1Ch2 = 1;
 calcReflectivity = P.Flect;
 calcRetardance = P.Retar;
 calcCrossPolar = P.Cr;
-calcOrientation = P.Orio;
 calcAbsOrientation = P.AbOrio;
 Enface = P.En;
 dB = 1;
@@ -205,11 +204,6 @@ for SliceInd=1:length(slice)
                 Retardance = Tile_Reff.* exp(1i*atan(abs(CDP2)./abs(CDP1)));
                 %Retardance = (180/pi)*atan(abs(CDP2)./abs(CDP1));
                 
-                if calcOrientation == 1
-                    ePi = exp(1i*pi);
-                    Theta = (ePi./CDiv);
-                    Theta2 = Theta./(abs(Theta));
-                end
                 if calcAbsOrientation == 1
                     a = 180;
                     tempAmp2 = abs(cdp2).^2;
@@ -255,12 +249,7 @@ for SliceInd=1:length(slice)
                     end
                     Tile_cross(:,:,Line)= CH2(st:endc,:);
                 end
-                if calcOrientation == 1
-                    if Line ==1
-                        Tile_O = Tile(st:endc,:,:);
-                    end
-                    Tile_O(:,:,Line)= Theta2(st:endc,:);
-                end
+
                 if calcAbsOrientation == 1
                     if Line ==1
                         RLO2T = zeros(1,scan(end)*Parameters.num_bscans);
@@ -288,10 +277,7 @@ for SliceInd=1:length(slice)
                     disp('Calculating Retardance Enface')
                     EnR = squeeze((180/pi)*angle(sum(Tile_R2(1:cut,:,:))));
                 end
-                if calcOrientation == 1
-                    disp('Calculating Ori Enface')
-                    EnO = Combomask4(Tile_ch1,Tile_ch2,Tile_O,ch1Limit,ch2Limit,cut);
-                end
+
                 if calcAbsOrientation == 1
                     disp('Calculating Abs Ori Enface')
                     
@@ -339,12 +325,7 @@ for SliceInd=1:length(slice)
                     save(SaveFN,'Tile_R2','-v7.3','-nocompression');
                     
                 end
-                if calcOrientation == 1
-                    ON = strcat(save_n,num2str(slice(SliceInd),'%03.f'),'_tile_',num2str(tilenum(TileInd),'%03.f'),'_Orien');
-                    SaveFN = fullfile(Save_base,c3,ON);
-                    save(SaveFN,'Tile_O','-v7.3','-nocompression');
-                    
-                end
+
                 if calcAbsOrientation == 1
                     ON = strcat(save_n,num2str(slice(SliceInd),'%03.f'),'_tile_',num2str(tilenum(TileInd),'%03.f'),'_AbsOrien');
                     SaveFN = fullfile(Save_base,c5,ON);
@@ -372,11 +353,7 @@ for SliceInd=1:length(slice)
                     SaveFN = fullfile(Save_base,c4,ON);
                     save(SaveFN,'EnR');
                 end
-                if calcOrientation == 1
-                     ON = strcat(save_n,num2str(slice(SliceInd)),'_tile_',num2str(tilenum(TileInd)),'_EnO');
-                    SaveFN = fullfile(Save_base,c3,ON);
-                    save(SaveFN,'EnO');
-                end
+
                 if calcAbsOrientation == 1
                     ON = strcat(save_n,num2str(slice(SliceInd)),'_tile_',num2str(tilenum(TileInd)),'_EnAO');
                     SaveFN = fullfile(Save_base,c5,ON);
@@ -407,11 +384,7 @@ for SliceInd=1:length(slice)
             SaveF = fullfile(Save_base,c4);
             [TEnR]= MStitchFCN_mod2(slice(SliceInd),4,SaveF,CallF,TileMtrx,blineLength,Parameters.alines,ov,Flip,TEnAOBG);
         end
-        if calcOrientation == 1
-            CallF = fullfile(Call_base,c3);
-            SaveF = fullfile(Save_base,c3);
-            [TEnO]= MStitchFCN_mod2(slice(SliceInd),3,SaveF,CallF,TileMtrx,blineLength,Parameters.alines,ov,Flip,TEnAOBG);
-        end
+
         if calcAbsOrientation == 1
             CallF = fullfile(Call_base,c5);
             SaveF = fullfile(Save_base,c5);
@@ -443,3 +416,4 @@ for SliceInd=1:length(slice)
 end %slice for loop
 fprintf('Processing completed \n');
 end
+
