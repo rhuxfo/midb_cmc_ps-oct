@@ -55,7 +55,7 @@ for s = 1:length(slicenum)
         for j = 1:b2
             Name = strcat('slice_',num2str(slicenum(s)),'_tile_',num2str(TileMtrx(i,j)),'_',ch);
             filename = fullfile(Dir,Name);
-            sn = strcat('Slice_',num2str(slicenum(s)),'_',ch);
+            sn = strcat('Slice_',num2str(slicenum(s),'%03.f'),'_',ch);
             Sname = fullfile(SaveDir,sn);
             T = load(filename);
 
@@ -121,3 +121,4 @@ for s = 1:length(slicenum)
     end
 end
 end
+
