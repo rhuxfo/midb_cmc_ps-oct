@@ -231,7 +231,7 @@ for SliceInd=1:length(slice)
         clear Raw
         %% Calulate Contrast Enfaces
         if Enface ==1
-            cut = Calib_pixel - 10;
+            cut = 185;
             if calcReflectivity ==1
                 disp('Calculating Reflectivity Enface')
                 EnRef = CombomaskCrossD(Tile_Ref,dBlimit+1,cut);
@@ -374,6 +374,7 @@ if SImg == 1
 end %slice for loop
 fprintf('Processing completed \n');
 end
+
 
 
 
