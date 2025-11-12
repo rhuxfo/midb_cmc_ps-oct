@@ -255,9 +255,9 @@ for SliceInd=1:length(slice)
                 AO_DC_Offset=deg2rad(2*21); %Angle calculated based on the enface axis orientation (True-Read) 
                 Tile_Ori_Off = Tile_Ori.*conj(Calib_Ori).*exp(1i*AO_DC_Offset);
                 EnAO= squeeze((sum(Tile_Ori_Off(1:cut,:,:))));
-                if tilenum(TileInd) ==1
-                    TEnAOBG = MStitchFCN_mod_sub_out(EnAO,TileMtrx,Flip);
-                end
+                %if tilenum(TileInd) ==1
+                 %   TEnAOBG = MStitchFCN_mod_sub_out(EnAO,TileMtrx,Flip);
+                %end
             end
 
         end
@@ -338,22 +338,22 @@ if SStitch ==1
     if calcCrossPolar ==1
         CallF = fullfile(Call_base,c6);
         SaveF = fullfile(Save_base,c6);
-        [TEnCr]= MStitchFCN_Vlad(slice(SliceInd),6,SaveF,CallF,TileMtrx,blineLength,Parameters.alines,ov,Flip,TEnAOBG);
+        [TEnCr]= MStitchFCN_Vlad(slice(SliceInd),6,SaveF,CallF,TileMtrx,blineLength,Parameters.alines,ov,Flip);
     end
     if calcReflectivity == 1
         CallF = fullfile(Call_base,c7);
         SaveF = fullfile(Save_base,c7);
-        [TEnRef]= MStitchFCN_Vlad(slice(SliceInd),7,SaveF,CallF,TileMtrx,blineLength,Parameters.alines,ov,Flip,TEnAOBG);
+        [TEnRef]= MStitchFCN_Vlad(slice(SliceInd),7,SaveF,CallF,TileMtrx,blineLength,Parameters.alines,ov,Flip);
     end
     if calcRetardance == 1
         CallF = fullfile(Call_base,c4);
         SaveF = fullfile(Save_base,c4);
-        [TEnR]= MStitchFCN_Vlad(slice(SliceInd),4,SaveF,CallF,TileMtrx,blineLength,Parameters.alines,ov,Flip,TEnAOBG);
+        [TEnR]= MStitchFCN_Vlad(slice(SliceInd),4,SaveF,CallF,TileMtrx,blineLength,Parameters.alines,ov,Flip);
     end
     if calcAbsOrientation == 1
         CallF = fullfile(Call_base,c5);
         SaveF = fullfile(Save_base,c5);
-        [TEnAO]= MStitchFCN_Vlad(slice(SliceInd),5,SaveF,CallF,TileMtrx,blineLength,Parameters.alines,ov,Flip,TEnAOBG);
+        [TEnAO]= MStitchFCN_Vlad(slice(SliceInd),5,SaveF,CallF,TileMtrx,blineLength,Parameters.alines,ov,Flip);
     end
     status = 2;
 end
@@ -381,5 +381,6 @@ end
 end %slice for loop
 fprintf('Processing completed \n');
 end
+
 
 
