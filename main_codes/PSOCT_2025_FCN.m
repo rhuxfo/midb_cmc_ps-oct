@@ -175,7 +175,7 @@ for SliceInd=1:length(slice)
             end
 
             %Retradance
-            Retardance = Reflectivity.* exp(1i*atan(Amp2./Amp1));
+            Retardance = Reflectivity.* exp(1i*atan(Amp1./Amp2));
 
             %Axis Orientation
             Weighted_DeltaPh = CDP2.*conj(CDP1);
@@ -374,6 +374,7 @@ if SImg == 1
 end %slice for loop
 fprintf('Processing completed \n');
 end
+
 
 
 
