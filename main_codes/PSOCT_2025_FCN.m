@@ -55,8 +55,8 @@ if P.autofolder ==1
 end
 
 % Data size parameters
-XTiles = P.YTiles;
-YTiles = P.XTiles;
+XTiles = P.XTiles;
+YTiles = P.YTiles;
 
 TileMtrx= reshape(1:(XTiles*YTiles), [YTiles, XTiles])';
 
@@ -374,6 +374,7 @@ if SImg == 1
 end %slice for loop
 fprintf('Processing completed \n');
 end
+
 
 
 
