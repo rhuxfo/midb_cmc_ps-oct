@@ -57,14 +57,8 @@ end
 % Data size parameters
 XTiles = P.YTiles;
 YTiles = P.XTiles;
-TileMtrx = zeros(XTiles,YTiles);
-m=0;
-for p=1:YTiles
-    for q=1:XTiles
-        TileMtrx(q,p)= 1+m;
-        m = m+1;
-    end
-end
+
+TileMtrx= reshape(1:(XTiles*YTiles), [YTiles, XTiles])';
 
 % Data size parameters
 slice = P.Slices; %Number of slices / slice being analyzed
@@ -380,6 +374,7 @@ if SImg == 1
 end %slice for loop
 fprintf('Processing completed \n');
 end
+
 
 
 
