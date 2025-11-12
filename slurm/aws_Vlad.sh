@@ -81,7 +81,7 @@ rclone mount "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/PS-OCT/${SUB
 sleep 5 # Takes rclone a second to actually mount
 
 # Write out wrapper functions for a given slice
-python3 pre-analysis_script.py --csvfile ${CSV_FILE} --slicenum ${SLURM_ARRAY_TASK_ID} --enface_vs_3dtile ${ENFACE_VS_3DTILE} --num_3dtile ${NUM_3D_TILE}
+python3 prep.py --csvfile ${CSV_FILE} --slicenum ${SLURM_ARRAY_TASK_ID} --enface_vs_3dtile ${ENFACE_VS_3DTILE} --num_3dtile ${NUM_3D_TILE}
 
 # Launch the matlab code per slice
 export MATLABPATH=/tmp/
