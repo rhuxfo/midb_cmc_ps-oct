@@ -56,7 +56,7 @@ with open(f'/tmp/slice_{slice_num}_wrapper.m', 'w') as filename:
     P.overlap = 10;
     P.depthstart = 10;
     P.depthcut = 200;
-    P.NoiseCut = 55;
+    P.NoiseCut = 30;
     P.disper = 1;
     P.wind = 1;
     P.BGremoval = 1;
@@ -71,7 +71,7 @@ with open(f'/tmp/slice_{slice_num}_wrapper.m', 'w') as filename:
     P.Ensv = 1;
     P.Stsv = 1;
     P.img = 0;
-    Status = PMSDOCT_2024_FCN(P);
+    Status = PSOCT_2025_FCN(P);
     """)
 
         elif args.enface_vs_3dtile == '3dtile':
@@ -91,7 +91,7 @@ with open(f'/tmp/slice_{slice_num}_wrapper.m', 'w') as filename:
     P.overlap = 10;
     P.depthstart = 10;
     P.depthcut = 200;
-    P.NoiseCut = 55;
+    P.NoiseCut = 30;
     P.disper = 1;
     P.wind = 1;
     P.BGremoval = 1;
@@ -106,7 +106,7 @@ with open(f'/tmp/slice_{slice_num}_wrapper.m', 'w') as filename:
     P.Ensv = 0;
     P.Stsv = 0;
     P.img = 0;
-    Status = PMSDOCT_2024_FCN(P);
+    Status = PSOCT_2025_FCN(P);
     """)
        
         filename.close()
