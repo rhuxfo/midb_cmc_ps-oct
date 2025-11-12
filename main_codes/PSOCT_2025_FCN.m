@@ -377,10 +377,10 @@ if SImg == 1
         Temp = rescale(LimdB2D(60,5,TEnR));
         Out = tiff23(TEnR,SaveF,1,Flip);
     end
-end
 end %slice for loop
 fprintf('Processing completed \n');
 end
+
 
 
 
