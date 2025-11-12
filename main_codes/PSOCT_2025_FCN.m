@@ -1,11 +1,11 @@
+function [status] = PSOCT_2025_FCN(P)
 %% Parameter Initialization
 %Setting up files
-data_directory ='C:\VisPSOCT\Recorded Data\Vis PS-OCT new\Vlad\'; %data called from here
-save_directory = 'C:\VisPSOCT\Matlab Codes\Processed_Data\Vlad2\'; %data saved here
-Parameter_directory = 'C:\VisPSOCT\Matlab Codes\Processed_Data\Parameters\';
+data_directory = P.dir; %data called from here
+save_directory = P.Sdir; %Tile data saved here
 
-%data_filename = strcat(data_directory,P.baseN);
-save_n = 'Vlad_slice_';
+data_filename = strcat(data_directory,P.baseN);
+save_n = 'slice_';
 
 %save folders
 CompFolder = 'TComp'; % Full 3D data (Tiles)
@@ -21,112 +21,132 @@ c6 = 'Cross';
 c7 = 'Reflectivity';
 folderNames = {c1,c4,c5,c6,c7};
 
-% % Data size parameters
-% XTiles = P.XTiles;
-% YTiles = P.YTiles;
-% TileMtrx = zeros(XTiles,YTiles);
-% m=0;
-% for p=1:YTiles
-%     for q=1:XTiles
-%         TileMtrx(q,p)= 1+m;
-%         m = m+1;
-%     end
-% end
-
-% % Stiching Parameters
-% XTiles = 3;
-% YTiles = 2;
-% TileMtrx= reshape(1:(XTiles*YTiles), [YTiles, XTiles])';
-
+%automatically create save folders if they do not exist
+if P.autofolder ==1 
+    folder3d = fullfile(P.Sdir,CompFolder);
+    folderEnface = fullfile(P.Sdir,EnFolder);
+    folderStitch = fullfile(P.Sdir,StFolder);
+    folderImg = fullfile(P.Sdir,ImgFolder);
+    
+    if ~exist(folder3d,'dir')
+        mkdir(folder3d);
+        for i=1:length(folderNames)
+            mkdir(fullfile(folder3d,folderNames{i}));
+        end
+    end
+    if ~exist(folderEnface,'dir')
+        mkdir(folderEnface);
+        for i=1:length(folderNames)
+            mkdir(fullfile(folderEnface,folderNames{i}));
+        end
+    end
+    if ~exist(folderStitch,'dir')
+        mkdir(folderStitch);
+        for i=1:length(folderNames)
+            mkdir(fullfile(folderStitch,folderNames{i}));
+        end
+    end
+    if ~exist(folderImg,'dir')
+        mkdir(folderImg);
+        for i=1:length(folderNames)
+            mkdir(fullfile(folderImg,folderNames{i}));
+        end
+    end
+end
 
 % Data size parameters
-slice = 147:147; %Number of slices / slice being analyzed
-tilenum = 17:17; % tile number in slice
-scan = 1:100; %Number scan in the slice
+XTiles = P.YTiles;
+YTiles = P.XTiles;
+TileMtrx = zeros(XTiles,YTiles);
+m=0;
+for p=1:YTiles
+    for q=1:XTiles
+        TileMtrx(q,p)= 1+m;
+        m = m+1;
+    end
+end
 
-st = 20; %the pixel depth to start from in enface
-endc = 650; %900 %the end pixel depth in enface %max:10
-ov = 10;
-Flip = 1;
-dBlimit = 55; %noise floor
+% Data size parameters
+slice = P.Slices; %Number of slices / slice being analyzed
+tilenum = P.tiles; % tile number in slice
+scan = P.buffers; %Number scan in the slice
+
+st = P.depthstart;
+endc = P.depthcut;
+ov = P.overlap;
+Flip = P.Flip;
+dBlimit = P.NoiseCut;
 
 % Load variables
-Parameters.num_bscans = 10; %Number of Buffers
-Parameters.blineLength = 1000; %Number of A lines
-Parameters.alineLength = 2048; %Number of pixels for one Channel
-Parameters.alines = (scan(end)*Parameters.num_bscans); %Number of B lines
-linenum =1:Parameters.blineLength;
-Tile = zeros(endc,Parameters.blineLength,Parameters.alines);
+Pname = strcat(data_filename, num2str(slice(1)),P.tileN,num2str(tilenum(1)),'_840_1.dat');
+filePointer = fopen([data_filename, num2str(slice(1)),P.tileN,num2str(tilenum(1)),'_840_1.dat'], 'r', 'l');
+fprintf('Calling');
+disp(Pname)
+headerStr = fgetl(filePointer); %Getting things from the labview
+evalc(headerStr); %Evaluate header from labview to import variables
+% Variables loaded: alineLength; alinePeriod; blineLength; buffersPerFile;
+%                   clineLength; interAlineInterval; interscanInterval;
+%                   stimDelay; stimDuration; stimEveryBScan; stimVoltage;
+%                   XgalvoVoltageMax; XgalvoVoltageMin; YgalvoVoltageMax;
+%                   YgalvoVoltageMin
+fclose(filePointer);
+Parameters.num_bscans = buffersPerFile;
+Parameters.blineLength = blineLength;
+Parameters.alineLength = alineLength;
+Parameters.alines = (scan(end)*buffersPerFile);
+linenum =1:blineLength;
+Tile = zeros(endc,blineLength,Parameters.alines);
 
 % Data processing actions
 % 1 = do the action; 0 = skip the action
-Parameters.dispersionComp = 1; %Dispersion compensation, optimizes shape of coherence peak
-Parameters.windowData = 1;
-Parameters.background = 1;
-Parameters.Shift=-0.6; %Shift of the the main peaks between channels
-Parameters.CalibShift=-0.64; %Shift of the the Calib peak between channels
+Parameters.dispersionComp = P.disper; %Dispersion compensation, optimizes shape of coherence peak
+Parameters.windowData = P.wind;
+Parameters.background = P.BGremoval;
 
 % 1 = Calculate Contrast
-calcCDP = 1;
-calcReflectivity = 1;
-calcRetardance = 1;
-calcCrossPolar = 1;
-calcAbsOrientation = 1;
-Enface = 1;
+calcCDP = 0;
+calcReflectivity = P.Flect;
+calcRetardance = P.Retar;
+calcCrossPolar = P.Cr;
+calcAbsOrientation = P.AbOrio;
+Enface = P.En;
 dB = 1;
 
 % 1 = Save
-STileComp = 0;
-SEnface = 1;
-SStitch = 0;
-SImg = 0;
+STileComp = P.TCsv;
+SEnface = P.Ensv;
+SStitch = P.Stsv;
+SImg = P.img;
 
 %% Dispersion
 if Parameters.dispersionComp==1 %need to make 1024
-    %Software dispersion compensation creates phase correction vectors using FT shifting properties
-    %Main Dispersion
-    dispcompfile1 = fullfile(Parameter_directory, 'DispComp_Oct25_Water1to4_NoShift_Windowed_Ch1.dat');
+    %Software dispersion compensation creates phase correction vectors
+    %using FT shifting properties
+    dispcompfile1 = fullfile(P.DCf1);
     fid1 = fopen(dispcompfile1,'r');
-    angledisp1 = fread(fid1,2048,'real*8');
+    angledisp1 = fread(fid1,1024,'real*8');
     fclose(fid1);
     Parameters.PhaseCorrection1 = exp(-1i.*angledisp1);
-
-    dispcompfile2 = fullfile(Parameter_directory, 'DispComp_Oct25_Water1to4_NoShift_Windowed_Ch2.dat');
+    
+    dispcompfile2 = fullfile(P.DCf2);
     fid2 = fopen(dispcompfile2,'r');
-    angledisp2 = fread(fid2,2048,'real*8');
+    angledisp2 = fread(fid2,1024,'real*8');
     fclose(fid2);
     Parameters.PhaseCorrection2 = exp(-1i.*angledisp2);
-
-    %Calib Dispersion
-    dispcompfile1 = fullfile(Parameter_directory, 'DispComp_Oct25_Calib_NoShift_Ch1.dat');
-    fid1 = fopen(dispcompfile1,'r');
-    angledisp1 = fread(fid1,2048,'real*8');
-    fclose(fid1);
-    Parameters.CalibCorrection1 = exp(-1i.*angledisp1);
-
-    dispcompfile2 = fullfile(Parameter_directory, 'DispComp_Oct25_Calib_NoShift_Ch2.dat');
-    fid2 = fopen(dispcompfile2,'r');
-    angledisp2 = fread(fid2,2048,'real*8');
-    fclose(fid2);
-    Parameters.CalibCorrection2 = exp(-1i.*angledisp2);
 end
-
 %%
-%Load Interpolation Parameters(constant interpolation wavelengths in k-space)
+% Calculate constant interpolation wavelengths in k-space
 Parameters.InterpZeroPaddingFactor = 4; %Zero-padding factor for interpolation and for zero-padding the bscans
-Parameters.OriginalLineLength = 2048;
-Parameters.CDPZeroPaddingFactor = 1; %Zero-padding factor in calculation of CDP
-Parameters.AutoPeakCorrCut = 0; %10 %Cut low-frequency points to not see big dc offset
-Parameters.Start2=2048+1;
+Parameters.CDPZeroPaddingFactor = 1; %Zero-padding factor in calculation of CDP to determine level of visualization
+Parameters.OriginalLineLength = 1024;
+InterpZeroPaddingLength = Parameters.InterpZeroPaddingFactor*Parameters.OriginalLineLength;
+Start1 = 1;
+Parameters.Start2 = Start1 + Parameters.OriginalLineLength; %1025
 
-filePath = fullfile(Parameter_directory, 'Interp_parameters.mat');
-load(filePath, 'Wavelengths_l','Wavelengths_r','InterpolatedWavelengths','Ks');
-Parameters.Wavelengths_l=Wavelengths_l;
-Parameters.Wavelengths_r= Wavelengths_r;
-Parameters.InterpolatedWavelengths=InterpolatedWavelengths;
-Parameters.Ks=Ks;
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+InterpolationParameters = [InterpZeroPaddingLength, Parameters.OriginalLineLength, Start1, Parameters.OriginalLineLength, Parameters.Start2];
+[Parameters.Wavelengths_l, Parameters.Wavelengths_r, Parameters.InterpolatedWavelengths, ~] = InterpolateWavelengths3(InterpolationParameters); %left and right wavelengths refer to different polarization channels
+Parameters.AutoPeakCorrCut = 10; %Cut low-frequency points to not see big dc offset
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% Process Data
 for SliceInd=1:length(slice)
@@ -135,7 +155,7 @@ for SliceInd=1:length(slice)
         fprintf('Processing tile %d  ...\n', tilenum(TileInd)); %Print out file being processed
 
         %Read in file, zero-pad, and interpolate
-        [Raw,~,BG_lines] = VisPSOCT_Read2024(filename,scan,Parameters);
+        [Raw,~,BG_lines] = Read2024(filename,scan,Parameters);
         
         for BLine = 1:length(linenum)
             fprintf('Processing line %d ...\n',linenum(BLine));
@@ -144,12 +164,12 @@ for SliceInd=1:length(slice)
             Ch2 = b1(Parameters.alineLength+1:end,:);
             
             %Interpolate and Compute complex depth profiles
-            [CDP1, CDP2] = VisPSOCT_InterpandCDP(Ch1, Ch2, Parameters);
+            [CDP1, CDP2] = InterpandCDP2(Ch1, Ch2, Parameters);
 
             %Calibration line
             BG_ch1 = BG_lines(1:Parameters.alineLength,linenum(BLine));
             BG_ch2 = BG_lines(Parameters.alineLength+1:end,linenum(BLine));
-            [BG_CDP1, BG_CDP2] = VisPSOCT_InterpandCDP_Calib(BG_ch1, BG_ch2, Parameters);
+            [BG_CDP1, BG_CDP2] = InterpandCDP2(BG_ch1, BG_ch2, Parameters);
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             
             Amp1 = abs(CDP1);
@@ -167,7 +187,7 @@ for SliceInd=1:length(slice)
             Weighted_DeltaPh = CDP2.*conj(CDP1);
 
             if calcAbsOrientation == 1
-                a = 750; %general location of peak
+                a = 180; %general location of peak
                 Calib_Reflectivity = abs(BG_CDP1).^2 +abs(BG_CDP2).^2;
                 [~,Calib_Loc] = max(Calib_Reflectivity(a:a+100));
                 Calib_pixel = Calib_Loc+a-1;
@@ -217,7 +237,7 @@ for SliceInd=1:length(slice)
         clear Raw
         %% Calulate Contrast Enfaces
         if Enface ==1
-            cut = endc-st;
+            cut = Calib_pixel - 10;
             if calcReflectivity ==1
                 disp('Calculating Reflectivity Enface')
                 EnRef = CombomaskCrossD(Tile_Ref,dBlimit+1,cut);
@@ -232,9 +252,8 @@ for SliceInd=1:length(slice)
             end
             if calcAbsOrientation == 1
                 disp('Calculating Abs Ori Enface')
-                AO_DC_Offset=deg2rad(2*110); %Angle calculated based on the enface axis orientation (True-Read) 
+                AO_DC_Offset=deg2rad(2*21); %Angle calculated based on the enface axis orientation (True-Read) 
                 Tile_Ori_Off = Tile_Ori.*conj(Calib_Ori).*exp(1i*AO_DC_Offset);
-                %Tile_Ori_Off = Tile_Ori .* reshape(conj(Calib_Ori), [1 1 1000]);
                 EnAO= squeeze((sum(Tile_Ori_Off(1:cut,:,:))));
                 if tilenum(TileInd) ==1
                     TEnAOBG = MStitchFCN_mod_sub_out(EnAO,TileMtrx,Flip);
@@ -319,22 +338,22 @@ if SStitch ==1
     if calcCrossPolar ==1
         CallF = fullfile(Call_base,c6);
         SaveF = fullfile(Save_base,c6);
-        [TEnCr]= MStitchFCN_mod2(slice(SliceInd),6,SaveF,CallF,TileMtrx,blineLength,Parameters.alines,ov,Flip,TEnAOBG);
+        [TEnCr]= MStitchFCN_Vlad(slice(SliceInd),6,SaveF,CallF,TileMtrx,blineLength,Parameters.alines,ov,Flip,TEnAOBG);
     end
     if calcReflectivity == 1
         CallF = fullfile(Call_base,c7);
         SaveF = fullfile(Save_base,c7);
-        [TEnRef]= MStitchFCN_mod2(slice(SliceInd),7,SaveF,CallF,TileMtrx,blineLength,Parameters.alines,ov,Flip,TEnAOBG);
+        [TEnRef]= MStitchFCN_Vlad(slice(SliceInd),7,SaveF,CallF,TileMtrx,blineLength,Parameters.alines,ov,Flip,TEnAOBG);
     end
     if calcRetardance == 1
         CallF = fullfile(Call_base,c4);
         SaveF = fullfile(Save_base,c4);
-        [TEnR]= MStitchFCN_mod2(slice(SliceInd),4,SaveF,CallF,TileMtrx,blineLength,Parameters.alines,ov,Flip,TEnAOBG);
+        [TEnR]= MStitchFCN_Vlad(slice(SliceInd),4,SaveF,CallF,TileMtrx,blineLength,Parameters.alines,ov,Flip,TEnAOBG);
     end
     if calcAbsOrientation == 1
         CallF = fullfile(Call_base,c5);
         SaveF = fullfile(Save_base,c5);
-        [TEnAO]= MStitchFCN_mod2(slice(SliceInd),5,SaveF,CallF,TileMtrx,blineLength,Parameters.alines,ov,Flip,TEnAOBG);
+        [TEnAO]= MStitchFCN_Vlad(slice(SliceInd),5,SaveF,CallF,TileMtrx,blineLength,Parameters.alines,ov,Flip,TEnAOBG);
     end
     status = 2;
 end
@@ -358,6 +377,9 @@ if SImg == 1
         Temp = rescale(LimdB2D(60,5,TEnR));
         Out = tiff23(TEnR,SaveF,1,Flip);
     end
+end
 end %slice for loop
 fprintf('Processing completed \n');
+end
+
 
