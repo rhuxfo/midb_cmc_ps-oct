@@ -77,7 +77,7 @@ W(end-ov+1:end,:) = W(end-ov+1:end,:).*xc;
 R2 = W;
 % One Blend left
 W = ones(Y,X);
-W(:,end-ov+1:end) = W(:,end-ov+1:end).*yc;
+W(:,1:ov) = W(:,1:ov).*ycry;
 R3 = W;
 % One Blend top
 W(1:ov,:) = W(1:ov,:).*xcf;
@@ -85,7 +85,7 @@ W = ones(Y,X);
 R4 = W;
 % Sides blended
 W = ones(Y,X);
-W(:,end-ov+1:end) = W(:,end-ov+1:end).*yc;
+W(:,1:ov) = W(:,1:ov).*ycry;
 W(:,end-ov+1:end) = W(:,end-ov+1:end).*yc;
 R5 = W;
 % Top and bottom blended
@@ -143,6 +143,7 @@ for i = 1:b1
 end
 
 end
+
 
 
 
