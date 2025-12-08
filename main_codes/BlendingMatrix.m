@@ -67,8 +67,58 @@ W(:,end-ov+1:end) = W(:,end-ov+1:end).*yc;
 W(end-ov+1:end,:) = W(end-ov+1:end,:).*xc;
 E4 = W;
 
+% One Blend right
+W = ones(Y,X);
+W(:,end-ov+1:end) = W(:,end-ov+1:end).*yc;
+R1 = W;
+% One Blend bottom
+W = ones(Y,X);
+W(end-ov+1:end,:) = W(end-ov+1:end,:).*xc;
+R2 = W;
+% One Blend left
+W = ones(Y,X);
+W(:,end-ov+1:end) = W(:,end-ov+1:end).*yc;
+R3 = W;
+% One Blend top
+W(1:ov,:) = W(1:ov,:).*xcf;
+W = ones(Y,X);
+R4 = W;
+% Sides blended
+W = ones(Y,X);
+W(:,end-ov+1:end) = W(:,end-ov+1:end).*yc;
+W(:,end-ov+1:end) = W(:,end-ov+1:end).*yc;
+R5 = W;
+% Top and bottom blended
+W = ones(Y,X);
+W(1:ov,:) = W(1:ov,:).*xcf;
+W(end-ov+1:end,:) = W(end-ov+1:end,:).*xc;
+R6 = W;
+
+if b1 == 1
+for j = 1:b2
+if j == 1
+Wms{1,j} = R1;
+elseif j == b2
+Wms{1,j} = R3;
+else
+Wms{1,j} = R5;
+end
+end
+
+elseif b2 == 1
 for i = 1:b1
-    for j= 1:b2
+if i == 1
+Wms{i,1} = R2;
+elseif i == b1
+Wms{i,1} = R4;
+else
+Wms{i,1} = R6;
+end
+end
+
+else
+for i = 1:b1
+    for j= 1:b2 
  if i == 1&&j == 1
         Wms{i,j} = C1;
  elseif i == 1&& j == b2
@@ -93,5 +143,6 @@ for i = 1:b1
 end
 
 end
+
 
 
