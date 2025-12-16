@@ -32,9 +32,9 @@ InterpolatedBscans2 = interp1(Parameters.Wavelengths_r, ZeroPaddedBscans2, Param
     end
 %Windowing
 if Parameters.windowData == 1
-    hammingWindow1 = repmat(hamming(Parameters.Start2-1), [1, Parameters.blineLength]);
-    hammingWindow2 = repmat(hamming(Parameters.Start2-1), [1, Parameters.blineLength]);
-
+    hammingWindow1 = repmat(hamming(Parameters.Start2-1), [1, 1]);
+    hammingWindow2 = repmat(hamming(Parameters.Start2-1), [1, 1]);
+    
     InterpolatedBscans1 = InterpolatedBscans1 .* hammingWindow1;
     InterpolatedBscans2 = InterpolatedBscans2 .* hammingWindow2;
 end
