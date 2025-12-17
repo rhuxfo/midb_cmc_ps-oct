@@ -45,7 +45,7 @@ Wms = BlendingMatrix(TileMtrx,ov,Y,X);
     ImR = zeros(D2,D1);
     for i1 = 1:b1
         for i2 = 1:b2
-            ImR((A1*(i1-1)+(1:Y)),(A2*(i2-1)+(1:X))) = ImR((A1*(i1-1)+(2:Y+1)),(A2*(i2-1)+(2:X+1))) + (Wms{i1,i2}).*(ims{i1,i2});
+            ImR((A1*(i1-1)+(1:Y)),(A2*(i2-1)+(1:X))) = ImR((A1*(i1-1)+(1:Y)),(A2*(i2-1)+(1:X))) + (Wms{i1,i2}).*(ims{i1,i2});
         end
     end
     Stitched = ImR(1:d2,1:d1);
@@ -62,3 +62,4 @@ Wms = BlendingMatrix(TileMtrx,ov,Y,X);
 % %title(v)
 % %pause(.1)
 % %end
+
