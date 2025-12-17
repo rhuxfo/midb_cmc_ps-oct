@@ -249,9 +249,9 @@ for SliceInd=1:length(slice)
                 AO_DC_Offset=deg2rad(2*21); %Angle calculated based on the enface axis orientation (True-Read) 
                 Tile_Ori_Off = Tile_Ori.*conj(Calib_Ori).*exp(1i*AO_DC_Offset);
                 EnAO= squeeze((sum(Tile_Ori_Off(1:cut,:,:))));
-                %if tilenum(TileInd) ==1
-                 %   TEnAOBG = MStitchFCN_mod_sub_out(EnAO,TileMtrx,Flip);
-                %end
+                if tilenum(TileInd) ==1
+                   TEnAOBG = MStitchFCN_mod_sub_out(EnAO,TileMtrx,Flip);
+                end
             end
 
         end
@@ -374,6 +374,7 @@ if SImg == 1
 end %slice for loop
 fprintf('Processing completed \n');
 end
+
 
 
 
