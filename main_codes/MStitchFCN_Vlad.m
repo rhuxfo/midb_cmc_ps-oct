@@ -98,6 +98,8 @@ for s = 1:length(slicenum)
         save(Sname,"TEnR");
     elseif n == 5
         TEnAO = Stitched;
+        disp(size(TEnAO));
+        disp(size(TEnAOBG));
         EnStitch = TEnAO-TEnAOBG;
         TEnAO = EnStitch;
         save(Sname,"TEnAO");
