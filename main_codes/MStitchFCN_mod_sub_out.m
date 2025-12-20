@@ -54,7 +54,7 @@ Wms = BlendingMatrix(TileMtrx,ov,Y,X);
 % TEnAO2 = TEnAO - TEnAOBG;
 % %TEnAO3(:,:,w) = TEnAO2;
 % 
-% %end
+end
 % 
 % figure;
 % %for v = 1:10
@@ -62,4 +62,5 @@ Wms = BlendingMatrix(TileMtrx,ov,Y,X);
 % %title(v)
 % %pause(.1)
 % %end
+
 
