@@ -7,7 +7,7 @@ overlap = 10;
 alines = 1000;
 %for w = 1:10
 TileMtrx = TMtrx';
-EnBG = EnAO1.*10;%sum(BGAvg,3).*(1+(w/4));
+EnBG = EnAO1.*5;%sum(BGAvg,3).*(1+(w/4));
 EnAO3 = convn(EnBG,k,'same')./convn(ones(size(EnBG)),k,'same');
 
 %%
@@ -62,6 +62,7 @@ end
 % %title(v)
 % %pause(.1)
 % %end
+
 
 
 
