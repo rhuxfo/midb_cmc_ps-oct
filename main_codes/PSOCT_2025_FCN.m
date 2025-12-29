@@ -170,13 +170,16 @@ for SliceInd=1:length(slice)
             Amp2 = abs(CDP2);
             %Reflectivity
             Reflectivity = (Amp1).^2 + (Amp2).^2;
-            if dB == 1
-                Reflectivity = 10*log10(Reflectivity);
-            end
 
             %Retradance
             Retardance = Reflectivity.* exp(1i*atan(Amp1./Amp2));
-
+            
+            if dB == 1
+                Reflectivity = 10*log10(Reflectivity);
+                Amp1 = 10*log10(Amp1).^2;
+                Amp2 = 10*log10(Amp1).^2; 
+            end
+            
             %Axis Orientation
             Weighted_DeltaPh = CDP2.*conj(CDP1);
 
@@ -374,6 +377,7 @@ if SImg == 1
 end %slice for loop
 fprintf('Processing completed \n');
 end
+
 
 
 
