@@ -176,8 +176,8 @@ for SliceInd=1:length(slice)
             
             if dB == 1
                 Reflectivity = 10*log10(Reflectivity);
-                Amp1 = 10*log10(Amp1).^2;
-                Amp2 = 10*log10(Amp1).^2; 
+                Amp1 = 10*log10(Amp1.^2);
+                Amp2 = 10*log10(Amp2.^2); 
             end
             
             %Axis Orientation
@@ -377,6 +377,7 @@ if SImg == 1
 end %slice for loop
 fprintf('Processing completed \n');
 end
+
 
 
 
