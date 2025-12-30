@@ -25,7 +25,6 @@ if args.enface_vs_3dtile == '3dtile':
 # Copy the appropriate raw data
 with open(args.csvfile) as csvfile:
         slice_reader = csv.reader(csvfile)
-        print(args.slicenum)
         for row in slice_reader:
             if row[1] != args.slicenum:
                     continue
