@@ -237,7 +237,7 @@ for SliceInd=1:length(slice)
             cut = 185;
             if calcReflectivity ==1
                 disp('Calculating Reflectivity Enface')
-                EnRef = CombomaskCrossD(Tile_Ref,dBlimit+1,cut);
+                EnRef = CombomaskCrossD(Tile_Ref,dBlimit+10,cut);
             end
             if calcCrossPolar == 1
                 disp('Calculating Cross Enface')
@@ -377,6 +377,7 @@ if SImg == 1
 end %slice for loop
 fprintf('Processing completed \n');
 end
+
 
 
 
