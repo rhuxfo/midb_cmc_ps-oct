@@ -56,7 +56,7 @@ with open(f'/tmp/slice_{slice_num}_wrapper.m', 'w') as filename:
     P.overlap = 10;
     P.depthstart = 10;
     P.depthcut = 200;
-    P.NoiseCut = 30;
+    P.NoiseCut = 50;
     P.disper = 1;
     P.wind = 1;
     P.BGremoval = 1;
@@ -91,7 +91,7 @@ with open(f'/tmp/slice_{slice_num}_wrapper.m', 'w') as filename:
     P.overlap = 10;
     P.depthstart = 10;
     P.depthcut = 200;
-    P.NoiseCut = 30;
+    P.NoiseCut = 50;
     P.disper = 1;
     P.wind = 1;
     P.BGremoval = 1;
