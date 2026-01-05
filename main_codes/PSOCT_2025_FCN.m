@@ -158,7 +158,7 @@ for SliceInd=1:length(slice)
             Ch2 = b1(Parameters.alineLength+1:end,:);
             
             %Interpolate and Compute complex depth profiles
-            [CDP1, CDP2] = InterpandCDP2(Ch1, Ch2, Parameters);
+            [CDP2, CDP1] = InterpandCDP2(Ch1, Ch2, Parameters);
 
             %Calibration line
             BG_ch1 = BG_lines(1:Parameters.alineLength,linenum(BLine));
@@ -172,12 +172,12 @@ for SliceInd=1:length(slice)
             Reflectivity = (Amp1).^2 + (Amp2).^2;
 
             %Retradance
-            Retardance = Reflectivity.* exp(1i*atan(Amp1./Amp2));
+            Retardance = Reflectivity.* exp(1i*atan(Amp2./Amp1));
             
             if dB == 1
                 Reflectivity = 10*log10(Reflectivity);
-                %Amp1 = 10*log10(Amp1.^2);
-                %Amp2 = 10*log10(Amp2.^2); 
+                Amp1 = 10*log10(Amp1.^2);
+                Amp2 = 10*log10(Amp2.^2); 
             end
             
             %Axis Orientation
@@ -241,7 +241,7 @@ for SliceInd=1:length(slice)
             end
             if calcCrossPolar == 1
                 disp('Calculating Cross Enface')
-                EnCr = CombomaskCrossD(10*log10(Tile_cross).^2,dBlimit,cut);
+                EnCr = CombomaskCrossD(Tile_cross,dBlimit,cut);
             end
             if calcRetardance == 1
                 disp('Calculating Retardance Enface')
@@ -377,6 +377,7 @@ if SImg == 1
 end %slice for loop
 fprintf('Processing completed \n');
 end
+
 
 
 
