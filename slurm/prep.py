@@ -46,7 +46,7 @@ with open(f'/tmp/slice_{slice_num}_wrapper.m', 'w') as filename:
     P.autofolder=1;
     P.DCf1 = '/scratch.local/ComTom_W_Ch1_shifted.dat';
     P.DCf2 = '/scratch.local/ComTom_W_Ch2_shifted.dat';
-    P.BG = '/scratch/EnBG.mat';
+    P.BG = '/scratch.local/EnBG.mat';
     P.Slices = {slice_num}:{slice_num};
     P.tiles = 1:{max_tile};
     P.buffers = 1:100;
