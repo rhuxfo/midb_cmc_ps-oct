@@ -56,7 +56,7 @@ end
 
 % Data size parameters
 XTiles = P.XTiles;
-YTiles = P.YTiles;
+YTiles = P.YTiles; 
 
 TileMtrx= reshape(1:(XTiles*YTiles), [YTiles, XTiles])';
 
@@ -70,6 +70,7 @@ endc = P.depthcut;
 ov = P.overlap;
 Flip = P.Flip;
 dBlimit = P.NoiseCut;
+Ret_noise_level = P.NoiseCut;
 
 % Load variables
 Pname = strcat(data_filename, num2str(slice(1)),P.tileN,num2str(tilenum(1)),'_840_1.dat');
@@ -90,7 +91,7 @@ Parameters.alineLength = alineLength;
 Parameters.alines = (scan(end)*buffersPerFile);
 linenum =1:blineLength;
 Tile = zeros(endc,blineLength,Parameters.alines);
-
+%OT = zeros(255,104);
 % Data processing actions
 % 1 = do the action; 0 = skip the action
 Parameters.dispersionComp = P.disper; %Dispersion compensation, optimizes shape of coherence peak
@@ -112,6 +113,13 @@ SEnface = P.Ensv;
 SStitch = P.Stsv;
 SImg = P.img;
 
+if Parameters.background ==1
+    filename = P.BG;
+    load(filename);
+    k = ones(20,20);
+EnBG = BG2.*5.5;
+EnAO3 = convn(EnBG,k,'same')./convn(ones(size(EnBG)),k,'same');
+end
 %% Dispersion
 if Parameters.dispersionComp==1 %need to make 1024
     %Software dispersion compensation creates phase correction vectors
@@ -120,13 +128,13 @@ if Parameters.dispersionComp==1 %need to make 1024
     fid1 = fopen(dispcompfile1,'r');
     angledisp1 = fread(fid1,1024,'real*8');
     fclose(fid1);
-    Parameters.PhaseCorrection1 = exp(-1i.*angledisp1);
+    Parameters.PhaseCorrection2 = exp(-1i.*angledisp1);
     
     dispcompfile2 = fullfile(P.DCf2);
     fid2 = fopen(dispcompfile2,'r');
     angledisp2 = fread(fid2,1024,'real*8');
     fclose(fid2);
-    Parameters.PhaseCorrection2 = exp(-1i.*angledisp2);
+    Parameters.PhaseCorrection1 = exp(-1i.*angledisp2);
 end
 %%
 % Calculate constant interpolation wavelengths in k-space
@@ -138,8 +146,14 @@ Start1 = 1;
 Parameters.Start2 = Start1 + Parameters.OriginalLineLength; %1025
 
 InterpolationParameters = [InterpZeroPaddingLength, Parameters.OriginalLineLength, Start1, Parameters.OriginalLineLength, Parameters.Start2];
-[Parameters.Wavelengths_l, Parameters.Wavelengths_r, Parameters.InterpolatedWavelengths, ~] = InterpolateWavelengths3(InterpolationParameters); %left and right wavelengths refer to different polarization channels
+[Parameters.Wavelengths_l, Parameters.Wavelengths_r, Parameters.InterpolatedWavelengths, Ks] = InterpolateWavelengths4(InterpolationParameters); %left and right wavelengths refer to different polarization channels
 Parameters.AutoPeakCorrCut = 10; %Cut low-frequency points to not see big dc offset
+if Parameters.dispersionComp == 2
+    sh = 40.5/(2*pi);
+    zm = 2.35*10^-3;
+    Arg = Ks*(sh)*(zm)/512;
+    Parameters.PhaseCorrection1 = exp(-1i.*Arg);
+end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% Process Data
@@ -163,25 +177,27 @@ for SliceInd=1:length(slice)
             %Calibration line
             BG_ch1 = BG_lines(1:Parameters.alineLength,linenum(BLine));
             BG_ch2 = BG_lines(Parameters.alineLength+1:end,linenum(BLine));
-            [BG_CDP1, BG_CDP2] = InterpandCDP2(BG_ch1, BG_ch2, Parameters);
+            [BG_CDP2, BG_CDP1] = InterpandCDP2(BG_ch1, BG_ch2, Parameters);
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             
             Amp1 = abs(CDP1);
             Amp2 = abs(CDP2);
+            
             %Reflectivity
             Reflectivity = (Amp1).^2 + (Amp2).^2;
 
-            %Retradance
-            Retardance = Reflectivity.* exp(1i*atan(Amp2./Amp1));
-            
             if dB == 1
                 Reflectivity = 10*log10(Reflectivity);
                 Amp1 = 10*log10(Amp1.^2);
                 Amp2 = 10*log10(Amp2.^2); 
             end
+
+            %Retardance = Reflectivity.* exp(1i*atan(Amp2./Amp1));
+            Retardance = (Reflectivity-Ret_noise_level).*(Reflectivity>=Ret_noise_level).* exp(1i*atan(Amp2./Amp1));
             
             %Axis Orientation
             Weighted_DeltaPh = CDP2.*conj(CDP1);
+            Weighted_DeltaPh_min = (Weighted_DeltaPh./(Amp1.*Amp2)).*(min(Amp1,Amp2).^2);%%%%
 
             if calcAbsOrientation == 1
                 a = 180; %general location of peak
@@ -226,9 +242,11 @@ for SliceInd=1:length(slice)
                 if BLine ==1
                     Calib_Ori = zeros(1,scan(end)*Parameters.num_bscans);
                     Tile_Ori = Tile(st:endc,:,:);
+                    Tile_Ori_min = Tile(st:endc,:,:);
                 end
                 Calib_Ori(1,BLine) = Calib_Orientation;
                 Tile_Ori(:,:,BLine)= Weighted_DeltaPh(st:endc,:);
+                Tile_Ori_min(:,:,BLine)= Weighted_DeltaPh_min(st:endc,:);
             end
         end
         clear Raw
@@ -245,16 +263,21 @@ for SliceInd=1:length(slice)
             end
             if calcRetardance == 1
                 disp('Calculating Retardance Enface')
-                EnR = squeeze((180/pi)*angle(sum(Tile_R(1:cut,:,:))));
+                %EnR = squeeze((180/pi)*angle(sum(Tile_R(1:cut,:,:))));
+                EnR = squeeze(sum(Tile_R(1:cut,:,:)));
             end
             if calcAbsOrientation == 1
                 disp('Calculating Abs Ori Enface')
                 AO_DC_Offset=deg2rad(2*21); %Angle calculated based on the enface axis orientation (True-Read) 
                 Tile_Ori_Off = Tile_Ori.*conj(Calib_Ori).*exp(1i*AO_DC_Offset);
+                %Tile_Ori_Off_min = Tile_Ori_min.*conj(Calib_Ori).*exp(1i*AO_DC_Offset);
                 EnAO= squeeze((sum(Tile_Ori_Off(1:cut,:,:))));
-                if tilenum(TileInd) == tilenum(end)
-                   TEnAOBG = MStitchFCN_mod_sub_out(EnAO,TileMtrx,Flip);
-                end
+                %EnAOm= squeeze((sum(Tile_Ori_Off_min(1:cut,:,:))));
+                %Ori_test = squeeze(mean(Tile_Ori_min,2));
+                %OT(:,tilenum(TileInd)) = squeeze(mean(Ori_test,2));
+                % if tilenum(TileInd) == tilenum(end)
+                %    TEnAOBG = MStitchFCN_mod_sub_out(EnAO,TileMtrx,Flip);
+                % end
             end
 
         end
@@ -332,25 +355,26 @@ if SStitch ==1
     disp('Stitching Tiles')
     Call_base = strcat(save_directory,EnFolder);
     Save_base = strcat(save_directory,StFolder);
+    
     if calcCrossPolar ==1
         CallF = fullfile(Call_base,c6);
         SaveF = fullfile(Save_base,c6);
-        [TEnCr]= MStitchFCN_Vlad(slice(SliceInd),6,SaveF,CallF,TileMtrx,blineLength,Parameters.alines,ov,Flip,TEnAOBG);
+        [TEnCr]= MStitchFCN_Vlad(slice(SliceInd),6,SaveF,CallF,TileMtrx,blineLength,Parameters.alines,ov,Flip,EnAO3);
     end
     if calcReflectivity == 1
         CallF = fullfile(Call_base,c7);
         SaveF = fullfile(Save_base,c7);
-        [TEnRef]= MStitchFCN_Vlad(slice(SliceInd),7,SaveF,CallF,TileMtrx,blineLength,Parameters.alines,ov,Flip,TEnAOBG);
+        [TEnRef]= MStitchFCN_Vlad(slice(SliceInd),7,SaveF,CallF,TileMtrx,blineLength,Parameters.alines,ov,Flip,EnAO3);
     end
     if calcRetardance == 1
         CallF = fullfile(Call_base,c4);
         SaveF = fullfile(Save_base,c4);
-        [TEnR]= MStitchFCN_Vlad(slice(SliceInd),4,SaveF,CallF,TileMtrx,blineLength,Parameters.alines,ov,Flip,TEnAOBG);
+        [TEnR]= MStitchFCN_Vlad(slice(SliceInd),4,SaveF,CallF,TileMtrx,blineLength,Parameters.alines,ov,Flip,EnAO3);
     end
     if calcAbsOrientation == 1
         CallF = fullfile(Call_base,c5);
         SaveF = fullfile(Save_base,c5);
-        [TEnAO]= MStitchFCN_Vlad(slice(SliceInd),5,SaveF,CallF,TileMtrx,blineLength,Parameters.alines,ov,Flip,TEnAOBG);
+        [TEnAO]= MStitchFCN_Vlad(slice(SliceInd),5,SaveF,CallF,TileMtrx,blineLength,Parameters.alines,ov,Flip,EnAO3);
     end
     status = 2;
 end
@@ -377,20 +401,3 @@ if SImg == 1
 end %slice for loop
 fprintf('Processing completed \n');
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
