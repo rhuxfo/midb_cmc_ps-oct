@@ -7,7 +7,7 @@
 %6 : Cross Polarization
 %7 : Reflectivity
 
-function [EnStitch] = MStitchFCN_Vlad(slice,contrast,SaveFolder,Directory,TileMtrx,alines,blines,overlap,f,TEnAOBG)
+function [EnStitch] = MStitchFCN_Vlad(slice,contrast,SaveFolder,Directory,TileMtrx,alines,blines,overlap,f,BG1)
 FLIP = f;
 XP = 0;
 Dir = Directory;
@@ -56,6 +56,7 @@ for s = 1:length(slicenum)
                 Tile = T.EnR;
             elseif n == 5
                 Tile = squeeze(T.EnAO);
+                Tile = Tile-BG1;
             elseif n == 6
                 Tile = T.EnCr;
             elseif n == 7
@@ -98,10 +99,7 @@ for s = 1:length(slicenum)
         save(Sname,"TEnR");
     elseif n == 5
         TEnAO = Stitched;
-        disp(size(TEnAO));
-        disp(size(TEnAOBG));
-        EnStitch = TEnAO-TEnAOBG;
-        TEnAO = EnStitch;
+        EnStitch = TEnAO;
         save(Sname,"TEnAO");
     elseif n == 6
         TEnCr = Stitched;
