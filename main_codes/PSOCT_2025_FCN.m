@@ -117,7 +117,7 @@ if Parameters.background ==1
     filename = P.BG;
     load(filename);
     k = ones(20,20);
-EnBG = BG2.*2.5;
+EnBG = BG2;
 EnAO3 = convn(EnBG,k,'same')./convn(ones(size(EnBG)),k,'same');
 end
 %% Dispersion
@@ -400,6 +400,7 @@ if SImg == 1
 end %slice for loop
 fprintf('Processing completed \n');
 end
+
 
 
 
