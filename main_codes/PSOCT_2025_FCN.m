@@ -190,7 +190,7 @@ for SliceInd=1:length(slice)
 
             %Retardance = Reflectivity.* exp(1i*atan(Amp2./Amp1));
             %Axis Orientation
-            %Weighted_DeltaPh = CDP2.*conj(CDP1);
+            Weighted_DeltaPh = CDP2.*conj(CDP1);
             Weighted_DeltaPh_min = (Weighted_DeltaPh./(Amp1.*Amp2)).*(min(Amp1,Amp2).^2);%%%%
 
             if calcAbsOrientation == 1
@@ -400,5 +400,6 @@ if SImg == 1
 end %slice for loop
 fprintf('Processing completed \n');
 end
+
 
 
