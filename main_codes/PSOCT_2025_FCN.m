@@ -117,7 +117,7 @@ if Parameters.background ==1
     filename = P.BG;
     load(filename);
     k = ones(20,20);
-EnBG = BG2.*5.5;
+EnBG = BG2.*2.5;
 EnAO3 = convn(EnBG,k,'same')./convn(ones(size(EnBG)),k,'same');
 end
 %% Dispersion
@@ -188,13 +188,12 @@ for SliceInd=1:length(slice)
 
             if dB == 1
                 Reflectivity = 10*log10(Reflectivity);
+                Retardance = (Reflectivity-Ret_noise_level).*(Reflectivity>=Ret_noise_level).* exp(1i*atan(Amp2./Amp1));
                 Amp1 = 10*log10(Amp1.^2);
                 Amp2 = 10*log10(Amp2.^2); 
             end
 
             %Retardance = Reflectivity.* exp(1i*atan(Amp2./Amp1));
-            Retardance = (Reflectivity-Ret_noise_level).*(Reflectivity>=Ret_noise_level).* exp(1i*atan(Amp2./Amp1));
-            
             %Axis Orientation
             Weighted_DeltaPh = CDP2.*conj(CDP1);
             Weighted_DeltaPh_min = (Weighted_DeltaPh./(Amp1.*Amp2)).*(min(Amp1,Amp2).^2);%%%%
@@ -401,3 +400,4 @@ if SImg == 1
 end %slice for loop
 fprintf('Processing completed \n');
 end
+
