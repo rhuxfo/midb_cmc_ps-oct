@@ -173,11 +173,6 @@ for SliceInd=1:length(slice)
             
             %Interpolate and Compute complex depth profiles
             [CDP2, CDP1] = InterpandCDP2(Ch1, Ch2, Parameters);
-
-            %Calibration line
-            BG_ch1 = BG_lines(1:Parameters.alineLength,linenum(BLine));
-            BG_ch2 = BG_lines(Parameters.alineLength+1:end,linenum(BLine));
-            [BG_CDP2, BG_CDP1] = InterpandCDP2(BG_ch1, BG_ch2, Parameters);
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             
             Amp1 = abs(CDP1);
@@ -186,19 +181,23 @@ for SliceInd=1:length(slice)
             %Reflectivity
             Reflectivity = (Amp1).^2 + (Amp2).^2;
 
-            if dB == 1
-                Reflectivity = 10*log10(Reflectivity);
-                Retardance = (Reflectivity-Ret_noise_level).*(Reflectivity>=Ret_noise_level).* exp(1i*atan(Amp2./Amp1));
-                Amp1 = 10*log10(Amp1.^2);
-                Amp2 = 10*log10(Amp2.^2); 
-            end
+            %if dB == 1
+            Reflectivity = 10*log10(Reflectivity);
+            Retardance = (Reflectivity-Ret_noise_level).*(Reflectivity>=Ret_noise_level).* exp(1i*atan(Amp2./Amp1));
+            Amp1 = 10*log10(Amp1.^2);
+            Amp2 = 10*log10(Amp2.^2); 
+           % end
 
             %Retardance = Reflectivity.* exp(1i*atan(Amp2./Amp1));
             %Axis Orientation
-            Weighted_DeltaPh = CDP2.*conj(CDP1);
+            %Weighted_DeltaPh = CDP2.*conj(CDP1);
             Weighted_DeltaPh_min = (Weighted_DeltaPh./(Amp1.*Amp2)).*(min(Amp1,Amp2).^2);%%%%
 
             if calcAbsOrientation == 1
+             %Calibration line
+                BG_ch1 = BG_lines(1:Parameters.alineLength,linenum(BLine));
+                BG_ch2 = BG_lines(Parameters.alineLength+1:end,linenum(BLine));
+                [BG_CDP2, BG_CDP1] = InterpandCDP2(BG_ch1, BG_ch2, Parameters);
                 a = 180; %general location of peak
                 Calib_Reflectivity = abs(BG_CDP1).^2 +abs(BG_CDP2).^2;
                 [~,Calib_Loc] = max(Calib_Reflectivity(a:a+100));
@@ -240,15 +239,16 @@ for SliceInd=1:length(slice)
             if calcAbsOrientation == 1
                 if BLine ==1
                     Calib_Ori = zeros(1,scan(end)*Parameters.num_bscans);
-                    Tile_Ori = Tile(st:endc,:,:);
+                    %Tile_Ori = Tile(st:endc,:,:);
                     Tile_Ori_min = Tile(st:endc,:,:);
                 end
                 Calib_Ori(1,BLine) = Calib_Orientation;
-                Tile_Ori(:,:,BLine)= Weighted_DeltaPh(st:endc,:);
+                %Tile_Ori(:,:,BLine)= Weighted_DeltaPh(st:endc,:);
                 Tile_Ori_min(:,:,BLine)= Weighted_DeltaPh_min(st:endc,:);
             end
         end
         clear Raw
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         %% Calulate Contrast Enfaces
         if Enface ==1
             cut = 185;
@@ -268,10 +268,10 @@ for SliceInd=1:length(slice)
             if calcAbsOrientation == 1
                 disp('Calculating Abs Ori Enface')
                 AO_DC_Offset=deg2rad(2*21); %Angle calculated based on the enface axis orientation (True-Read) 
-                Tile_Ori_Off = Tile_Ori.*conj(Calib_Ori).*exp(1i*AO_DC_Offset);
-                %Tile_Ori_Off_min = Tile_Ori_min.*conj(Calib_Ori).*exp(1i*AO_DC_Offset);
-                EnAO= squeeze((sum(Tile_Ori_Off(1:cut,:,:))));
-                %EnAOm= squeeze((sum(Tile_Ori_Off_min(1:cut,:,:))));
+                %Tile_Ori_Off = Tile_Ori.*conj(Calib_Ori).*exp(1i*AO_DC_Offset);
+                Tile_Ori_Off_min = Tile_Ori_min.*conj(Calib_Ori).*exp(1i*AO_DC_Offset);
+                %EnAO= squeeze((sum(Tile_Ori_Off(1:cut,:,:))));
+                EnAO= squeeze((sum(Tile_Ori_Off_min(1:cut,:,:))));
                 %Ori_test = squeeze(mean(Tile_Ori_min,2));
                 %OT(:,tilenum(TileInd)) = squeeze(mean(Ori_test,2));
                 % if tilenum(TileInd) == tilenum(end)
@@ -400,4 +400,5 @@ if SImg == 1
 end %slice for loop
 fprintf('Processing completed \n');
 end
+
 
