@@ -28,7 +28,8 @@ for i = 1:length(slices)
     [N,E] = histcounts(TEnRef);
     [~,idx]= max(N(5:end));
     A = ceil(E(1,idx+5));
-
+    
+    clear N E
 
     if Flip == 1
         TEnRef = flip(TEnRef);
@@ -61,8 +62,11 @@ for i = 1:length(slices)
     Out2 = tiff23(TempCr,SaveNaCr,1,Flip);
     Out3 = tiff23(TempR,SaveNaR,1,Flip);
     %imwrite(TempOri,SaveNaOri);
+
+    clear Out1 Out2 Out3
 end
 end
+
 
 
 
