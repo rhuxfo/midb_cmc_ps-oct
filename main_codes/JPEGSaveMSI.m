@@ -2,7 +2,7 @@ function Out1 = JPEGSaveMSI(Dir,Sdir,slices,Flip)
 
 for i = 1:length(slices)
     f = slices(i);
-
+    disp(f)
     fileNaRef = strcat('Slice_',num2str(f,'%03.f'),'_EnRef.mat');
     fileNaRef = fullfile(Dir,'Reflectivity',fileNaRef);
     fileNaR = strcat('Slice_',num2str(f,'%03.f'),'_EnR.mat');
@@ -66,6 +66,7 @@ for i = 1:length(slices)
     clear Out1 Out2 Out3
 end
 end
+
 
 
 
