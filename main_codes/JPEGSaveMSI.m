@@ -8,7 +8,7 @@ for i = 1:length(slices)
     fileNaR = strcat('Retardance\Slice_',num2str(f,'%03.f'),'_EnR.mat');
     fileNaR = fullfile(Dir,fileNaR);
     fileNaCr = strcat('Cross\Slice_',num2str(f,'%03.f'),'_EnCr.mat');
-    fileNaRef = fullfile(Dir,fileNaCr);
+    fileNaCr = fullfile(Dir,fileNaCr);
     fileNaOri = strcat('AbsoOri\Slice_',num2str(f,'%03.f'),'_EnAO.mat');
     fileNaOri = fullfile(Dir,fileNaOri);
 
@@ -60,6 +60,7 @@ for i = 1:length(slices)
     imwrite(TempOri,SaveNaOri);
 end
 end
+
 
 
 
