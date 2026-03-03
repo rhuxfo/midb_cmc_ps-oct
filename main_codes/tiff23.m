@@ -13,8 +13,10 @@ img1=medfilt2(Image1(:,:),medflt);
    else
 img1 = imresize(img1,newsize,'nearest'); 
    end
+   fprintf('imwrite')
 imwrite(img1,Savename);
 
 A = img1;
 
 end
+
