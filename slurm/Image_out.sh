@@ -25,11 +25,6 @@
 #SBATCH --output=logs/%A_%a.out
 #SBATCH --error=logs/%A_%a.err
 
-# Must set mail-type to ARRAY_TASKS to get notified per array job and not entire set
-#SBATCH --mail-type=ARRAY_TASKS
-#SBATCH --mail-type=END,FAIL
-#SBATCH --mail-user=huxfo013@umn.edu
-
 # Set to the slice numbers you want to analyze
 # Can give as 1-3 for range e.g. 1,2,3
 # OR give as 1,5,7 e.g. for particular slices
@@ -47,8 +42,8 @@
 
 SLST=$1
 SLEND=$2
-RCLONE_NAME=cmcs3
-SUBJECT_NAME=Zebel
+RCLONE_NAME=$3
+SUBJECT_NAME=$4
 
 # Fetch relevant code from github
 git clone https://github.com/rhuxfo/midb_cmc_ps-oct.git /tmp/midb_cmc_ps-oct
@@ -58,24 +53,27 @@ cp /tmp/midb_cmc_ps-oct/main_codes/* /tmp/
 module load rclone
 MOUNT_PATH=/tmp/cmc-s3-bucket
 mkdir $MOUNT_PATH
-rclone mount "${RCLONE_NAME}:midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/Enface/Reflectivity/" $MOUNT_PATH &
+rclone mount "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/" $MOUNT_PATH &
 sleep 5 # Takes rclone a second to actually mount
 
 mkdir /tmp/Reflectivity/
+mkdir /tmp/Retardance/
+mkdir /tmp/Cross/
+mkdir /tmp/Orientation/
 
 # Launch the matlab code per slice
 export MATLABPATH=/tmp/
 module load matlab/R2019a
-matlab -nodisplay -nodesktop -nosplash -r "Dir= '${MOUNT_PATH}/'; Sdir = '/tmp/Reflectivity/'; SL =${SLST}:${SLEND}; gifStack(Dir,Sdir,SL);  exit;"
+matlab -nodisplay -nodesktop -nosplash -r "Dir= '${MOUNT_PATH}/'; Sdir = '/tmp/'; SL =${SLST}:${SLEND}; JPEGSaveMSI(Dir,Sdir,SL,0);  exit;"
 
 # 4) Write it back to the S3 bucket following bucket structure
 # Bucket structure is different than how the data is saved to scratch.
 # Do not want Orientation dir, or CDP, or A1A2 dirs.
 module load s5cmd
-#s5cmd sync /tmp/Stitched/AbsoOri/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/jpegs/Orientation/"
-#s5cmd sync /tmp/Stitched/Cross/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/jpegs/Cross/"
-s5cmd sync /tmp/Reflectivity/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/jpegs/Reflectivity/"
-#s5cmd sync /tmp/Stitched/Retardance/ "s3://midb-cmc-nonhuman/PS-OCT/${SUBJECT_NAME}/jpegs/Retardance/"
+s5cmd sync /tmp/Orientation/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/jpegs/Orientation/"
+s5cmd sync /tmp/Cross/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/jpegs/Cross/"
+s5cmd sync /tmp/Reflectivity/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/jpegs/Reflectivity/"
+s5cmd sync /tmp/Retardance/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/jpegs/Retardance/"
 
 kill %1
 fusermount3 -u /tmp/cmc-s3-bucket
