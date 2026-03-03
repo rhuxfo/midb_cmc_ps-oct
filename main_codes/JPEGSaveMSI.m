@@ -54,12 +54,13 @@ for i = 1:length(slices)
     %Mt1 = TEnRef>A;
     %TempOri = Ori2RBG(TEnAO,TempR);
 
-    Out1 = tiff23(TempRef,SaveNaRef,1);
-    Out2 = tiff23(TempCr,SaveNaCr,1);
-    Out3 = tiff23(TempR,SaveNaR,1);
+    Out1 = tiff23(TempRef,SaveNaRef,1,Flip);
+    Out2 = tiff23(TempCr,SaveNaCr,1,Flip);
+    Out3 = tiff23(TempR,SaveNaR,1,Flip);
     %imwrite(TempOri,SaveNaOri);
 end
 end
+
 
 
 
