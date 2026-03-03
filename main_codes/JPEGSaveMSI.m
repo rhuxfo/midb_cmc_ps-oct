@@ -9,18 +9,18 @@ for i = 1:length(slices)
     fileNaR = fullfile(Dir,'Retardance',fileNaR);
     fileNaCr = strcat('Slice_',num2str(f,'%03.f'),'_EnCr.mat');
     fileNaCr = fullfile(Dir,'Cross',fileNaCr);
-    fileNaOri = strcat('Slice_',num2str(f,'%03.f'),'_EnAO.mat');
-    fileNaOri = fullfile(Dir,'Orientation',fileNaOri);
+    %fileNaOri = strcat('Slice_',num2str(f,'%03.f'),'_EnAO.mat');
+    %fileNaOri = fullfile(Dir,'Orientation',fileNaOri);
 
     SaveNaRef = strcat(Sdir,'Slice_',num2str(f,'%03.f'),'_Ref.jpeg');
     SaveNaR = strcat(Sdir,'Slice_',num2str(f,'%03.f'),'_R.jpeg');
     SaveNaCr = strcat(Sdir,'Slice_',num2str(f,'%03.f'),'_Cr.jpeg');
-    SaveNaOri = strcat(Sdir,'Slice_',num2str(f,'%03.f'),'_Ori.jpeg');
+    %SaveNaOri = strcat(Sdir,'Slice_',num2str(f,'%03.f'),'_Ori.jpeg');
 
     load(fileNaRef)
     load(fileNaR)
     load(fileNaCr)
-    load(fileNaOri)
+    %load(fileNaOri)
     
     [N,E] = histcounts(TEnRef);
     [~,idx]= max(N(5:end));
@@ -52,14 +52,15 @@ for i = 1:length(slices)
     %ind2 = TEnR4>(Inx/100);
     %TEnR4(ind2) = 0;
     %Mt1 = TEnRef>A;
-    TempOri = Ori2RBG(TEnAO,TempR);
+    %TempOri = Ori2RBG(TEnAO,TempR);
 
     Out1 = tiff23(TempRef,SaveNaRef,1);
     Out2 = tiff23(TempCr,SaveNaCr,1);
     Out3 = tiff23(TempR,SaveNaR,1);
-    imwrite(TempOri,SaveNaOri);
+    %imwrite(TempOri,SaveNaOri);
 end
 end
+
 
 
 
