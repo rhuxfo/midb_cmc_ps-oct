@@ -10,7 +10,7 @@ for i = 1:length(slices)
     fileNaCr = strcat('Slice_',num2str(f,'%03.f'),'_EnCr.mat');
     fileNaCr = fullfile(Dir,'Cross',fileNaCr);
     fileNaOri = strcat('Slice_',num2str(f,'%03.f'),'_EnAO.mat');
-    fileNaOri = fullfile(Dir,'AbsoOri',fileNaOri);
+    fileNaOri = fullfile(Dir,'Orientation',fileNaOri);
 
     SaveNaRef = strcat(Sdir,'Slice_',num2str(f,'%03.f'),'_Ref.jpeg');
     SaveNaR = strcat(Sdir,'Slice_',num2str(f,'%03.f'),'_R.jpeg');
@@ -60,6 +60,7 @@ for i = 1:length(slices)
     imwrite(TempOri,SaveNaOri);
 end
 end
+
 
 
 
