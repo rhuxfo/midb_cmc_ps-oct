@@ -64,7 +64,7 @@ mkdir /tmp/Orientation/
 # Launch the matlab code per slice
 export MATLABPATH=/tmp/
 module load matlab/R2019a
-matlab -nodisplay -nodesktop -nosplash -r "Dir= '${MOUNT_PATH}/'; Sdir = '/tmp/'; SL =${SLST}:${SLEND}; JPEGSaveMSI(Dir,Sdir,SL,0);  exit;"
+matlab -nodisplay -nodesktop -nosplash -r "Dir= '${MOUNT_PATH}/'; Sdir = '/tmp/'; SL =${SLST}:${SLEND}; Out1 = JPEGSaveMSI(Dir,Sdir,SL,0);  exit;"
 
 # 4) Write it back to the S3 bucket following bucket structure
 # Bucket structure is different than how the data is saved to scratch.
