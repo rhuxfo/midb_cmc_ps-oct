@@ -3,10 +3,14 @@ function Out1 = JPEGSaveMSI(Dir,Sdir,slices,Flip)
 for i = 1:length(slices)
     f = slices(i);
 
-    fileNaRef = strcat(Dir,'Reflectivity\Slice_',num2str(f,'%03.f'),'_EnRef.mat');
-    fileNaR = strcat(Dir,'Retardance\Slice_',num2str(f,'%03.f'),'_EnR.mat');
-    fileNaCr = strcat(Dir,'Cross\Slice_',num2str(f,'%03.f'),'_EnCr.mat');
-    fileNaOri = strcat(Dir,'AbsoOri\Slice_',num2str(f,'%03.f'),'_EnAO.mat');
+    fileNaRef = strcat('Reflectivity\Slice_',num2str(f,'%03.f'),'_EnRef.mat');
+    fileNaRef = fullfile(Dir,fileNaRef);
+    fileNaR = strcat('Retardance\Slice_',num2str(f,'%03.f'),'_EnR.mat');
+    fileNaR = fullfile(Dir,fileNaR);
+    fileNaCr = strcat('Cross\Slice_',num2str(f,'%03.f'),'_EnCr.mat');
+    fileNaRef = fullfile(Dir,fileNaCr);
+    fileNaOri = strcat('AbsoOri\Slice_',num2str(f,'%03.f'),'_EnAO.mat');
+    fileNaOri = fullfile(Dir,fileNaOri);
 
     SaveNaRef = strcat(Sdir,'Slice_',num2str(f,'%03.f'),'_Ref.jpeg');
     SaveNaR = strcat(Sdir,'Slice_',num2str(f,'%03.f'),'_R.jpeg');
@@ -56,5 +60,6 @@ for i = 1:length(slices)
     imwrite(TempOri,SaveNaOri);
 end
 end
+
 
 
