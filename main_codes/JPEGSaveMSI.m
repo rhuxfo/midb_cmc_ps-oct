@@ -37,13 +37,13 @@ for i = 1:length(slices)
         TEnCr = flip(TEnCr);
         TEnAO = flip(TEnAO);
 
-    else
+    end
         TempRef = rescale(LimdB2D(A+12,A,TEnRef));
         TempCr = rescale(LimdB2D(A,55,TEnCr));
         TEnR = rad2deg(angle(TEnR));
         TEnR3 = LimdB2D(60,5,TEnR);
         TempR = rescale(TEnR3);
-    end
+        
     % C = zeros(100);
     % for q = 1:100
     %     j = q/100;
@@ -66,6 +66,7 @@ for i = 1:length(slices)
     clear Out1 Out2 Out3
 end
 end
+
 
 
 
