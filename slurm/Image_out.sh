@@ -15,7 +15,7 @@
 
 # Mem per node request
 # In testing, used max of 40G
-#SBATCH --mem=10G
+#SBATCH --mem=50G
 
 # Request a specific number of cores
 # per slice aka task
@@ -33,7 +33,7 @@
 # Scratch Space request
 # Tune for slice range listed above
 # The max space required=500GB (max size for 100 tiles)
-#SBATCH --tmp=10G
+#SBATCH --tmp=50G
 
 
 ###
