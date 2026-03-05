@@ -70,10 +70,10 @@ matlab -nodisplay -nodesktop -nosplash -r "Dir= '${MOUNT_PATH}/'; Sdir = '/tmp/'
 # Bucket structure is different than how the data is saved to scratch.
 # Do not want Orientation dir, or CDP, or A1A2 dirs.
 module load s5cmd
-s5cmd sync /tmp/Orientation/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/jpegs/Orientation/"
-s5cmd sync /tmp/Cross/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/jpegs/Cross/"
-s5cmd sync /tmp/Reflectivity/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/jpegs/Reflectivity/"
-s5cmd sync /tmp/Retardance/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/jpegs/Retardance/"
+rclone copy /tmp/Orientation/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/jpegs/Orientation/"
+rclone copy /tmp/Cross/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/jpegs/Cross/"
+rclone copy /tmp/Reflectivity/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/jpegs/Reflectivity/"
+rclone copy /tmp/Retardance/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/jpegs/Retardance/"
 
 kill %1
 fusermount3 -u /tmp/cmc-s3-bucket
