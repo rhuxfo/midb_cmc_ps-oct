@@ -15,7 +15,7 @@
 
 # Mem per node request
 # In testing, used max of 40G
-#SBATCH --mem=50G
+#SBATCH --mem=40G
 
 # Request a specific number of cores
 # per slice aka task
