@@ -5,25 +5,19 @@ for i = 1:length(slices)
     disp(f)
     fileNaRef = strcat('Slice_',num2str(f,'%03.f'),'_EnRef.mat');
     fileNaRef = fullfile(Dir,'Reflectivity',fileNaRef);
-    disp(fileNaRef)
     fileNaR = strcat('Slice_',num2str(f,'%03.f'),'_EnR.mat');
     fileNaR = fullfile(Dir,'Retardance',fileNaR);
-    disp(fileNaR)
     fileNaCr = strcat('Slice_',num2str(f,'%03.f'),'_EnCr.mat');
     fileNaCr = fullfile(Dir,'Cross',fileNaCr);
-    disp(fileNaCr)
     %fileNaOri = strcat('Slice_',num2str(f,'%03.f'),'_EnAO.mat');
     %fileNaOri = fullfile(Dir,'Orientation',fileNaOri);
 
     SaveNaRef = strcat('Slice_',num2str(f,'%03.f'),'_Ref.jpeg');
     SaveNaRef = fullfile(Sdir,'Reflectivity',SaveNaRef);
-    disp(SaveNaRef)
     SaveNaR = strcat('Slice_',num2str(f,'%03.f'),'_R.jpeg');
     SaveNaR = fullfile(Sdir,'Retardance',SaveNaR);
-    disp(SaveNaR)
     SaveNaCr = strcat('Slice_',num2str(f,'%03.f'),'_Cr.jpeg');
     SaveNaCr = fullfile(Sdir,'Cross',SaveNaCr);
-    disp(SaveNaCr)
     %SaveNaOri = strcat('Slice_',num2str(f,'%03.f'),'_Ori.jpeg');
 
     load(fileNaRef)
@@ -62,15 +56,14 @@ for i = 1:length(slices)
     %TEnR4(ind2) = 0;
     %Mt1 = TEnRef>A;
     %TempOri = Ori2RBG(TEnAO,TempR);
-fprintf('tiff23')
     Out1 = tiff23(TempRef,SaveNaRef,1,Flip);
     Out2 = tiff23(TempCr,SaveNaCr,1,Flip);
     Out3 = tiff23(TempR,SaveNaR,1,Flip);
     %imwrite(TempOri,SaveNaOri);
+    
+end
+end
 
-    clear Out1 Out2 Out3
-end
-end
 
 
 
