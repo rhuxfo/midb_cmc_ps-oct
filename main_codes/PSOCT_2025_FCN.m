@@ -171,8 +171,9 @@ for SliceInd=1:length(slice)
             %Interpolate and Compute complex depth profiles
             [CDP2, CDP1] = InterpandCDP2(Ch1, Ch2, Parameters);
             %% Correction factor removal
-            Tempcfm = squeeze(CFM(BLine,:));
-            L = CDP1.*conj(Tempcfm);
+            %Tempcfm = squeeze(CFM(BLine,:));
+            %L = CDP1.*conj(Tempcfm);
+            L = 0;
             C_CDP2 = CDP2 - L;
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             
@@ -401,6 +402,7 @@ if SImg == 1
 end %slice for loop
 fprintf('Processing completed \n');
 end
+
 
 
 
