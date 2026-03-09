@@ -116,9 +116,6 @@ SImg = P.img;
 if Parameters.background ==1
     filename = P.BG;
     load(filename);
-    k = ones(20,20);
-EnBG = BG2;
-EnAO3 = convn(EnBG,k,'same')./convn(ones(size(EnBG)),k,'same');
 end
 %% Dispersion
 if Parameters.dispersionComp==1 %need to make 1024
@@ -173,10 +170,14 @@ for SliceInd=1:length(slice)
             
             %Interpolate and Compute complex depth profiles
             [CDP2, CDP1] = InterpandCDP2(Ch1, Ch2, Parameters);
+            %% Correction factor removal
+            Tempcfm = squeeze(CFM(BLine,:));
+            L = CDP1.*conj(Tempcfm);
+            C_CDP2 = CDP2 - L;
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             
             Amp1 = abs(CDP1);
-            Amp2 = abs(CDP2);
+            Amp2 = abs(C_CDP2);
             
             %Reflectivity
             Reflectivity = (Amp1).^2 + (Amp2).^2;
@@ -190,7 +191,7 @@ for SliceInd=1:length(slice)
 
             %Retardance = Reflectivity.* exp(1i*atan(Amp2./Amp1));
             %Axis Orientation
-            Weighted_DeltaPh = CDP2.*conj(CDP1);
+            Weighted_DeltaPh = C_CDP2.*conj(CDP1);
             Weighted_DeltaPh_min = (Weighted_DeltaPh./(Amp1.*Amp2)).*(min(Amp1,Amp2).^2);%%%%
 
             if calcAbsOrientation == 1
@@ -358,22 +359,22 @@ if SStitch ==1
     if calcCrossPolar ==1
         CallF = fullfile(Call_base,c6);
         SaveF = fullfile(Save_base,c6);
-        [TEnCr]= MStitchFCN_Vlad(slice(SliceInd),6,SaveF,CallF,TileMtrx,blineLength,Parameters.alines,ov,Flip,EnAO3);
+        [TEnCr]= MStitchFCN_Vlad(slice(SliceInd),6,SaveF,CallF,TileMtrx,blineLength,Parameters.alines,ov,Flip);
     end
     if calcReflectivity == 1
         CallF = fullfile(Call_base,c7);
         SaveF = fullfile(Save_base,c7);
-        [TEnRef]= MStitchFCN_Vlad(slice(SliceInd),7,SaveF,CallF,TileMtrx,blineLength,Parameters.alines,ov,Flip,EnAO3);
+        [TEnRef]= MStitchFCN_Vlad(slice(SliceInd),7,SaveF,CallF,TileMtrx,blineLength,Parameters.alines,ov,Flip);
     end
     if calcRetardance == 1
         CallF = fullfile(Call_base,c4);
         SaveF = fullfile(Save_base,c4);
-        [TEnR]= MStitchFCN_Vlad(slice(SliceInd),4,SaveF,CallF,TileMtrx,blineLength,Parameters.alines,ov,Flip,EnAO3);
+        [TEnR]= MStitchFCN_Vlad(slice(SliceInd),4,SaveF,CallF,TileMtrx,blineLength,Parameters.alines,ov,Flip);
     end
     if calcAbsOrientation == 1
         CallF = fullfile(Call_base,c5);
         SaveF = fullfile(Save_base,c5);
-        [TEnAO]= MStitchFCN_Vlad(slice(SliceInd),5,SaveF,CallF,TileMtrx,blineLength,Parameters.alines,ov,Flip,EnAO3);
+        [TEnAO]= MStitchFCN_Vlad(slice(SliceInd),5,SaveF,CallF,TileMtrx,blineLength,Parameters.alines,ov,Flip);
     end
     status = 2;
 end
@@ -400,6 +401,7 @@ if SImg == 1
 end %slice for loop
 fprintf('Processing completed \n');
 end
+
 
 
 
