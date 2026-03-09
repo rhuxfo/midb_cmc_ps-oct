@@ -7,7 +7,7 @@
 %6 : Cross Polarization
 %7 : Reflectivity
 
-function [EnStitch] = MStitchFCN_Vlad(slice,contrast,SaveFolder,Directory,TileMtrx,alines,blines,overlap,f,BG1)
+function [EnStitch] = MStitchFCN_Vlad(slice,contrast,SaveFolder,Directory,TileMtrx,alines,blines,overlap,f)
 FLIP = f;
 XP = 0;
 Dir = Directory;
@@ -56,7 +56,6 @@ for s = 1:length(slicenum)
                 Tile = T.EnR;
             elseif n == 5
                 Tile = squeeze(T.EnAO);
-                Tile = Tile-BG1;
             elseif n == 6
                 Tile = T.EnCr;
             elseif n == 7
