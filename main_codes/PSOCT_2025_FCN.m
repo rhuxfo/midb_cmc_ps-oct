@@ -143,7 +143,7 @@ Start1 = 1;
 Parameters.Start2 = Start1 + Parameters.OriginalLineLength; %1025
 
 InterpolationParameters = [InterpZeroPaddingLength, Parameters.OriginalLineLength, Start1, Parameters.OriginalLineLength, Parameters.Start2];
-[Parameters.Wavelengths_l, Parameters.Wavelengths_r, Parameters.InterpolatedWavelengths, Ks] = InterpolateWavelengths4(InterpolationParameters); %left and right wavelengths refer to different polarization channels
+[Parameters.Wavelengths_l, Parameters.Wavelengths_r, Parameters.InterpolatedWavelengths, Ks] = InterpolateWavelengths5(InterpolationParameters); %left and right wavelengths refer to different polarization channels
 Parameters.AutoPeakCorrCut = 10; %Cut low-frequency points to not see big dc offset
 if Parameters.dispersionComp == 2
     sh = 40.5/(2*pi);
@@ -401,6 +401,7 @@ if SImg == 1
 end %slice for loop
 fprintf('Processing completed \n');
 end
+
 
 
 
