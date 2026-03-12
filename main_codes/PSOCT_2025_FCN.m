@@ -117,6 +117,7 @@ if Parameters.background ==1
     filename = fullfile(P.BG);
     load(filename);
     %CFM2 = CFM.CFM2;
+    disp(filename)
 end
 %% Dispersion
 if Parameters.dispersionComp==1 %need to make 1024
@@ -404,6 +405,7 @@ if SImg == 1
 end %slice for loop
 fprintf('Processing completed \n');
 end
+
 
 
 
