@@ -173,12 +173,12 @@ for SliceInd=1:length(slice)
             %% Correction factor removal
             %Tempcfm = squeeze(CFM(BLine,:));
             %L = CDP1.*conj(Tempcfm);
-            L = 0;
-            C_CDP2 = CDP2 - L;
+            %L = 0;
+            %C_CDP2 = CDP2 - L;
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             
             Amp1 = abs(CDP1);
-            Amp2 = abs(C_CDP2);
+            Amp2 = abs(CDP2);
             
             %Reflectivity
             Reflectivity = (Amp1).^2 + (Amp2).^2;
@@ -192,7 +192,7 @@ for SliceInd=1:length(slice)
 
             %Retardance = Reflectivity.* exp(1i*atan(Amp2./Amp1));
             %Axis Orientation
-            Weighted_DeltaPh = C_CDP2.*conj(CDP1);
+            Weighted_DeltaPh = CDP2.*conj(CDP1);
             Weighted_DeltaPh_min = (Weighted_DeltaPh./(Amp1.*Amp2)).*(min(Amp1,Amp2).^2);%%%%
 
             if calcAbsOrientation == 1
@@ -273,12 +273,13 @@ for SliceInd=1:length(slice)
                 %Tile_Ori_Off = Tile_Ori.*conj(Calib_Ori).*exp(1i*AO_DC_Offset);
                 Tile_Ori_Off_min = Tile_Ori_min.*conj(Calib_Ori).*exp(1i*AO_DC_Offset);
                 %EnAO= squeeze((sum(Tile_Ori_Off(1:cut,:,:))));
-                EnAO= squeeze((sum(Tile_Ori_Off_min(1:cut,:,:))));
-                %Ori_test = squeeze(mean(Tile_Ori_min,2));
-                %OT(:,tilenum(TileInd)) = squeeze(mean(Ori_test,2));
-                % if tilenum(TileInd) == tilenum(end)
-                %    TEnAOBG = MStitchFCN_mod_sub_out(EnAO,TileMtrx,Flip);
-                % end
+                EnAO1= squeeze((sum(Tile_Ori_Off_min(1:cut,:,:))));
+                EnAOMag = rescale(LimdB2D(87,73,(10*log10(abs(EnAO1)))));
+                EnAOMag2 = 1-EnAOMag;
+                CFM3 = angle(CFM2);
+                CFM3 = EnAOMag2.*CFM3;
+                CFM4 = exp(1i*CFM3);
+                EnAO = EnAO1.*conj(CFM4);
             end
 
         end
@@ -402,6 +403,7 @@ if SImg == 1
 end %slice for loop
 fprintf('Processing completed \n');
 end
+
 
 
 
