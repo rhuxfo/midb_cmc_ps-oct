@@ -191,7 +191,7 @@ Date,Slice,Tiles X,Tiles Y,ImPos X,ImPos Y,Slice Size X,Slice Size Y,Speed,Osc,C
 8/5/2025,188,8,13,,,,,,,,,,,104
 8/5/2025,189,8,13,,,,,,,,,,,104
 8/5/2025,190,8,13,,,,,,,,,,,104
-8/7/2025,191,8,12,21.0593,81.3926,,,,,,,,,96
+8/7/2025,191,8,13,21.0593,81.3926,,,,,,,,,104
 8/7/2025,192,8,12,,,,,,,,,,,96
 8/7/2025,193,8,12,,,,,,,,,,,96
 8/7/2025,194,8,12,,,,,,,,,,,96
@@ -229,9 +229,9 @@ Date,Slice,Tiles X,Tiles Y,ImPos X,ImPos Y,Slice Size X,Slice Size Y,Speed,Osc,C
 8/13/2025,226,5,8,31.0593,92.5926,,,,,,,pushed the plunger twice for a good cut.,,40
 8/13/2025,227,5,8,,,,,,,,,pushed the plunger twice for a good cut.,,40
 8/13/2025,228,5,8,,,,,,,,,"plunger dint move up for the first push, second push cut was thinner",,40
-8/15/2025,229,5,7,,,,,,,,,cut was good with one push ,,35
-8/15/2025,230,5,7,,,,,,,,,,,35
-8/15/2025,231,5,7,31.0593,95.5926,,,,,,,plunger moved with good push,,35
+8/15/2025,229,5,8,,,,,,,,,cut was good with one push ,,40
+8/15/2025,230,5,8,,,,,,,,,,,40
+8/15/2025,231,5,8,31.0593,95.5926,,,,,,,plunger moved with good push,,40
 8/15/2025,232,5,7,,,,,,,,,plunger dint move up 2 times - at the 3rd time it sliced,,35
 8/15/2025,233,5,7,,,,,,,,,plunger moved in the second push,,35
 8/15/2025,234,5,7,,,,,,,,,good cut for the first push,,35
@@ -246,4 +246,4 @@ Date,Slice,Tiles X,Tiles Y,ImPos X,ImPos Y,Slice Size X,Slice Size Y,Speed,Osc,C
 8/15/2025,243,3,4,37.3593,103.593,,,,,,,had to move the plunger for 2 times for a good cut,,12
 8/15/2025,244,3,4,,,,,,,,,sliced in the first cut,,12
 8/15/2025,245,3,4,,,,,,,,,,,12
-,,,,,,,,,,,,,,23277
+,,,,,,,,,,,,,,23300
