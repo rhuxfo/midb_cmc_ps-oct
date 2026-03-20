@@ -10,6 +10,7 @@ disp(d1)
 disp(d2)
 for i = 1:d1
     for j = 1:d2 
+    disp(i)
         ind = round(Ang2(i,j)); 
         Col(i,j,:) = c(ind,:);
     end
