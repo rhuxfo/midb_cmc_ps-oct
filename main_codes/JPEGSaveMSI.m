@@ -9,8 +9,8 @@ for i = 1:length(slices)
     fileNaR = fullfile(Dir,'Retardance',fileNaR);
     fileNaCr = strcat('Slice_',num2str(f,'%03.f'),'_EnCr.mat');
     fileNaCr = fullfile(Dir,'Cross',fileNaCr);
-    %fileNaOri = strcat('Slice_',num2str(f,'%03.f'),'_EnAO.mat');
-    %fileNaOri = fullfile(Dir,'Orientation',fileNaOri);
+    fileNaOri = strcat('Slice_',num2str(f,'%03.f'),'_EnAO.mat');
+    fileNaOri = fullfile(Dir,'Orientation',fileNaOri);
 
     SaveNaRef = strcat('Slice_',num2str(f,'%03.f'),'_Ref.jpeg');
     SaveNaRef = fullfile(Sdir,'Reflectivity',SaveNaRef);
@@ -18,12 +18,12 @@ for i = 1:length(slices)
     SaveNaR = fullfile(Sdir,'Retardance',SaveNaR);
     SaveNaCr = strcat('Slice_',num2str(f,'%03.f'),'_Cr.jpeg');
     SaveNaCr = fullfile(Sdir,'Cross',SaveNaCr);
-    %SaveNaOri = strcat('Slice_',num2str(f,'%03.f'),'_Ori.jpeg');
+    SaveNaOri = strcat('Slice_',num2str(f,'%03.f'),'_Ori.jpeg');
 
     load(fileNaRef)
     load(fileNaR)
     load(fileNaCr)
-    %load(fileNaOri)
+    load(fileNaOri)
     
     [N,E] = histcounts(TEnRef);
     [~,idx]= max(N(5:end));
@@ -35,12 +35,12 @@ for i = 1:length(slices)
         TEnRef = flip(TEnRef);
         TEnR = flip(TEnR);
         TEnCr = flip(TEnCr);
-        %TEnAO = flip(TEnAO);
+        TEnAO = flip(TEnAO);
     end
         TempRef = rescale(LimdB2D(A+12,A,TEnRef));
         TempCr = rescale(LimdB2D(A,55,TEnCr));
         TEnR = rad2deg(angle(TEnR));
-        TEnR3 = LimdB2D(60,5,TEnR);
+        TEnR3 = LimdB2D(55,5,TEnR);
         TempR = rescale(TEnR3);
         
     % C = zeros(100);
@@ -55,7 +55,7 @@ for i = 1:length(slices)
     %ind2 = TEnR4>(Inx/100);
     %TEnR4(ind2) = 0;
     %Mt1 = TEnRef>A;
-    %TempOri = Ori2RBG(TEnAO,TempR);
+    TempOri = Ori2RBG(TEnAO,TempR);
     Out1 = tiff23(TempRef,SaveNaRef,1,Flip);
     Out2 = tiff23(TempCr,SaveNaCr,1,Flip);
     Out3 = tiff23(TempR,SaveNaR,1,Flip);
