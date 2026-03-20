@@ -6,7 +6,8 @@ c = hsv;
 Ang = angle(TEnAO)/2;
 Ang2 = rescale(Ang,1,256);
 Col = zeros(d1,d2,3);
-
+disp(d1)
+disp(d2)
 for i = 1:d1
     for j = 1:d2 
         ind = round(Ang2(i,j)); 
