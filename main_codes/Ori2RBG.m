@@ -14,7 +14,7 @@ for i = 1:d1
     end
 end
 
-TR0s = LimdB2D(.95,.2,rescale(TEnR));
+TR0s = LimdB2D(.95,.05,rescale(TEnR));
 TR0s = rescale(TR0s);
 
 TempOri = Col.*TR0s;
