@@ -63,6 +63,7 @@ for i = 1:length(slices)
     imwrite(TempOri,SaveNaOri);
     
 end
+fprintf('Complete')
 end
 
 
