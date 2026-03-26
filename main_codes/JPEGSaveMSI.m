@@ -20,6 +20,7 @@ for i = 1:length(slices)
     SaveNaCr = fullfile(Sdir,'Cross',SaveNaCr);
     SaveNaOri = strcat('Slice_',num2str(f,'%03.f'),'_Ori.jpeg');
     SaveNaOri = fullfile(Sdir,'Orientation',SaveNaOri);
+    disp(SaveNaOri)
 
     load(fileNaRef)
     load(fileNaR)
