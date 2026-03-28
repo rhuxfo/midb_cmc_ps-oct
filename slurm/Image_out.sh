@@ -56,24 +56,23 @@ mkdir $MOUNT_PATH
 rclone mount "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/" $MOUNT_PATH &
 sleep 5 # Takes rclone a second to actually mount
 
-mkdir /tmp/Reflectivity/
-mkdir /tmp/Retardance/
-mkdir /tmp/Cross/
-mkdir /tmp/Orientation/
+SAVE_PATH=/scratch.local/PSOCT
 
 # Launch the matlab code per slice
 export MATLABPATH=/tmp/
 module load matlab/R2019a
-matlab -nodisplay -nodesktop -nosplash -r "Dir= '${MOUNT_PATH}/'; Sdir = '/tmp/'; SL =${SLST}:${SLEND}; Out1 = JPEGSaveMSI(Dir,Sdir,SL,0);  exit;"
-
-# 4) Write it back to the S3 bucket following bucket structure
-# Bucket structure is different than how the data is saved to scratch.
-# Do not want Orientation dir, or CDP, or A1A2 dirs.
-module load s5cmd
-rclone copy /tmp/Orientation/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/jpegs/Orientation/"
-rclone copy /tmp/Cross/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/jpegs/Cross/"
-rclone copy /tmp/Reflectivity/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/jpegs/Reflectivity/"
-rclone copy /tmp/Retardance/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/jpegs/Retardance/"
+matlab -nodisplay -nodesktop -nosplash -r "Dir= '${MOUNT_PATH}/'; Sdir = '${SAVE_PATH}'; mkdir(fullfile(Sdir,'Orientation')); mkdir(fullfile(Sdir,'Reflectivity')); mkdir(fullfile(Sdir,'Retardance')); mkdir(fullfile(Sdir,'Cross')); SL =${SLST}:${SLEND}; Out1 = JPEGSaveMSI(Dir,Sdir,SL,0);  exit;"
 
 kill %1
 fusermount3 -u /tmp/cmc-s3-bucket
+# 4) Write it back to the S3 bucket following bucket structure
+# Bucket structure is different than how the data is saved to scratch.
+
+module purge
+module load rclone/1.71.0-r1
+
+rclone copy $SAVE_PATH/Orientation/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/jpegs/Orientation/" --s3-no-check-bucket
+rclone copy $SAVE_PATH/Cross/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/jpegs/Cross/" --s3-no-check-bucket
+rclone copy $SAVE_PATH/Reflectivity/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/jpegs/Reflectivity/" --s3-no-check-bucket
+rclone copy $SAVE_PATH/Retardance/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/jpegs/Retardance/" --s3-no-check-bucket
+
