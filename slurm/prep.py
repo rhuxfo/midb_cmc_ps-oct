@@ -61,6 +61,7 @@ with open(f'/tmp/slice_{slice_num}_wrapper.m', 'w') as filename:
     P.disper = 1;
     P.wind = 1;
     P.BGremoval = 1;
+    P.subject = 1; %1 for Moe else Vlad
     P.Flect = 1;
     P.Retar = 1;
     P.Cr = 1;
