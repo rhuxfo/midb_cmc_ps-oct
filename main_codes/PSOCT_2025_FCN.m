@@ -57,8 +57,18 @@ end
 % Data size parameters
 XTiles = P.XTiles;
 YTiles = P.YTiles; 
-
+if P.subject == M
+TileMtrx = zeros(XTiles,YTiles);
+m=0;
+for p=1:YTiles
+    for q=1:XTiles
+        TileMtrx(q,p)= 1+m;
+        m = m+1;
+    end
+end
+else
 TileMtrx= reshape(1:(XTiles*YTiles), [YTiles, XTiles])';
+end
 
 % Data size parameters
 slice = P.Slices; %Number of slices / slice being analyzed
