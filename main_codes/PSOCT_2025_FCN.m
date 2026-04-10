@@ -57,7 +57,7 @@ end
 % Data size parameters
 XTiles = P.XTiles;
 YTiles = P.YTiles; 
-if P.subject == M
+if P.subject == 1
 TileMtrx = zeros(XTiles,YTiles);
 m=0;
 for p=1:YTiles
