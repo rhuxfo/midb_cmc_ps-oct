@@ -22,6 +22,11 @@ if args.enface_vs_3dtile not in ['3dtile','enface']:
 if args.enface_vs_3dtile == '3dtile':
     num_3dtile = int(args.num_3dtile)
 
+if args.csvfile == 'Moe.csv':
+    is_moe = 1
+else:
+    is_moe = 0
+    
 # Copy the appropriate raw data
 with open(args.csvfile) as csvfile:
         slice_reader = csv.reader(csvfile)
@@ -61,7 +66,7 @@ with open(f'/tmp/slice_{slice_num}_wrapper.m', 'w') as filename:
     P.disper = 1;
     P.wind = 1;
     P.BGremoval = 1;
-    P.subject = 1; %1 for Moe else Vlad
+    P.subject = {is_moe}; %1 for Moe else 0
     P.Flect = 1;
     P.Retar = 1;
     P.Cr = 1;
