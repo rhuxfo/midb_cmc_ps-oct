@@ -103,10 +103,10 @@ fusermount3 -u /tmp/cmc-s3-bucket
 #rclone copy $SAVE_PATH/Enface/Retardance/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/Retardance/Tiles/" --s3-no-check-bucket
 #rclone copy $SAVE_PATH/Enface/AbsoOri/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/AbsoOri/Tiles/" --s3-no-check-bucket
 
-#rclone copy $SAVE_PATH/Stitched/AbsoOri/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/Orientation/" --s3-no-check-bucket
-#rclone copy $SAVE_PATH/Stitched/Cross/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/Cross/" --s3-no-check-bucket
-#rclone copy $SAVE_PATH/Stitched/Reflectivity/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/Reflectivity/" --s3-no-check-bucket
-#rclone copy $SAVE_PATH/Stitched/Retardance/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/Retardance/" --s3-no-check-bucket
+rclone copy $SAVE_PATH/Stitched/AbsoOri/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/Orientation/" --s3-no-check-bucket
+rclone copy $SAVE_PATH/Stitched/Cross/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/Cross/" --s3-no-check-bucket
+rclone copy $SAVE_PATH/Stitched/Reflectivity/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/Reflectivity/" --s3-no-check-bucket
+rclone copy $SAVE_PATH/Stitched/Retardance/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/Retardance/" --s3-no-check-bucket
 
 #rclone copy $SAVE_PATH/jpegs/Cross/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/jpegs/Cross/" --s3-no-check-bucket
 #rclone copy $SAVE_PATH/jpegs/Reflectivity/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/jpegs/Reflectivity/" --s3-no-check-bucket
