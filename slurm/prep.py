@@ -68,13 +68,13 @@ with open(f'/tmp/slice_{slice_num}_wrapper.m', 'w') as filename:
     P.BGremoval = 1;
     P.subject = {is_moe}; %1 for Moe else 0
     P.Flect = 1;
-    P.Retar = 1;
+    P.Retar = 0;
     P.Cr = 1;
-    P.AbOrio = 1;
+    P.AbOrio = 0;
     P.En = 1;
     P.StitchOnly = 0;
     P.Flip = 1;
-    P.TCsv = 0;
+    P.TCsv = 1;
     P.Ensv = 1;
     P.Stsv = 1;
     P.img = 0;
