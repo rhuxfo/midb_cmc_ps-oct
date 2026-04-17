@@ -339,9 +339,9 @@ for SliceInd=1:length(slice)
             if calcCrossPolar == 1
                 ON = strcat(save_n,num2str(slice(SliceInd),'%03.f'),'_tile_',num2str(tilenum(TileInd),'%03.f'),'_Cross');
                 SaveFN = fullfile(Save_base,c6,ON);
-                save(SaveFN,'Tile_cross','-v7.3','-nocompression');
+                %save(SaveFN,'Tile_cross','-v7.3','-nocompression');
                 ConvertTile = py.numpy.array(Tile_cross);
-               res=pyrunfile("StitchingZarr.py","save_path",filename=SaveFN,Contrast=c6,Tile=ConvertTile)
+               res=pyrunfile("StitchingZarr2.py","save_path",filename=SaveFN,Contrast=c6,Tile=ConvertTile)
             end
 
             if calcRetardance == 1
