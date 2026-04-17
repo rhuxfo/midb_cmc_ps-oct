@@ -313,10 +313,10 @@ for SliceInd=1:length(slice)
                     
                 end
                 if calcCrossPolar == 1
-                    
                     ON = strcat(save_n,num2str(slice(SliceInd),'%03.f'),'_tile_',num2str(tilenum(TileInd),'%03.f'),'_Cross');
                     SaveFN = fullfile(Save_base,c6,ON);
                     save(SaveFN,'Tile_cross','-v7.3','-nocompression');
+                    pyrunfile("StitchingZarr.py 'SaveFN' 'Cross' 'Tile_cross'")
                     
                 end
                 if calcRetardance == 1
