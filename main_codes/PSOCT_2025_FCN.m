@@ -341,7 +341,7 @@ for SliceInd=1:length(slice)
                 SaveFN = fullfile(Save_base,c6,ON);
                 save(SaveFN,'Tile_cross','-v7.3','-nocompression');
                 
-                pyrunfile("StitchingZarr.py 'SaveFN' 'Cross' 'Tile_cross'")
+                pyrunfile("StitchingZarr.py", filename=SaveFN, Contrast='Cross',Tilename='Tile_cross')
             end
 
             if calcRetardance == 1
