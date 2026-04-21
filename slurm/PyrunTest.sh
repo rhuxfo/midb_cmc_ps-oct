@@ -47,7 +47,7 @@
 
 # Fetch relevant code from github
 git clone https://github.com/rhuxfo/midb_cmc_ps-oct.git /tmp/midb_cmc_ps-oct
-cp /tmp/midb_cmc_ps-oct/main_codes/* /tmp/
+#cp /tmp/midb_cmc_ps-oct/main_codes/* /tmp/
 cp /tmp/midb_cmc_ps-oct/slurm/Test.py /tmp/
 
 # Actually copy data to local scratch
