@@ -33,7 +33,7 @@
 # Set to the slice numbers you want to analyze
 # Can give as 1-3 for range e.g. 1,2,3
 # OR give as 1,5,7 e.g. for particular slices
-#SBATCH --array=147
+#SBATCH --array=1-99
 
 # Scratch Space request
 # Tune for slice range listed above
@@ -53,11 +53,8 @@
 RCLONE_NAME=$1
 # Name of the monkey
 SUBJECT_NAME=$2
-# Can only be 'enface' or '3dtile'
-# Whether you want to generate enface or 3d tiles
-ENFACE_VS_3DTILE=$3
-# The tile number you want to generate IFF generating 3D tiles 
-NUM_3D_TILE=$4
+# The slice number  
+SLICE_NUM=$3
 
 CSV_FILE=${SUBJECT_NAME}.csv
 
@@ -68,27 +65,24 @@ cp /tmp/midb_cmc_ps-oct/slurm/${CSV_FILE} ./
 cp /tmp/midb_cmc_ps-oct/slurm/pre-analysis_script.py ./
 
 # Fetch the write date from the csv sheet
-mydate=$(awk -F, -e '$2=='${SLURM_ARRAY_TASK_ID}' { print $1 }' <${CSV_FILE} )
+mydate=$(awk -F, -e '$2=='${SLICE_NUM}' { print $1 }' <${CSV_FILE} )
 DIR_DATE=$(date -d "$mydate" +%m%d%Y)
 echo $DIR_DATE
 
 # Actually copy data to local scratch
 module load rclone
-module load conda
-source activate EnvZarr_py312
 MOUNT_PATH=/tmp/cmc-s3-bucket
 mkdir $MOUNT_PATH
 rclone mount "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Raw/${SUBJECT_NAME}/PS-OCT/${DIR_DATE}/" $MOUNT_PATH &
-#rclone mount "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/PS-OCT/${SUBJECT_NAME}/Raw/${DIR_DATE}/" $MOUNT_PATH &
 sleep 5 # Takes rclone a second to actually mount
 
 # Write out wrapper functions for a given slice
-python3 prep.py --csvfile ${CSV_FILE} --slicenum ${SLURM_ARRAY_TASK_ID} --enface_vs_3dtile ${ENFACE_VS_3DTILE} --num_3dtile ${NUM_3D_TILE}
+python3 prep2.py --csvfile ${CSV_FILE} --slicenum ${SLICE_NUM} --num_3dtile ${SLURM_ARRAY_TASK_ID}
 
 # Launch the matlab code per slice
 export MATLABPATH=/tmp/
 module load matlab/R2019a
-matlab -nodisplay -nodesktop -nosplash -r "run('/tmp/slice_${SLURM_ARRAY_TASK_ID}_wrapper.m'); exit;"
+matlab -nodisplay -nodesktop -nosplash -r "run('/tmp/slice_${SLICE_NUM}_wrapper.m'); exit;"
 
 kill %1
 fusermount3 -u /tmp/cmc-s3-bucket
