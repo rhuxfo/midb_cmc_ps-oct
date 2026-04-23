@@ -267,6 +267,7 @@ for SliceInd=1:length(slice)
             Tile_CDP1 = flip(Tile_CPD1,2);
             Tile_CDP1 = flip(Tile_CPD1,3);
             Tile_CDP2 = flip(Tile_CPD2,2);
+            Tile_CDP2 = flip(Tile_CPD2,3);
             end
             if calcReflectivity ==1
             Tile_Ref = flip(Tile_Ref,2);
@@ -339,9 +340,9 @@ for SliceInd=1:length(slice)
             if calcCrossPolar == 1
                 ON = strcat(save_n,num2str(slice(SliceInd),'%03.f'),'_tile_',num2str(tilenum(TileInd),'%03.f'),'_Cross');
                 SaveFN = fullfile(Save_base,c6,ON);
-                %save(SaveFN,'Tile_cross','-v7.3','-nocompression');
-                ConvertTile = py.numpy.array(Tile_cross);
-               res=pyrunfile("StitchingZarr2.py","save_path",filename=SaveFN,Contrast=c6,Tile=ConvertTile)
+                save(SaveFN,'Tile_cross','-v7.3','-nocompression');
+                %ConvertTile = py.numpy.array(Tile_cross);
+               %res=pyrunfile("StitchingZarr2.py","save_path",filename=SaveFN,Contrast=c6,Tile=ConvertTile)
             end
 
             if calcRetardance == 1
