@@ -89,9 +89,9 @@ fusermount3 -u /tmp/cmc-s3-bucket
 # 4) Write it back to the S3 bucket following bucket structure
 # Bucket structure is different than how the data is saved to scratch.
 # Do not want Orientation dir, or CDP, or A1A2 dirs.
-#SAVE_PATH=/scratch.local/PSOCT
-#module purge
-#module load rclone/1.71.0-r1
+SAVE_PATH=/scratch.local/PSOCT
+module purge
+module load rclone/1.71.0-r1
 
 #rclone copy $SAVE_PATH/Enface/Reflectivity/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/Reflectivity/Tiles/" --s3-no-check-bucket
 #rclone copy $SAVE_PATH/Enface/Retardance/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/Retardance/Tiles/" --s3-no-check-bucket
