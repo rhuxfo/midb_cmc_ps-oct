@@ -354,7 +354,7 @@ for SliceInd=1:length(slice)
             if calcAbsOrientation == 1
                 ON = strcat(save_n,num2str(slice(SliceInd),'%03.f'),'_tile_',num2str(tilenum(TileInd),'%03.f'),'_AbsOrien');
                 SaveFN = fullfile(Save_base,c5,ON);
-                save(SaveFN,'Tile_Ori','-v7.3','-nocompression');
+                save(SaveFN,'Tile_Ori_min','-v7.3','-nocompression');
             end
         end
         %%
