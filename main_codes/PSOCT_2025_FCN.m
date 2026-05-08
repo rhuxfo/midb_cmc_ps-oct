@@ -319,6 +319,7 @@ for SliceInd=1:length(slice)
 
         end
         %%
+        disp(STileComp)
         if STileComp == 1
             disp('Saving 3D Tile')
             Save_base = strcat(save_directory,CompFolder);
@@ -440,14 +441,3 @@ if SImg == 1
 end %slice for loop
 fprintf('Processing completed \n');
 end
-
-
-
-
-
-
-
-
-
-
-
