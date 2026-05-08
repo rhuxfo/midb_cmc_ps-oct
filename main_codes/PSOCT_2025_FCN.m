@@ -284,6 +284,7 @@ for SliceInd=1:length(slice)
             if calcAbsOrientation == 1
             Tile_Ori_min = flip(Tile_Ori_min,2);
             Tile_Ori_min = flip(Tile_Ori_min,3);
+            end
         end
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         %% Calulate Contrast Enfaces
