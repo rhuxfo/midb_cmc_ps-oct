@@ -109,7 +109,7 @@ Parameters.windowData = P.wind;
 Parameters.background = P.BGremoval;
 
 % 1 = Calculate Contrast
-calcCDP = 0;
+calcCDP = 1;
 calcReflectivity = P.Flect;
 calcRetardance = P.Retar;
 calcCrossPolar = P.Cr;
