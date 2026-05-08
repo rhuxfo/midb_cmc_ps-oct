@@ -319,9 +319,8 @@ for SliceInd=1:length(slice)
 
         end
         %%
-        disp(STileComp)
         if STileComp == 1
-            disp('Saving 3D Tile')
+            fprintf('Saving 3D Tile \n')
             Save_base = strcat(save_directory,CompFolder);
             if calcCDP == 1
                 ON = strcat(save_n,num2str(slice(SliceInd),'%03.f'),'_tile_',num2str(tilenum(TileInd),'%03.f'),'_CDP1');
