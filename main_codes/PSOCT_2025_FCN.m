@@ -285,6 +285,23 @@ for SliceInd=1:length(slice)
             Tile_Ori_min = flip(Tile_Ori_min,2);
             Tile_Ori_min = flip(Tile_Ori_min,3);
             end
+        else
+            if calcCDP == 1
+            Tile_CDP1 = flip(Tile_CPD1,2);
+            Tile_CDP2 = flip(Tile_CPD2,2);
+            end
+            if calcReflectivity ==1
+            Tile_Ref = flip(Tile_Ref,2);
+            end
+            if calcRetardance == 1
+            Tile_R = flip(Tile_R,2);
+            end
+            if calcCrossPolar == 1
+            Tile_cross = flip(Tile_cross,2);
+            end
+            if calcAbsOrientation == 1
+            Tile_Ori_min = flip(Tile_Ori_min,2);
+            end
         end
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         %% Calulate Contrast Enfaces
