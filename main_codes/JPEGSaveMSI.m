@@ -41,7 +41,9 @@ for i = 1:length(slices)
     end
         TempRef = rescale(LimdB2D(A+12,A,TEnRef));
         TempCr = rescale(LimdB2D(A,55,TEnCr));
+        if isreal(TEnR) == 0
         TEnR = rad2deg(angle(TEnR));
+        end
         TEnR3 = LimdB2D(55,5,TEnR);
         TempR = rescale(TEnR3);
         
