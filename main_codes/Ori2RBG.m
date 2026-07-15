@@ -3,7 +3,11 @@ function TempOri = Ori2RBG(TEnAO,TEnR)
 d1 = size(TEnR,1);
 d2 = size(TEnR,2);
 c = hsv(256);
+if isreal(TEnAO)==0
 Ang = angle(TEnAO)/2;
+else
+Ang = TEnAO;
+end
 Ang2 = rescale(Ang,1,256);
 Col = zeros(d1,d2,3);
 
