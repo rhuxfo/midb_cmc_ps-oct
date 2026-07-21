@@ -41,9 +41,9 @@ for i = 1:length(slices)
     end
         TempRef = rescale(LimdB2D(A+12,A,TEnRef));
         TempCr = rescale(LimdB2D(A,55,TEnCr));
-        if isreal(TEnR) == 0
+    if ~isreal(TEnR)
         TEnR = rad2deg(angle(TEnR));
-        end
+    end
         TEnR3 = LimdB2D(55,5,TEnR);
         TempR = rescale(TEnR3);
         
@@ -59,7 +59,7 @@ for i = 1:length(slices)
     %ind2 = TEnR4>(Inx/100);
     %TEnR4(ind2) = 0;
     %Mt1 = TEnRef>A;
-    if isreal(TEnAO)==0
+    if ~isreal(TEnAO)
     TEnAO2 = (TEnAO.^-1)*(exp(1i*deg2rad(-270)));
     else
     TEnAO2 = TEnAO;
