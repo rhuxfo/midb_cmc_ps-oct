@@ -46,11 +46,11 @@ RCLONE_NAME=$3
 SUBJECT_NAME=$4
 
 # Fetch relevant code from github
-git clone https://github.com/rhuxfo/midb_cmc_ps-oct.git /tmp/midb_cmc_ps-oct
+git clone https://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@github.com/Akkin-Lab-BMOL/840_System.git /tmp/midb_cmc_ps-oct
 cp /tmp/midb_cmc_ps-oct/main_codes/* /tmp/
 
 # Actually copy data to local scratch
-module load rclone
+module load rclone/1.74.4
 MOUNT_PATH=/tmp/cmc-s3-bucket
 mkdir $MOUNT_PATH
 rclone mount "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/" $MOUNT_PATH &
@@ -67,9 +67,6 @@ kill %1
 fusermount3 -u /tmp/cmc-s3-bucket
 # 4) Write it back to the S3 bucket following bucket structure
 # Bucket structure is different than how the data is saved to scratch.
-
-module purge
-module load rclone/1.71.0-r1
 
 rclone copy $SAVE_PATH/Orientation/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/jpegs/Orientation/" --s3-no-check-bucket
 rclone copy $SAVE_PATH/Cross/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/jpegs/Cross/" --s3-no-check-bucket
