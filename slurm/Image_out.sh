@@ -68,8 +68,8 @@ fusermount3 -u /tmp/cmc-s3-bucket
 # 4) Write it back to the S3 bucket following bucket structure
 # Bucket structure is different than how the data is saved to scratch.
 
-rclone copy $SAVE_PATH/Orientation/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/jpegs/Orientation/" --s3-no-check-bucket
-rclone copy $SAVE_PATH/Cross/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/jpegs/Cross/" --s3-no-check-bucket
-rclone copy $SAVE_PATH/Reflectivity/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/jpegs/Reflectivity/" --s3-no-check-bucket
-rclone copy $SAVE_PATH/Retardance/ "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/jpegs/Retardance/" --s3-no-check-bucket
+rclone copy $SAVE_PATH/Orientation/ "${RCLONE_NAME}:cmc-msi-accesspoint-eh8kyu5x5ooh36x5t965qysqha9kouse2b-s3alias/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/jpegs/Orientation/" --s3-no-check-bucket
+rclone copy $SAVE_PATH/Cross/ "${RCLONE_NAME}:cmc-msi-accesspoint-eh8kyu5x5ooh36x5t965qysqha9kouse2b-s3alias/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/jpegs/Cross/" --s3-no-check-bucket
+rclone copy $SAVE_PATH/Reflectivity/ "${RCLONE_NAME}:cmc-msi-accesspoint-eh8kyu5x5ooh36x5t965qysqha9kouse2b-s3alias/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/jpegs/Reflectivity/" --s3-no-check-bucket
+rclone copy $SAVE_PATH/Retardance/ "${RCLONE_NAME}:cmc-msi-accesspoint-eh8kyu5x5ooh36x5t965qysqha9kouse2b-s3alias/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/jpegs/Retardance/" --s3-no-check-bucket
 
