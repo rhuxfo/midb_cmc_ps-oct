@@ -53,7 +53,7 @@ cp /tmp/midb_cmc_ps-oct/main_codes/* /tmp/
 module load rclone/1.74.4
 MOUNT_PATH=/tmp/cmc-s3-bucket
 mkdir $MOUNT_PATH
-rclone mount "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/" $MOUNT_PATH &
+rclone mount "${RCLONE_NAME}:cmc-msi-accesspoint-2-254319122668/CMC/Derivatives/${SUBJECT_NAME}/PS-OCT/Enface/" $MOUNT_PATH --read-only &
 sleep 5 # Takes rclone a second to actually mount
 
 SAVE_PATH=/scratch.local/PSOCT
